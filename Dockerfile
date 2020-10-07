@@ -2,14 +2,16 @@ FROM node:12.18.4
 
 RUN npm config set registry https://registry.npm.taobao.org
 
-ENV FRONTEND = /front/
+ENV FRONTEND = /opt/frontend
 
 WORKDIR $FRONTEND
 
-COPY package.json $FRONTEND
+COPY frontend/package.json $FRONTEND
 RUN npm install 
 
-COPY . $FRONTEND
+COPY frontend $FRONTEND
 RUN npm start
+
+EXPOSE 80
 
 

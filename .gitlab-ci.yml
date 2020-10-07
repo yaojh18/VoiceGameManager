@@ -22,16 +22,19 @@ build:
   cache:
     key: ${CI_COMMIT_REF_SLUG}
     paths:
-      - node_modules/
+      - frontend/node_modules/
 
   before_script:
+    - cd frontend/
     - pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements_dev.txt
     - npm config set registry https://registry.npm.taobao.org
     - npm install
+    - cd ..
 
 unit-test:
   extends: .test
   script:
+    - cd frontend/
     - npm test
     - FRONTEND_RET=$?
     - if [ $FRONTEND_RET \> 0 ]; then exit $FRONTEND_RET; fi;
@@ -45,6 +48,7 @@ style-test:
   extends: .test
   allow_failure: true
   script:
+    - cd frontend/
     - npm run eslint
     - FRONTEND_RET=$?
     - if [ $FRONTEND_RET \> 0 ]; then exit $FRONTEND_RET; fi;
