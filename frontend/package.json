@@ -1,7 +1,9 @@
 {
     "name": "manager",
-    "version": "0.0.0",
+    "version": "1.0.0",
     "private": true,
+    "description": "管理平台",
+    "author": "zsn",
     "scripts": {
         "start": "node ./bin/www",
         "build": "webpack",
