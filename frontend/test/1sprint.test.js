@@ -7,7 +7,7 @@ const user = {
     username: 'name',
     password: 'password'
 };
-var app = require('../../app');
+var app = require('../app');
 const { isAssertionExpression } = require('typescript');
 var port = process.env.PORT || 3000;
 app.set('port', port);

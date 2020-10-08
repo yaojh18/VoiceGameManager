@@ -9,8 +9,8 @@
         "build": "webpack",
         "dev": "gulp watch",
         "eslint": "eslint --fix --ext .js,.vue .",
-        "test": "set NODE_ENV=test PORT=3300 && mocha 'test/**/*.test.js' --exit",
-        "cov": "set NODE_ENV=test PORT=3300 && nyc mocha 'test/**/*.test.js' --exit"
+        "test": "set NODE_ENV=test PORT=3300 && mocha 'test/*.test.js' --exit",
+        "cov": "set NODE_ENV=test PORT=3300 && nyc mocha 'test/*.test.js' --exit"
     },
     "dependencies": {
         "cookie-parser": "~1.4.4",
