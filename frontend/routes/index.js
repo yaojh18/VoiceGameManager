@@ -1,4 +1,4 @@
-const { default: Axios } = require('axios');
+const axios = require('axios');
 var express = require('express');
 var urlRegisterPost = "https://VoiceTestGame-Dijkstra.app.secoder.net/api/users/registrtion";
 var urlLoginPost = "https://VoiceTestGame-Dijkstra.app.secoder.net/api/users/login";
@@ -25,9 +25,14 @@ router.get('/manager', function(req, res, next) {
         'title': 'Manager Page'
     });
 });
+
 router.post('/register', function(req, res, next) {
     axios
-        .post(urlRegisterPost, { "user_name": user, "password": pwd, "password2": pwd2 })
+        .post(urlRegisterPost, {
+            "user_name": req.body.user,
+            "password": req.body.pwd,
+            "password2": req.body.pwd2
+        })
         .then(function(response) {
             //debug
             console.log(response);
@@ -48,6 +53,7 @@ router.post('/register', function(req, res, next) {
         });
     var user_name = req.body.user;
     var password = req.body.pwd;
+    var password2 = req.body.pwd2;
     res.write({ "username": user_name, "password": password, "password2": password2 });
     console.log("User name = " + user_name + ", password is " + password);
     res.end("yes");
@@ -56,8 +62,8 @@ router.post('/register', function(req, res, next) {
 router.post('/login', function(req, res, next) {
     axios
         .post(urlLoginPost, {
-            "user_name": user,
-            "password": pwd,
+            "user_name": req.body.user,
+            "password": req.body.pwd
         })
         .then(function(response) {
             //debug
