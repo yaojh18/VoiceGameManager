@@ -7,6 +7,7 @@ ENV FRONTEND=/opt/frontend
 WORKDIR $FRONTEND
 
 COPY frontend/package.json $FRONTEND
+COPY frontend/package-lock.json $FRONTEND
 RUN npm install 
 
 COPY frontend $FRONTEND
