@@ -12,7 +12,7 @@ RUN npm install
 RUN npm install axios --save
 
 COPY frontend $FRONTEND
-RUN npm start
+RUN npm build
 
 EXPOSE 80
 
