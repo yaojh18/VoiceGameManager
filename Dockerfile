@@ -9,6 +9,7 @@ WORKDIR $FRONTEND
 COPY frontend/package.json $FRONTEND
 COPY frontend/package-lock.json $FRONTEND
 RUN npm install 
+RUN npm install axios --save
 
 COPY frontend $FRONTEND
 RUN npm start
