@@ -34,6 +34,7 @@ unit-test:
   extends: .test
   script:
     - cd frontend/
+    - npm install axios --save
     - npm install mocha --save
     - npm test
     - FRONTEND_RET=$?
