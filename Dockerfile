@@ -16,7 +16,7 @@ RUN npm build
 
 ENV SERVER_PORT 80
 EXPOSE 80
-CMD ["bin/www"]
+CMD ["node","bin/www"]
 
 
 
