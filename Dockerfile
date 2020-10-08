@@ -15,6 +15,6 @@ COPY frontend $FRONTEND
 RUN npm build
 
 EXPOSE 80
-CMD ["bash config/run.sh"]
+CMD ["bash frontend/config/run.sh"]
 
 
