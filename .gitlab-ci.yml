@@ -56,7 +56,7 @@ style-test:
     - if [ $FRONTEND_RET \> 0 ]; then exit $FRONTEND_RET; fi;
     - exit $BACKEND_RET
     - cd ..
-    
+
 deploy:
   stage: deploy
   script:
@@ -64,6 +64,6 @@ deploy:
     - cd frontend/
     - npm run start
     - cd ..
-    only:
+  only:
     - master
 
