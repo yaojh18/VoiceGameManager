@@ -11,7 +11,7 @@ var app = require('../app');
 const { isAssertionExpression } = require('typescript');
 var port = process.env.PORT || 3000;
 app.set('port', port);
-describe('supertest 验证', function() {
+describe('supertest 第一轮测试', function() {
 
     beforeEach(function() {
         console.log('before every test in every suit');

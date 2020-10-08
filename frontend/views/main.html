@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
 <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css">
 </head>
 <body>
@@ -118,12 +119,9 @@ html::-webkit-scrollbar {
 					数据操作<b class="caret"></b>
 				</a>
 				<ul class="dropdown-menu">
-					<li><a href="#" >
-                                                                                       增加&nbsp&nbsp<p class="glyphicon glyphicon-plus"></p></a></li>
-					<li><a href="#" >
-                                                                                       查询&nbsp&nbsp<p class="glyphicon glyphicon-edit" ></p></a></li>
-					<li><a href="#">
-                                                                                       修改&nbsp&nbsp<p class="glyphicon glyphicon-hand-right" ></p></a></li>
+					<li><a onclick="totalAdd()" >增加&nbsp&nbsp<p class="glyphicon glyphicon-plus"></p></a></li>
+					<li><a href="totalSearch()" >查询&nbsp&nbsp<p class="glyphicon glyphicon-edit" ></p></a></li>
+					<li><a href="totalModify()"> 修改&nbsp&nbsp<p class="glyphicon glyphicon-hand-right" ></p></a></li>
 					<li class="divider"></li>
 					<li><a href="#">设置</a></li>
 					<li class="divider"></li>
@@ -178,13 +176,13 @@ html::-webkit-scrollbar {
 					<div class="panel-body">
 						<ul class="nav">
 							<li>
-								<a href="#"><span></span>数据增加</a>
+								<a onclick="totalAdd()"><span></span>数据增加</a>
 							</li>
 							<li>
-								<a href="#">数据修改</a>
+								<a onclick="totalModify()">数据修改</a>
 							</li>
 							<li>
-								<a href="#">数据查询</a>
+								<a onclick="totalSearch()">数据查询</a>
 							</li>
 						</ul>
 					</div>
@@ -214,7 +212,8 @@ html::-webkit-scrollbar {
 </div>
  <div class="col-xs-7 col-sm-7 col-md-6 col-lg-6 text-center">
 
-            <div class="list-group list-group-horizontal">
+            <div class="list-group list-group-horizontal text-center">
+			<a id="op" class="list-group-item" disabled="disabled">-**-</a>
                 <a onclick="createAdd()" class="list-group-item active operation-list" placeholder = "增加">增加</a>
                  <script>
 				 $.ajax({
@@ -232,35 +231,65 @@ html::-webkit-scrollbar {
 				 <script>
             function createAdd()
             {
-                  document.getElementById("searchInput").innerHTML = "<input type='text' class='form-control' aria-label='Amount (to the nearest dollar)'></input>";
-                  document.getElementById("searchBtn").innerHTML = "<input type='text' class='form-control' aria-label='Amount (to the nearest dollar)'></input>";
-                  document.getElementById("searchIn").innerHTML = "<button class='list-group-item active' aria-label='Amount (to the nearest dollar)' placeholder='增加'>增加</button>";
-            }</script>
+				document.getElementById("op").innerText = "-增加-    ";
+                  document.getElementById("searchInput").innerHTML = "<input type='text' placeholder='title' class='form-control' ></input>";
+                  document.getElementById("searchBtn").innerHTML = "<input type='text' placeholder='content' class='form-control' ></input>";
+                  document.getElementById("searchIn").innerHTML = "<button class='list-group-item active' placeholder='增加' onclick='addClicked()'>增加</button>";
+			}</script>
+			<script>
+			function addClicked(){
+				document.getElementById('opForm').submit();
+			}
+			</script>
                 <a onclick="createModify()" class="list-group-item operation-list" placeholder = "修改">修改</a>
                  <script>
             function createModify()
             {
-                document.getElementById("searchInput").innerHTML = "<input type='text' class='form-control' aria-label='Amount (to the nearest dollar)'></input>";
-                document.getElementById("searchBtn").innerHTML = "<input type='text' class='form-control' aria-label='Amount (to the nearest dollar)'></input>";
-                document.getElementById("searchIn").innerHTML = "<button class='list-group-item active' aria-label='Amount (to the nearest dollar)' placeholder='修改'>修改</button>";
+				document.getElementById("op").innerText ="-修改-    ";
+                document.getElementById("searchInput").innerHTML = "<input type='text' class='form-control' placeholder='ID'></input>";
+                document.getElementById("searchInput").innerHTML += "<br>";
+				document.getElementById("searchInput").innerHTML += "<input type='text' class='form-control' placeholder='CONTENT'></input>";
+				document.getElementById("searchBtn").innerHTML = "<input type='file' name='file' class='file fileinput' required/>";
+                document.getElementById("searchBtn").innerHTML += "<div id='output'>'</div>";
+				document.getElementById("searchIn").innerHTML = "<button class='list-group-item active' placeholder='修改' onclick='document.getElementById(opForm).submit()'>修改</button>";
             }</script>
                 <a onclick="createInput()" class="list-group-item operation-list" placeholder = "查询" >查询</a>
                 <script>
             function createInput()
             {
-                document.getElementById("searchInput").innerHTML = "<input class = 'form-control' type = 'text' placeholder='some msg'/>";
-                var input = "<input type='text' class='form-control' placeholder='another msg'/>";
-                document.getElementById("searchBtn").innerHTML = input;
-                document.getElementById("searchIn").innerHTML = "<button class='list-group-item active'>搜索</button>";
+				document.getElementById("op").innerText ="-查询-    ";
+                document.getElementById("searchInput").innerHTML = "<input class = 'form-control' type = 'text' placeholder='keyword'/>";
+                document.getElementById("searchBtn").innerHTML = "";
+				document.getElementById("searchIn").innerHTML = "<button class='list-group-item active' onclick='document.getElementById(opForm).submit()'>搜索</button>";
             }
            </script>
             </div>
+			<form action="api/manager/" id="opForm"> 
             <span id="searchInput" style='padding:20px'>                 
             </span>
             <span id="searchBtn" style='padding:20px'>
             </span>
             <span id="searchIn" style='padding:20px'>
             </span>
+			<span id="audioPart" style="padding:20px">
+			</span>
+			</form>
+			<script language="javascript">
+			var opValue=$("label#op").text();
+			var opForm=$("form#opForm");
+    if(opValue=="add"){
+         opForm.action="/api/manager/add"
+         opForm.submit();
+    }
+     else if(opValue=="modify"){
+        opForm.action="/api/manager/edit"
+        opForm.submit();
+     }
+     else if(opValue=="query"){
+        opForm.action="/api/manager/search"
+        opForm.submit();
+     }
+</script>
             <script>
                   $(function() {
 				$(".operation-list").on("click", function(f) {
@@ -269,6 +298,8 @@ html::-webkit-scrollbar {
 				});
 			});
             </script>
+			<div id="dataShown">
+			</div>
 <div class="col-xs-1 col-sm-1 col-md-2 col-lg-2 text-center">
 </div>
 
@@ -398,4 +429,38 @@ html::-webkit-scrollbar {
 			$("#pagination").html(pagehtml);
 		}
 	});
+</script>
+<script>
+    function totalAdd(){
+	var x;
+	var titleAdd=prompt("请输入要填加的标题","Title...");
+    var contentAdd=prompt("请输入要添加的内容","Content...");
+	if (titleAdd!=null && contentAdd!=null){
+	    x = "<label class='label-default'>"+titleAdd+"</label>";
+		x += "<label class='label-default'>"+contentAdd+"</label>";
+	    document.getElementById("dataShown").innerHTML=x;
+	}
+}
+</script>
+<script>
+    function totalModify(){
+        var x;
+	    var titleModify=prompt("请输入要修改的标题","Title...");
+        var contentModify=prompt("请输入要修改的内容","Content...");
+	    if (titleModify!=null && contentModify!=null){
+	    x = "<label class='label-default'>"+titleModify+"</label>";
+		x += "<label class='label-default'>"+contentModify+"</label>";
+	    document.getElementById("dataShown").innerHTML=x;
+	}
+	}
+</script>
+<script>
+    function totalSearch(){
+        var x;
+        var contentModify=prompt("请输入要搜索的内容","Content...");
+	    if (contentModify!=null){
+		x += "<label class='label-primary'>"+contentModify+"</label>";
+	    document.getElementById("dataShown").innerHTML=x;
+	}
+	}
 </script>

@@ -9,9 +9,6 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
     res.render('index', { title: 'Express' });
 });
-router.get('/admin', function(req, res, next) {
-    res.render('admin', { 'title': 'Admin Page' });
-});
 router.get('/register', function(req, res, next) {
     res.render('register', { 'title': 'Register Page' });
 });
@@ -57,7 +54,7 @@ router.post('/register', function(req, res, next) {
     res.write({ "username": user_name, "password": password, "password2": password2 });
     console.log("User name = " + user_name + ", password is " + password);
     res.end("yes");
-    res.render('register', { 'title': 'Register Page After' });
+    res.render('/manager', { 'title': 'Welcome to Manager' });
 });
 router.post('/login', function(req, res, next) {
     axios
@@ -88,7 +85,7 @@ router.post('/login', function(req, res, next) {
     res.write({ "username": user_name, "password": password });
     console.log("User name = " + user_name + ", password is " + password);
     res.end("yes");
-    res.render('login', { 'title': 'Login Page After ' });
+    res.render('/manager', { 'title': 'Welcome to Manager' });
 });
 
 
