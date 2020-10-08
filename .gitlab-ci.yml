@@ -60,11 +60,11 @@ style-test:
 deploy:
   stage: deploy
   script:
-    - deployer dyno replace $CI_PROJECT_NAME "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG" "$REGISTRY_USER" "$REGISTRY_PWD"
     - cd frontend/
     - npm install http-errors
-    - npm run start
     - cd ..
+    - deployer dyno replace $CI_PROJECT_NAME "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG" "$REGISTRY_USER" "$REGISTRY_PWD"
+    - npm run start
   only:
     - master
 
