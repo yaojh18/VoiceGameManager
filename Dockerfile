@@ -12,9 +12,11 @@ RUN npm install
 RUN npm install axios --save
 
 COPY frontend $FRONTEND
-RUN npm build
+RUN npm run build
 
+ENV SERVER_PORT 80
 EXPOSE 80
+CMD ["npm ","run","start"]
 
 
 
