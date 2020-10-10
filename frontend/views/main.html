@@ -6,7 +6,6 @@
 <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
 <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css">
 </head>
 <body>
@@ -231,13 +230,17 @@ html::-webkit-scrollbar {
 				 <script>
             function createAdd()
             {
-				document.getElementById("op").innerText = "-增加-    ";
-                  document.getElementById("searchInput").innerHTML = "<input type='text' placeholder='title' class='form-control' ></input>";
-                  document.getElementById("searchBtn").innerHTML = "<input type='text' placeholder='content' class='form-control' ></input>";
-                  document.getElementById("searchIn").innerHTML = "<button class='list-group-item active' placeholder='增加' onclick='addClicked()'>增加</button>";
+				document.getElementById("op").innerText = "add";
+				document.getElementById("opForm").innerHTML = "<input type='text' name='option' id='option'  style='display:none' value='add'></input>";
+                document.getElementById("opForm").innerHTML += "<input type='text' placeholder='title' class='form-control' name='title'></input>";
+                document.getElementById("opForm").innerHTML += "<input type='text' placeholder='content' class='form-control' nane='content'></input>";
+                document.getElementById("opForm").innerHTML += "<input type='file' name='fileaudio' class='file fileinput' required/>";
+				document.getElementById("opForm").innerHTML += "<input type='file' name='filevideo' class='file fileinput' required/>";
+			    document.getElementById("opForm").innerHTML += "<button class='list-group-item active' placeholder='增加' onclick='addClicked()'>增加</button>";
 			}</script>
 			<script>
 			function addClicked(){
+				document.console.log("Helloworld");
 				document.getElementById('opForm').submit();
 			}
 			</script>
@@ -245,48 +248,43 @@ html::-webkit-scrollbar {
                  <script>
             function createModify()
             {
-				document.getElementById("op").innerText ="-修改-    ";
-                document.getElementById("searchInput").innerHTML = "<input type='text' class='form-control' placeholder='ID'></input>";
-                document.getElementById("searchInput").innerHTML += "<br>";
-				document.getElementById("searchInput").innerHTML += "<input type='text' class='form-control' placeholder='CONTENT'></input>";
-				document.getElementById("searchBtn").innerHTML = "<input type='file' name='file' class='file fileinput' required/>";
-                document.getElementById("searchBtn").innerHTML += "<div id='output'>'</div>";
-				document.getElementById("searchIn").innerHTML = "<button class='list-group-item active' placeholder='修改' onclick='document.getElementById(opForm).submit()'>修改</button>";
+				document.getElementById("op").innerText ="modify";
+				document.getElementById("opForm").innerHTML = "<input type='text' style='display:none' name='option' id='option' value='modify'></input>";
+                document.getElementById("opForm").innerHTML += "<input type='text' nane='title' Sclass='form-control' placeholder='ID'></input>";
+                document.getElementById("opForm").innerHTML += "<br>";
+				document.getElementById("opForm").innerHTML += "<input type='text' class='form-control' placeholder='CONTENT'></input>";
+				document.getElementById("opForm").innerHTML += "<input type='file' name='file' class='file fileinput' required/>";
+                document.getElementById("opForm").innerHTML += "<div id='output'>'</div>";
+				document.getElementById("opForm").innerHTML += "<button class='list-group-item active' placeholder='修改' onclick='document.getElementById(opForm).submit()'>修改</button>";
             }</script>
                 <a onclick="createInput()" class="list-group-item operation-list" placeholder = "查询" >查询</a>
                 <script>
             function createInput()
             {
-				document.getElementById("op").innerText ="-查询-    ";
-                document.getElementById("searchInput").innerHTML = "<input class = 'form-control' type = 'text' placeholder='keyword'/>";
-                document.getElementById("searchBtn").innerHTML = "";
-				document.getElementById("searchIn").innerHTML = "<button class='list-group-item active' onclick='document.getElementById(opForm).submit()'>搜索</button>";
+				document.getElementById("op").innerText ="query";
+				document.getElementById("opForm").innerHTML = "<input type='text' style='display:none' name='option' id='option' value='query'></input>";
+				document.getElementById("opForm").innerHTML += "<input class = 'form-control' type = 'text' name='keyword' placeholder='keyword'/>";
+				document.getElementById("opForm").innerHTML += "<input type='submit' class='list-group-item active' ></button>";
             }
            </script>
             </div>
-			<form action="api/manager/" id="opForm"> 
-            <span id="searchInput" style='padding:20px'>                 
-            </span>
-            <span id="searchBtn" style='padding:20px'>
-            </span>
-            <span id="searchIn" style='padding:20px'>
-            </span>
-			<span id="audioPart" style="padding:20px">
-			</span>
+			<form action="/manager" id="opForm" style='padding:20px' method="post"> 
 			</form>
 			<script language="javascript">
 			var opValue=$("label#op").text();
 			var opForm=$("form#opForm");
     if(opValue=="add"){
-         opForm.action="/api/manager/add"
+		document.getElementById("option").value ="add";
+         opForm.action="/api/manager/add";
          opForm.submit();
     }
      else if(opValue=="modify"){
-        opForm.action="/api/manager/edit"
+		 document.getElementById("option").value ="modify";
+        opForm.action="/api/manager/edit";
         opForm.submit();
      }
-     else if(opValue=="query"){
-        opForm.action="/api/manager/search"
+     else if(opValue=="query"){ 
+		document.getElementById("option").value ="query";
         opForm.submit();
      }
 </script>
@@ -294,9 +292,9 @@ html::-webkit-scrollbar {
                   $(function() {
 				$(".operation-list").on("click", function(f) {
 						$(f.currentTarget).addClass("active");
+						$(f.currentTarget).siblings().removeClass("active");
 						})
 				});
-			});
             </script>
 			<div id="dataShown">
 			</div>

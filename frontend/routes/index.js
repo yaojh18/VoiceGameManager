@@ -1,8 +1,11 @@
 const axios = require('axios');
 var express = require('express');
-var urlRegisterPost = "https://VoiceTestGame-Dijkstra.app.secoder.net/api/users/registrtion";
-var urlLoginPost = "https://VoiceTestGame-Dijkstra.app.secoder.net/api/users/login";
-
+var bodyParser = require('body-parser');
+var urlRegisterPost = "https://VoiceTestGame-Dijkstra.app.secoder.net/api/users/registration/";
+var urlLoginPost = "https://VoiceTestGame-Dijkstra.app.secoder.net/api/users/login/";
+var urlAdd = "https://VoiceTestGame-Dijkstra.app.secoder.net/api/manager/add/";
+var urlSearch = "https://VoiceTestGame-Dijkstra.app.secoder.net/api/manager/search/";
+var urlEdit = "https://VoiceTestGame-Dijkstra.app.secoder.net/api/manager/edit/";
 var router = express.Router();
 
 /* GET home page. */
@@ -24,18 +27,17 @@ router.get('/manager', function(req, res, next) {
 });
 
 router.post('/register', function(req, res, next) {
+
     axios
         .post(urlRegisterPost, {
-            "user_name": req.body.user,
+            "username": req.body.user,
             "password": req.body.pwd,
             "password2": req.body.pwd2
         })
         .then(function(response) {
-            //debug
-            console.log(response);
-            //
+            console.log(response.data.msg);
+            console.log(response.data.code);
             if (response.data.code == 200) {
-                req.session.user = response;
                 res.render("main", {
                     title: "Main Page",
                 });
@@ -47,47 +49,92 @@ router.post('/register', function(req, res, next) {
         })
         .catch(function(error) {
             console.log(error);
+            res.render("error");
         });
-    var user_name = req.body.user;
-    var password = req.body.pwd;
-    var password2 = req.body.pwd2;
-    res.write({ "username": user_name, "password": password, "password2": password2 });
-    console.log("User name = " + user_name + ", password is " + password);
-    res.end("yes");
-    res.render('/manager', { 'title': 'Welcome to Manager' });
 });
 router.post('/login', function(req, res, next) {
+    var User = req.body.user;
+    var Pwd = req.body.pwd;
+    console.log(User);
+    console.log(Pwd);
     axios
         .post(urlLoginPost, {
-            "user_name": req.body.user,
-            "password": req.body.pwd
+            "username": User,
+            "password": Pwd,
         })
         .then(function(response) {
             //debug
-            console.log(response);
+            //console.log(response);
             //
+            console.log("success");
+            console.log(response.data.msg);
+            console.log(response.data.code);
             if (response.data.code == 200) {
-                req.session.user = response;
-                res.render("main", {
-                    title: "Main Page",
-                });
+                console.log("200");
+                return res.render("main");
             } else {
-                res.render("error", {
-                    title: "Error Page",
-                });
+                return res.render("error");
             }
         })
         .catch(function(error) {
             console.log(error);
+            console.log("error");
+            return res.redirect(404, "error");
         });
-    var user_name = req.body.user;
-    var password = req.body.pwd;
-    res.write({ "username": user_name, "password": password });
-    console.log("User name = " + user_name + ", password is " + password);
-    res.end("yes");
-    res.render('/manager', { 'title': 'Welcome to Manager' });
+});
+router.post('/manager', function(req, res, next) {
+    var url = "";
+    var content = "";
+    console.log("success");
+    console.log(req.body);
+    console.log(req.body.option);
+    if (req.body.option == "add") {
+        console.log("add");
+        url = urlAdd;
+        content = {
+            "title": req.body.title,
+            "content": req.body.content,
+            "fileaudio": req.body.fileaudio,
+            "filevideo": req.body.filevideo
+        }
+    } else if (req.body.option == "modify") {
+        console.log("modify");
+        url = urlEdit;
+        content = {
+            "title": req.body.title,
+            "content": req.body.content,
+            "fileaudio": req.body.fileaudio,
+            "filevideo": req.body.filevideo
+        }
+    } else if (req.body.option == "query") {
+        console.log("query");
+        url = urlSearch;
+        content = {
+            'keyword': req.body.keyword
+        }
+    }
+    console.log(url);
+    console.log(content);
+    axios
+        .post(url, content)
+        .then(function(response) {
+            console.log("success");
+            console.log(response.data.msg);
+            console.log(response.data.code);
+            if (response.data.code == 200) {
+                console.log("200");
+                return res.render("main");
+            } else {
+                return res.render("error");
+            }
+        })
+        .catch(function(error) {
+            console.log(error);
+            console.log("error");
+            return res.render("error");
+        });
 });
 
 
-
+module.exports = router;
 module.exports = router;

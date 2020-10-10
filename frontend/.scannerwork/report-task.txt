@@ -1,0 +1,6 @@
+projectKey=Dijkstra:VoiceGameManager
+serverUrl=https://sonarqube.secoder.net
+serverVersion=8.4.2.36762
+dashboardUrl=https://sonarqube.secoder.net/dashboard?id=Dijkstra%3AVoiceGameManager
+ceTaskId=AXULoqzzFwL-swnJsLxt
+ceTaskUrl=https://sonarqube.secoder.net/api/ce/task?id=AXULoqzzFwL-swnJsLxt

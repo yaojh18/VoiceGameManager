@@ -7,20 +7,23 @@
 var app = require('../app');
 var debug = require('debug')('manager:server');
 var http = require('http');
+var bodyParser = require('body-parser');
 
+const bodyparser = require('body-parser');
 /**
  * Get port from environment and store in Express.
  */
 
 var port = normalizePort(process.env.PORT || '80');
 app.set('port', port);
-
+app.use(bodyparser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 /**
  * Create HTTP server.
  */
 
 var server = http.createServer(app);
-
+console.log("starting the web");
 /**
  * Listen on provided port, on all network interfaces.
  */
