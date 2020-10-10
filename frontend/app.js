@@ -18,6 +18,8 @@ var app = express();
 
 //mock
 app.use('/mock', mockRouter);
+//cookie
+app.use(cookieParser());
 // view engine setup
 app.use(bodyParser.json({
     limit: '1mb'
@@ -25,6 +27,7 @@ app.use(bodyParser.json({
 app.use(bodyParser.urlencoded({ //此项必须在 bodyParser.json 下面,为参数编码
     extended: true
 }));
+
 app.set('views', path.join(__dirname, 'views'));
 app.engine('html', ejs.__express);
 app.set('view engine', 'html');

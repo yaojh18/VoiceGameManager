@@ -1,6 +1,7 @@
 const axios = require('axios');
 var express = require('express');
 var bodyParser = require('body-parser');
+var Cookies = require('cookies');
 var urlRegisterPost = "https://VoiceTestGame-Dijkstra.app.secoder.net/api/users/registration/";
 var urlLoginPost = "https://VoiceTestGame-Dijkstra.app.secoder.net/api/users/login/";
 var urlAdd = "https://VoiceTestGame-Dijkstra.app.secoder.net/api/manager/add/";
@@ -38,8 +39,14 @@ router.post('/register', function(req, res, next) {
             console.log(response.data.msg);
             console.log(response.data.code);
             if (response.data.code == 200) {
+                res.cookie("userinfo", {
+                    'username': req.body.user,
+                    'password': req.body.pwd
+                });
+                console.log("after loading userinfo");
                 res.render("main", {
                     title: "Main Page",
+                    userName: req.body.user
                 });
             } else {
                 res.render("error", {
@@ -63,15 +70,21 @@ router.post('/login', function(req, res, next) {
             "password": Pwd,
         })
         .then(function(response) {
-            //debug
-            //console.log(response);
-            //
             console.log("success");
             console.log(response.data.msg);
             console.log(response.data.code);
             if (response.data.code == 200) {
+                console.log("still working here");
+                browser.cookies.set('userInfo', JSON.stringify({　　
+                    username: req.body.user,
+                    password: req.body.pwd
+                }));
+                console.log("still working after cookies.set");
+                console.log("after loading userinfo");
                 console.log("200");
-                return res.render("main");
+                return res.render("main", {
+                    userName: req.body.user
+                });
             } else {
                 return res.render("error");
             }

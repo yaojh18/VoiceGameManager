@@ -1,92 +1,141 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="utf-8">
-<title>后台管理界面</title>
-<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
-<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css">
-</head>
-<body>
-<style>
-                .body{
-                               background-color:#eeeeee;
-                }
-	.list-group-horizontal .list-group-item {
-		display: inline-block;
-	}
-	.list-group-horizontal .list-group-item {
-		margin-bottom: 0;
-		margin-left:-4px;
-		margin-right: 0;
-	}
-	.list-group-horizontal .list-group-item:first-child {
-		border-top-right-radius:0;
-		border-bottom-left-radius:4px;
-	}
-	.list-group-horizontal .list-group-item:last-child {
-		border-top-right-radius:4px;
-		border-bottom-left-radius:0;
-	}
-.panel-group {
-				background-color: #d0d0d0;
-				width: 250px;
-				height: 600px;
-				overflow-y: auto;
-			}
-			.panel-group .panel {
-				background-color: #c0c0c0;
-				border: none;
-			}
-			
-			.panel-heading{
-				border-top-left-radius: 0px; 
-    			border-top-right-radius: 0px; 
-			}
-			.panel-default>.panel-heading {
-				border: none;
-				color: #ffffff;
-				background-color: #505050;
-			}
-			.panel-default>.panel-heading>span{
-				font-size: 10px;
-			}
-			.panel-default>.panel-heading:active,.panel-default>.panel-heading:hover{
-				background-color: #4a8bc2;
-			}
-			.panel-default>.panel-heading>a:hover{
-				text-decoration: none;
-				background-color: #4a8bc2;
-			}
-			.panel-group .panel-heading+.panel-collapse>.panel-body {
-				border: none;
-			}
-			.panel-body {
-				padding: 0px;
-			}
-html {
-    -ms-overflow-style: none;
-    overflow: -moz-scrollbars-none;
-    overflow: hidden;
-    overflow-y: scroll;
-    scrollbar-width: none;
-}
 
-html::-webkit-scrollbar {
-    width: 0 !important;
-}
-.header{
-    width:100%;
-    position:fixed;
-    z-index:1;
-}
-                                               
-	</style>
-<nav class="navbar navbar-default" role="navigation">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#">管理界面 : 
+<head>
+    <meta charset="utf-8">
+    <title>后台管理界面</title>
+    <link href="https://vjs.zencdn.net/7.8.4/video-js.css" rel="stylesheet" />
+
+    <!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
+    <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css">
+</head>
+
+<body>
+    <style>
+        .body {
+            background-color: #eeeeee;
+        }
+        
+        .list-group-horizontal .list-group-item {
+            display: inline-block;
+        }
+        
+        .list-group-horizontal .list-group-item {
+            margin-bottom: 0;
+            margin-left: -4px;
+            margin-right: 0;
+        }
+        
+        .list-group-horizontal .list-group-item:first-child {
+            border-top-right-radius: 0;
+            border-bottom-left-radius: 4px;
+        }
+        
+        .list-group-horizontal .list-group-item:last-child {
+            border-top-right-radius: 4px;
+            border-bottom-left-radius: 0;
+        }
+        
+        .panel-group {
+            background-color: #d0d0d0;
+            width: 250px;
+            height: 600px;
+            overflow-y: auto;
+        }
+        
+        .panel-group .panel {
+            background-color: #c0c0c0;
+            border: none;
+        }
+        
+        .panel-heading {
+            border-top-left-radius: 0px;
+            border-top-right-radius: 0px;
+        }
+        
+        .panel-default>.panel-heading {
+            border: none;
+            color: #ffffff;
+            background-color: #505050;
+        }
+        
+        .panel-default>.panel-heading>span {
+            font-size: 10px;
+        }
+        
+        .panel-default>.panel-heading:active,
+        .panel-default>.panel-heading:hover {
+            background-color: #4a8bc2;
+        }
+        
+        .panel-default>.panel-heading>a:hover {
+            text-decoration: none;
+            background-color: #4a8bc2;
+        }
+        
+        .panel-group .panel-heading+.panel-collapse>.panel-body {
+            border: none;
+        }
+        
+        .panel-body {
+            padding: 0px;
+        }
+        
+        html {
+            -ms-overflow-style: none;
+            overflow: -moz-scrollbars-none;
+            overflow: hidden;
+            overflow-y: scroll;
+            scrollbar-width: none;
+        }
+        
+        html::-webkit-scrollbar {
+            width: 0 !important;
+        }
+        
+        .file {
+            position: relative;
+            display: inline-block;
+            background: #D0EEFF;
+            border: 1px solid #99D3F5;
+            border-radius: 4px;
+            padding: 4px 12px;
+            overflow: hidden;
+            color: #1E88C7;
+            text-decoration: none;
+            text-indent: 0;
+            line-height: 20px;
+        }
+        
+        .file input {
+            position: absolute;
+            font-size: 100px;
+            right: 0;
+            top: 0;
+            opacity: 0;
+        }
+        
+        .file:hover {
+            background: #AADFFD;
+            border-color: #78C3F3;
+            color: #004974;
+            text-decoration: none;
+        }
+        
+        .header {
+            width: 100%;
+            position: fixed;
+            z-index: 1;
+        }
+    </style>
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">管理界面 : 
       <a class="navbar-brand glyphicon glyphicon-user"  href="#">
       <!--
       {{ % if user % }}
@@ -94,218 +143,388 @@ html::-webkit-scrollbar {
       {{ % else % }}
            placeholder
      {{ % endif % }} -->
-      placeholder
+      <%=userName%>
      </a>
-     </a>
+                </a>
 
-		<button type="button" class="navbar-toggle" data-toggle="collapse"
-				data-target="#example-navbar-collapse">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#example-navbar-collapse">
 			<span class="sr-only">管理员界面</span>
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 		</button>
-		
-	
-	
-    <ul class="nav navbar-nav navbar-right">
-    <li class="collapse navbar-collapse" id="example-navbar-collapse">
-		<ul class="nav navbar-nav">
-			<li class="active"><a href="#">个人界面</a></li>
-			<li><a href="#">数据列表</a></li>
-			<li class="dropdown">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+
+
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="collapse navbar-collapse" id="example-navbar-collapse">
+                        <ul class="nav navbar-nav">
+                            <li class="active"><a href="#">个人界面</a></li>
+                            <li><a href="#">数据列表</a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
 					数据操作<b class="caret"></b>
 				</a>
-				<ul class="dropdown-menu">
-					<li><a onclick="totalAdd()" >增加&nbsp&nbsp<p class="glyphicon glyphicon-plus"></p></a></li>
-					<li><a href="totalSearch()" >查询&nbsp&nbsp<p class="glyphicon glyphicon-edit" ></p></a></li>
-					<li><a href="totalModify()"> 修改&nbsp&nbsp<p class="glyphicon glyphicon-hand-right" ></p></a></li>
-					<li class="divider"></li>
-					<li><a href="#">设置</a></li>
-					<li class="divider"></li>
-					<li><a href="#">帮助</a></li>
-				</ul>
-			</li>
-		</ul>
-	
-    </li>
-      <li><a href="/register"><span class="glyphicon glyphicon-user"></span> 注册</a></li>
-      <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li>
-    </ul>
-  </div>
-</div>
-</nav>
-<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-left">   
-       <div class="panel-group" id="panelContainer">
-			<div class="panel panel-default">
-				<div id="header1" class="panel-heading" data-toggle="collapse" data-target="#sub1" data-parent="#panelContainer">
-					<i class="glyphicon glyphicon-list-alt"></i>
-					<a href="#">数据总览</a>
-					<span class="glyphicon glyphicon-triangle-right pull-right"></span>
-				</div>
-				
-			</div>
-                                                <div id="sub1" class="collapse panel-collapse">
-					<div class="panel-body">
-						<ul class="nav">
-							<li>
-								<a href="#"><span></span>数据库总览</a>
-							</li>
-							<li>
-								<a href="#">数据总览</a>
-							</li>
-							<li>
-								<a href="#">数据搜索</a>
-							</li>
-							<li>
-								<a href="#">说明</a>
-							</li>
-						</ul>
-					</div>
-			</div>
-			<div class="panel panel-default">
-				<div id="header2" class="panel-heading" data-toggle="collapse" data-target="#sub2" data-parent="#panelContainer">
-					<i class="glyphicon glyphicon-leaf"></i>
-					<a href="#">数据操作</a>
-					<span class="glyphicon glyphicon-triangle-right pull-right"></span>
-				</div>
-			</div>
-                                                <div id="sub2" class="collapse panel-collapse">
-					<div class="panel-body">
-						<ul class="nav">
-							<li>
-								<a onclick="totalAdd()"><span></span>数据增加</a>
-							</li>
-							<li>
-								<a onclick="totalModify()">数据修改</a>
-							</li>
-							<li>
-								<a onclick="totalSearch()">数据查询</a>
-							</li>
-						</ul>
-					</div>
-			</div>
-		</div>
+                                <ul class="dropdown-menu">
+                                    <li><a onclick="totalAdd()">增加&nbsp&nbsp<p class="glyphicon glyphicon-plus"></p></a></li>
+                                    <li><a href="totalSearch()">查询&nbsp&nbsp<p class="glyphicon glyphicon-edit" ></p></a></li>
+                                    <li><a href="totalModify()"> 修改&nbsp&nbsp<p class="glyphicon glyphicon-hand-right" ></p></a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#">设置</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#">帮助</a></li>
+                                </ul>
+                            </li>
+                        </ul>
 
-		<script>
-			$(function() {
-				$(".panel-heading").on("click", function(e) {
-					var idLength = e.currentTarget.id.length;
-					var index = e.currentTarget.id.substr(idLength - 1, idLength);
-					$("#sub" + index).on('hidden.bs.collapse', function() {
-						$(e.currentTarget).find("span").removeClass("glyphicon glyphicon-triangle-bottom");
-						$(e.currentTarget).find("span").addClass("glyphicon glyphicon-triangle-right");
-					})
-					$("#sub" + index).on('shown.bs.collapse', function() {
-						$(e.currentTarget).find("span").removeClass("glyphicon glyphicon-triangle-right");
-						$(e.currentTarget).find("span").addClass("glyphicon glyphicon-triangle-bottom");
-					})
-				})
-				$(".panel-body > .nav > li > a").on("click", function(e) {
-					alert(e.currentTarget.textContent);
-				});
-			});
-		</script>
-
-</div>
- <div class="col-xs-7 col-sm-7 col-md-6 col-lg-6 text-center">
-
-            <div class="list-group list-group-horizontal text-center">
-			<a id="op" class="list-group-item" disabled="disabled">-**-</a>
-                <a onclick="createAdd()" class="list-group-item active operation-list" placeholder = "增加">增加</a>
-                 <script>
-				 $.ajax({
-    url:"placeholder",
-    dataType:"text",
-    async:false,
-    success: function(data){
-        alert(typeof data + " ... " + data);
-    },
-    error:function(data){
-        alert();
-    }
-});
-				 </script>
-				 <script>
-            function createAdd()
-            {
-				document.getElementById("op").innerText = "add";
-				document.getElementById("opForm").innerHTML = "<input type='text' name='option' id='option'  style='display:none' value='add'></input>";
-                document.getElementById("opForm").innerHTML += "<input type='text' placeholder='title' class='form-control' name='title'></input>";
-                document.getElementById("opForm").innerHTML += "<input type='text' placeholder='content' class='form-control' nane='content'></input>";
-                document.getElementById("opForm").innerHTML += "<input type='file' name='fileaudio' class='file fileinput' required/>";
-				document.getElementById("opForm").innerHTML += "<input type='file' name='filevideo' class='file fileinput' required/>";
-			    document.getElementById("opForm").innerHTML += "<button class='list-group-item active' placeholder='增加' onclick='addClicked()'>增加</button>";
-			}</script>
-			<script>
-			function addClicked(){
-				document.console.log("Helloworld");
-				document.getElementById('opForm').submit();
-			}
-			</script>
-                <a onclick="createModify()" class="list-group-item operation-list" placeholder = "修改">修改</a>
-                 <script>
-            function createModify()
-            {
-				document.getElementById("op").innerText ="modify";
-				document.getElementById("opForm").innerHTML = "<input type='text' style='display:none' name='option' id='option' value='modify'></input>";
-                document.getElementById("opForm").innerHTML += "<input type='text' nane='title' Sclass='form-control' placeholder='ID'></input>";
-                document.getElementById("opForm").innerHTML += "<br>";
-				document.getElementById("opForm").innerHTML += "<input type='text' class='form-control' placeholder='CONTENT'></input>";
-				document.getElementById("opForm").innerHTML += "<input type='file' name='file' class='file fileinput' required/>";
-                document.getElementById("opForm").innerHTML += "<div id='output'>'</div>";
-				document.getElementById("opForm").innerHTML += "<button class='list-group-item active' placeholder='修改' onclick='document.getElementById(opForm).submit()'>修改</button>";
-            }</script>
-                <a onclick="createInput()" class="list-group-item operation-list" placeholder = "查询" >查询</a>
-                <script>
-            function createInput()
-            {
-				document.getElementById("op").innerText ="query";
-				document.getElementById("opForm").innerHTML = "<input type='text' style='display:none' name='option' id='option' value='query'></input>";
-				document.getElementById("opForm").innerHTML += "<input class = 'form-control' type = 'text' name='keyword' placeholder='keyword'/>";
-				document.getElementById("opForm").innerHTML += "<input type='submit' class='list-group-item active' ></button>";
-            }
-           </script>
+                    </li>
+                    <li><a href="/register"><span class="glyphicon glyphicon-user"></span> 注册</a></li>
+                    <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li>
+                </ul>
             </div>
-			<form action="/manager" id="opForm" style='padding:20px' method="post"> 
-			</form>
-			<script language="javascript">
-			var opValue=$("label#op").text();
-			var opForm=$("form#opForm");
-    if(opValue=="add"){
-		document.getElementById("option").value ="add";
-         opForm.action="/api/manager/add";
-         opForm.submit();
-    }
-     else if(opValue=="modify"){
-		 document.getElementById("option").value ="modify";
-        opForm.action="/api/manager/edit";
-        opForm.submit();
-     }
-     else if(opValue=="query"){ 
-		document.getElementById("option").value ="query";
-        opForm.submit();
-     }
-</script>
-            <script>
-                  $(function() {
-				$(".operation-list").on("click", function(f) {
-						$(f.currentTarget).addClass("active");
-						$(f.currentTarget).siblings().removeClass("active");
-						})
-				});
-            </script>
-			<div id="dataShown">
-			</div>
-<div class="col-xs-1 col-sm-1 col-md-2 col-lg-2 text-center">
-</div>
+        </div>
+    </nav>
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-left">
+        <div class="panel-group" id="panelContainer">
+            <div class="panel panel-default">
+                <div id="header1" class="panel-heading" data-toggle="collapse" data-target="#sub1" data-parent="#panelContainer">
+                    <i class="glyphicon glyphicon-list-alt"></i>
+                    <a href="#">数据总览</a>
+                    <span class="glyphicon glyphicon-triangle-right pull-right"></span>
+                </div>
 
-<br>
-<br>
-<br>
-<ul class="list-group">
-	<!--{{ % for item in dataItems %}}
+            </div>
+            <div id="sub1" class="collapse panel-collapse">
+                <div class="panel-body">
+                    <ul class="nav">
+                        <li>
+                            <a href="#"><span></span>数据库总览</a>
+                        </li>
+                        <li>
+                            <a href="#">数据总览</a>
+                        </li>
+                        <li>
+                            <a href="#">数据搜索</a>
+                        </li>
+                        <li>
+                            <a href="#">说明</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div id="header2" class="panel-heading" data-toggle="collapse" data-target="#sub2" data-parent="#panelContainer">
+                    <i class="glyphicon glyphicon-leaf"></i>
+                    <a href="#">数据操作</a>
+                    <span class="glyphicon glyphicon-triangle-right pull-right"></span>
+                </div>
+            </div>
+            <div id="sub2" class="collapse panel-collapse">
+                <div class="panel-body">
+                    <ul class="nav">
+                        <li>
+                            <a onclick="totalAdd()"><span></span>数据增加</a>
+                        </li>
+                        <li>
+                            <a onclick="totalModify()">数据修改</a>
+                        </li>
+                        <li>
+                            <a onclick="totalSearch()">数据查询</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            $(function() {
+                $(".panel-heading").on("click", function(e) {
+                    var idLength = e.currentTarget.id.length;
+                    var index = e.currentTarget.id.substr(idLength - 1, idLength);
+                    $("#sub" + index).on('hidden.bs.collapse', function() {
+                        $(e.currentTarget).find("span").removeClass("glyphicon glyphicon-triangle-bottom");
+                        $(e.currentTarget).find("span").addClass("glyphicon glyphicon-triangle-right");
+                    })
+                    $("#sub" + index).on('shown.bs.collapse', function() {
+                        $(e.currentTarget).find("span").removeClass("glyphicon glyphicon-triangle-right");
+                        $(e.currentTarget).find("span").addClass("glyphicon glyphicon-triangle-bottom");
+                    })
+                })
+                $(".panel-body > .nav > li > a").on("click", function(e) {
+                    alert(e.currentTarget.textContent);
+                });
+            });
+        </script>
+
+    </div>
+    <div class="col-xs-7 col-sm-7 col-md-6 col-lg-6 text-center">
+
+        <div class="list-group list-group-horizontal text-center">
+            <a id="op" class="list-group-item" disabled="disabled">-**-</a>
+            <a onclick="createAdd()" class="list-group-item active operation-list" placeholder="增加">增加</a>
+            <script>
+                $.ajax({
+                    url: "placeholder",
+                    dataType: "text",
+                    async: false,
+                    success: function(data) {
+                        alert(typeof data + " ... " + data);
+                    },
+                    error: function(data) {
+                        alert();
+                    }
+                });
+            </script>
+            <script>
+                function createAdd() {
+                    document.getElementById("op").innerText = "add";
+                    document.getElementById("opForm").innerHTML = "<input type='text' name='option' id='option'  style='display:none' value='add'></input>";
+                    document.getElementById("opForm").innerHTML += "<input type='text' placeholder='title' class='form-control' name='title'></input>";
+                    document.getElementById("opForm").innerHTML += "<input type='text' placeholder='content' class='form-control' nane='content'></input>";
+                    document.getElementById("opForm").innerHTML += "<input type='file' name='fileaudio' class='file fileinput' required/>";
+                    document.getElementById("opForm").innerHTML += "<input type='file' name='filevideo' class='file fileinput' required/>";
+                    document.getElementById("opForm").innerHTML += "<button class='list-group-item active' placeholder='增加' onclick='addClicked()'>增加</button>";
+                }
+            </script>
+            <script>
+                function addClicked() {
+                    document.console.log("Helloworld");
+                    document.getElementById('opForm').submit();
+                }
+            </script>
+            <a onclick="createModify()" class="list-group-item operation-list" placeholder="修改">修改</a>
+            <script>
+                function createModify() {
+                    document.getElementById("op").innerText = "modify";
+                    document.getElementById("opForm").innerHTML = "<input type='text' style='display:none' name='option' id='option' value='modify'></input>";
+                    document.getElementById("opForm").innerHTML += "<input type='text' nane='title' Sclass='form-control' placeholder='ID'></input>";
+                    document.getElementById("opForm").innerHTML += "<br>";
+                    document.getElementById("opForm").innerHTML += "<input type='text' class='form-control' placeholder='CONTENT'></input>";
+                    document.getElementById("opForm").innerHTML += "<input type='file' name='file' class='file fileinput' required/>";
+                    document.getElementById("opForm").innerHTML += "<div id='output'>'</div>";
+                    document.getElementById("opForm").innerHTML += "<button class='list-group-item active' placeholder='修改' onclick='document.getElementById(opForm).submit()'>修改</button>";
+                }
+            </script>
+            <a onclick="createInput()" class="list-group-item operation-list" placeholder="查询">查询</a>
+            <script>
+                function createInput() {
+                    document.getElementById("op").innerText = "query";
+                    document.getElementById("opForm").innerHTML = "<input type='text' style='display:none' name='option' id='option' value='query'></input>";
+                    document.getElementById("opForm").innerHTML += "<input class = 'form-control' type = 'text' name='keyword' placeholder='keyword'/>";
+                    document.getElementById("opForm").innerHTML += "<input type='submit' class='list-group-item active' ></button>";
+                }
+            </script>
+            <div class="jumbotron text-center" padding="20px" vertical-align="middle">
+                <video controls="controls" class="video-js vjs-theme-city vjs-big-play-centered" style="display:none;text-align:center" width="400px" padding="20px" controls preload="auto" id="aa" oncanplaythrough="myFunction(this)"></video>
+                <a class="file">上传文件<input type="file" id='testFile' onchange="changeFile(this)" placeholder="上传文件"></a>
+            </div>
+            <div id="resourceManagerUploadContent">
+                <input type="file" id="upRscProcessBar" onclick="rsc_UploadFile()"></button>
+                <div class="progress progress-striped active">
+                    <div id="txtprogress" class="progress-bar progress-bar-info" aria-valuemax="100" aria-valuemin="0" aria-valuenow="40" style="width:40%">
+                    </div>
+                </div>
+            </div>
+            <script>
+                //本地上传图片、语音
+                function rsc_UploadFile(file) {
+                    var mypic = file.files[0];
+                    //创建一个FormData空对象，然后使用append方法添加key/value
+                    var fd = new FormData();
+                    fd.append("myhead", mypic);
+                    //上传图片
+                    if (resourceManager.currentRscType == 1)
+                        fd.append("action", "uploadImg");
+                    //上传语音
+                    else if (resourceManager.currentRscType == 3)
+                        fd.append("action", "uploadVic");
+                    //上传视频
+                    else if (resourceManager.currentRscType == 5)
+                        fd.append("action", "uploadVdo");
+                    if (resourceManager.currentRscType == 1 || resourceManager.currentRscType == 3)
+                        $("#resourceManagerUploadContent").css("height", "330px");
+                    else if (resourceManager.currentRscType == 5)
+                        $("#resourceManagerUploadContent").css("height", "420px");
+                    $("#upRscProcessBar").css("display", "block");
+
+                    $("#upSelectFileBtn").attr("disabled", "disabled");
+
+                    var xhr = new XMLHttpRequest();
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState == 4 && xhr.status == 200) {
+                            var data = JSON.parse(xhr.responseText); //如果上传图片成功，则保存
+                            if (data.returnValue == 0) {
+                                var url = '';
+                                var sData = '';
+
+                                //上传图片
+                                if (resourceManager.currentRscType == 1) {
+                                    url = GetHost() + data.returnData.tmpImgUrl;
+                                    sData = Base.encode('{"action":"saveImg","iu":"' + url + '"}');
+                                } //上传语音
+                                else if (resourceManager.currentRscType == 3) {
+                                    url = GetHost() + data.returnData.vicUrl;
+                                    var duration = data.returnData.duration;
+                                    sData = Base.encode('{"action":"saveVic","vu":"' + url + '","dt":"' + duration + '"}');
+                                } else if (resourceManager.currentRscType == 5) {
+                                    url = GetHost() + data.returnData.vdoUrl;
+                                    var duration = data.returnData.duration;
+                                    var frontCover = GetHost() + data.returnData.tmpImgUrl;
+                                    var sData = Base.encode('{"action":"saveVdo","vu":"' + url + '","fc":"' + frontCover + '","dt":"' + duration + '"}');
+                                }
+                                $.ajax({
+                                    type: 'POST',
+                                    url: GetHost() + 'tyadmin/Resource/index.ashx',
+                                    data: sData,
+                                    dataType: 'json',
+                                    contentType: 'application/json',
+                                    success: function(data) {
+                                        if (data) {
+                                            if (data.returnValue == 0) {
+                                                //自动点击当前选中的资源组并加载图片
+                                                if (group && group > 0 && resourceManager.groups && resourceManager.groups.length > 0) {
+                                                    try {
+                                                        resourceManager.isLocalUpload = true;
+                                                        $("#resourceGroup_" + group).click();
+                                                    } catch (e) {
+                                                        console.log(e);
+                                                    }
+                                                }
+
+                                                //关闭图片上传窗体
+                                                closeUploadWin();
+                                            } else alert(data.returnMsg);
+                                        } else {
+                                            if (resourceManager.currentRscType == 1)
+                                                alert("图片上传失败，请重试！");
+                                            else if (resourceManager.currentRscType == 3)
+                                                alert("语音上传失败，请重试！");
+                                            else if (resourceManager.currentRscType == 5)
+                                                alert("视频上传失败，请重试！");
+                                        }
+                                        $("#rscUpload").val("");
+                                    },
+                                    error: function(msg) {
+                                        alert(msg.responseText);
+                                    }
+                                });
+
+                            } else alert(data.returnMsg);
+
+                            $("#upSelectFileBtn").removeAttr("disabled");
+                        }
+                    }
+
+                    //侦查当前附件上传情况
+                    xhr.upload.onprogress = function(evt) {
+
+                        //侦查附件上传情况
+                        //通过事件对象侦查
+                        //该匿名函数表达式大概0.1秒执行一次
+
+                        var loaded = evt.loaded; //已经上传大小情况
+                        var tot = evt.total; //附件总大小
+                        var per = Math.floor(100 * loaded / tot); //已经上传的百分比
+                        try {
+                            //如果点击 返回 按钮，则中断文件的传输
+                            if (_isRSCXMLHttpAbort) {
+                                xhr.abort();
+                            }
+
+                            //百分比
+                            var txtProgress = $("#txtProgress");
+                            txtProgress.html(per + "%");
+                            //进度条
+                            $(".upRscProcessContent").css("width", per + "%");
+                        } catch (e) {}
+                    }
+
+                    xhr.open("post", GetHost() + 'tyadmin/Resource/index.ashx');
+                    xhr.send(fd);
+                }
+            </script>
+            <script>
+                var fd = new FormData();
+                fd.append("file", document.getElementById('testFile').files[0]);
+                $.ajax({
+                    url: 'http://127.0.0.1:3003/useasync/uploadFile',
+                    type: 'POST',
+                    contentType: "multipart/form-data",
+                    data: fd,
+                    xhr: function() {
+                        myXhr = $.ajaxSettings.xhr();
+                        if (myXhr.upload) { // check if upload property exists 
+                            myXhr.upload.addEventListener('progress', function(e) {
+                                var loaded = e.loaded; //已经上传大小情况
+                                var tot = e.total; //附件总大小
+                                var per = Math.floor(100 * loaded / tot).toFixed(2);
+                                $("#progress").html(per + "%"); //设置进度显示百分比
+                                $("#progress").css("width", per + "%"); //设置完成的进度条宽度
+
+                            }, false); // for handling the progress of the upload
+                        }
+                        return myXhr;
+                    },
+                    success: function(data) {
+                        console.log(data);
+                        console.log("上传成功!!!!");
+                    },
+                    error: function() {
+                        console.log("上传失败！");
+                    }
+                });
+            </script>
+            </script>
+            <script>
+                function myFunction(ele) {　　　　　 //视频时长  单位秒
+                    alert(Math.floor(ele.duration));
+                }
+
+                function changeFile(ele) {
+                    var video = ele.files[0];
+                    var url = URL.createObjectURL(video);
+                    console.log(url);
+                    document.getElementById("aa").style.display = "block";
+                    document.getElementById("aa").src = url;
+                }
+            </script>
+        </div>
+        <form action="/manager" id="opForm" style='padding:20px' method="post">
+        </form>
+        <script language="javascript">
+            var opValue = $("label#op").text();
+            var opForm = $("form#opForm");
+            if (opValue == "add") {
+                document.getElementById("option").value = "add";
+                opForm.action = "/api/manager/add";
+                opForm.submit();
+            } else if (opValue == "modify") {
+                document.getElementById("option").value = "modify";
+                opForm.action = "/api/manager/edit";
+                opForm.submit();
+            } else if (opValue == "query") {
+                document.getElementById("option").value = "query";
+                opForm.submit();
+            }
+        </script>
+        <script>
+            $(function() {
+                $(".operation-list").on("click", function(f) {
+                    $(f.currentTarget).addClass("active");
+                    $(f.currentTarget).siblings().removeClass("active");
+                })
+            });
+        </script>
+        <div id="dataShown">
+        </div>
+        <div class="col-xs-1 col-sm-1 col-md-2 col-lg-2 text-center">
+        </div>
+
+        <br>
+        <br>
+        <br>
+        <ul class="list-group">
+            <!--{{ % for item in dataItems %}}
                 <li class="list-group-item">
                        <strong>{{ item.title }}</strong> 
                        {{ item.author }}
@@ -313,42 +532,42 @@ html::-webkit-scrollbar {
                        <span class="badge">{{ item.markText }}</span>
                 </li>
                 {{ % endfor % }}-->
-                <li class = "list-group-item">
-                      <strong> this is a demo </strong>
-                </li>
-</ul>
-<ul class="pagination" id="pagination"></ul>
-</div>
+            <li class="list-group-item">
+                <strong> this is a demo </strong>
+            </li>
+        </ul>
+        <ul class="pagination" id="pagination"></ul>
+    </div>
 
 </body>
 <footer class="container-fluid foot-wrap col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <!--采用container，使得页尾内容居中 -->
-        <div class="text-muted text-center" class="container">
-            <div class="row">
-                <div class="text-muted row-content col-lg-4 col-sm-4 col-xs-6">
-                    <h3><a href="#">关于我们</a></h3>
-                    <ul>
-                        <li><a href="#">Placeholder</a></li>
-                        <li><a href="#">Placeholder</a></li>
-                    </ul>
-                </div>
-                <div class="text-muted row-content col-lg-4 col-sm-4 col-xs-6">
-                    <h3><a href="#">登录相关</a></h3>
-                    <ul>
-                        <li><a href="/">登出</a></li>
-                        <li><a href="/register">注册</a></li>
-                        <li><a href="/login">登录</a></li>
-                    </ul>
-                </div>
-                <div class="text-muted row-content col-lg-4 col-sm-4 col-xs-6">
-                    <h3><a href="#">数据处理</a></h3>
-                    <ul>
-                        <li><a href="#">Placeholder</a></li>
-                        <li><a href="#">Placeholder</a></li>
-                    </ul>
-                </div>
+    <div class="text-muted text-center" class="container">
+        <div class="row">
+            <div class="text-muted row-content col-lg-4 col-sm-4 col-xs-6">
+                <h3><a href="#">关于我们</a></h3>
+                <ul>
+                    <li><a href="">Placeholder</a></li>
+                    <li><a href="#">Placeholder</a></li>
+                </ul>
+            </div>
+            <div class="text-muted row-content col-lg-4 col-sm-4 col-xs-6">
+                <h3><a href="#">登录相关</a></h3>
+                <ul>
+                    <li><a href="/">登出</a></li>
+                    <li><a href="/register">注册</a></li>
+                    <li><a href="/login">登录</a></li>
+                </ul>
+            </div>
+            <div class="text-muted row-content col-lg-4 col-sm-4 col-xs-6">
+                <h3><a href="#">数据处理</a></h3>
+                <ul>
+                    <li><a href="#">Placeholder</a></li>
+                    <li><a href="#">Placeholder</a></li>
+                </ul>
+            </div>
 
-                <!--<div class="row-content col-lg-2 col-sm-4 col-xs-6">
+            <!--<div class="row-content col-lg-2 col-sm-4 col-xs-6">
                     
 
                 </div>
@@ -359,106 +578,111 @@ html::-webkit-scrollbar {
                     
                 </div>-->
 
-            </div><!--/.row -->
-        </div><!--/.container-->
+        </div>
+        <!--/.row -->
+    </div>
+    <!--/.container-->
 
-        <!-- 社交图标列表，其中图标采用的是Font Awesome图标字体库-->
-        <br>
-        <br>
-        <ul class="social text-center">
-                <a href="#" title="Twitter Profile">
-                    <span class="icon fa fa-twitter" style="font-size:30px" aria-hidden="true"></span>
-                </a>
-                &nbsp&nbsp&nbsp&nbsp
-                <a href="#" title="Facebook Page">
-                    <span class="icon fa fa-facebook" style="font-size:30px" aria-hidden="true"></span>
-                </a>
-                &nbsp&nbsp&nbsp&nbsp
-                <a href="#" title="LinkedIn Profile">
-                    <span class="icon fa fa-linkedin" style="font-size:30px" aria-hidden="true"></span>
-                </a>
-                &nbsp&nbsp&nbsp&nbsp
-                <a class="text-muted" href="#" title="Goole+ Profile">
-                    <span class="icon fa fa-google" style="font-size:30px" aria-hidden="true"></span>
-                </a>
-                &nbsp&nbsp&nbsp&nbsp
-                <a href="#" title="Github Profile">
-                    <span class="icon fa fa-github" style="font-size:30px" aria-hidden="true"></span>
-                </a>
-        </ul>
-        <p align="center" style="margin-top: 20px;color:#000000;">
-            Copyright &copy;2020 dijkstra
-        </p>
+    <!-- 社交图标列表，其中图标采用的是Font Awesome图标字体库-->
+    <br>
+    <br>
+    <ul class="social text-center">
+        <a href="#" title="Twitter Profile">
+            <span class="icon fa fa-twitter" style="font-size:30px" aria-hidden="true"></span>
+        </a>
+        &nbsp&nbsp&nbsp&nbsp
+        <a href="#" title="Facebook Page">
+            <span class="icon fa fa-facebook" style="font-size:30px" aria-hidden="true"></span>
+        </a>
+        &nbsp&nbsp&nbsp&nbsp
+        <a href="#" title="LinkedIn Profile">
+            <span class="icon fa fa-linkedin" style="font-size:30px" aria-hidden="true"></span>
+        </a>
+        &nbsp&nbsp&nbsp&nbsp
+        <a class="text-muted" href="#" title="Goole+ Profile">
+            <span class="icon fa fa-google" style="font-size:30px" aria-hidden="true"></span>
+        </a>
+        &nbsp&nbsp&nbsp&nbsp
+        <a href="#" title="Github Profile">
+            <span class="icon fa fa-github" style="font-size:30px" aria-hidden="true"></span>
+        </a>
+    </ul>
+    <p align="center" style="margin-top: 20px;color:#000000;">
+        Copyright &copy;2020 dijkstra
+    </p>
 </footer>
+
 </html>
 <script>
-	$(document).ready(function() {
-		if($("#pagination")){
-			var pagecount = <%= locals.pagecount %>;
-			var pagesize = <%= locals.pagesize %>;
-			var currentpage = <%= locals.currentpage %>;
-			var counts,pagehtml="";
-			if(pagecount%pagesize==0){
-				counts = parseInt(pagecount/pagesize);
-			}else{
-				counts = parseInt(pagecount/pagesize)+1;
-			}
-			//只有一页内容
-			if(pagecount<=pagesize){pagehtml="";}
-			//大于一页内容
-			if(pagecount>pagesize){
-				if(currentpage>1){
-					pagehtml+= '<li><a rel="external nofollow" href="/course/index/'+(currentpage-1)+'">上一页</a></li>';
-				}
-				for(var i=0;i<counts;i++){
-					if(i>=(currentpage-3) && i<(currentpage+3)){
-						if(i==currentpage-1){
-							pagehtml+= '<li class="active"><a rel="external nofollow" href="/course/index/'+(i+1)+'">'+(i+1)+'</a></li>';
-						}else{
-							pagehtml+= '<li><a rel="external nofollow" href="/course/index/'+(i+1)+'">'+(i+1)+'</a></li>';
-						}
-						
-					}
-				}
-				if(currentpage<counts){
-					pagehtml+= '<li><a rel="external nofollow" href="/course/index/'+(currentpage+1)+'">下一页</a></li>';
-				}
-			}
-			$("#pagination").html(pagehtml);
-		}
-	});
+    $(document).ready(function() {
+        if ($("#pagination")) {
+            var pagecount = <%= locals.pagecount %>;
+            var pagesize = <%= locals.pagesize %>;
+            var currentpage = <%= locals.currentpage %>;
+            var counts, pagehtml = "";
+            if (pagecount % pagesize == 0) {
+                counts = parseInt(pagecount / pagesize);
+            } else {
+                counts = parseInt(pagecount / pagesize) + 1;
+            }
+            //只有一页内容
+            if (pagecount <= pagesize) {
+                pagehtml = "";
+            }
+            //大于一页内容
+            if (pagecount > pagesize) {
+                if (currentpage > 1) {
+                    pagehtml += '<li><a rel="external nofollow" href="/course/index/' + (currentpage - 1) + '">上一页</a></li>';
+                }
+                for (var i = 0; i < counts; i++) {
+                    if (i >= (currentpage - 3) && i < (currentpage + 3)) {
+                        if (i == currentpage - 1) {
+                            pagehtml += '<li class="active"><a rel="external nofollow" href="/course/index/' + (i + 1) + '">' + (i + 1) + '</a></li>';
+                        } else {
+                            pagehtml += '<li><a rel="external nofollow" href="/course/index/' + (i + 1) + '">' + (i + 1) + '</a></li>';
+                        }
+
+                    }
+                }
+                if (currentpage < counts) {
+                    pagehtml += '<li><a rel="external nofollow" href="/course/index/' + (currentpage + 1) + '">下一页</a></li>';
+                }
+            }
+            $("#pagination").html(pagehtml);
+        }
+    });
 </script>
 <script>
-    function totalAdd(){
-	var x;
-	var titleAdd=prompt("请输入要填加的标题","Title...");
-    var contentAdd=prompt("请输入要添加的内容","Content...");
-	if (titleAdd!=null && contentAdd!=null){
-	    x = "<label class='label-default'>"+titleAdd+"</label>";
-		x += "<label class='label-default'>"+contentAdd+"</label>";
-	    document.getElementById("dataShown").innerHTML=x;
-	}
-}
-</script>
-<script>
-    function totalModify(){
+    function totalAdd() {
         var x;
-	    var titleModify=prompt("请输入要修改的标题","Title...");
-        var contentModify=prompt("请输入要修改的内容","Content...");
-	    if (titleModify!=null && contentModify!=null){
-	    x = "<label class='label-default'>"+titleModify+"</label>";
-		x += "<label class='label-default'>"+contentModify+"</label>";
-	    document.getElementById("dataShown").innerHTML=x;
-	}
-	}
+        var titleAdd = prompt("请输入要填加的标题", "Title...");
+        var contentAdd = prompt("请输入要添加的内容", "Content...");
+        if (titleAdd != null && contentAdd != null) {
+            x = "<label class='label-default'>" + titleAdd + "</label>";
+            x += "<label class='label-default'>" + contentAdd + "</label>";
+            document.getElementById("dataShown").innerHTML = x;
+        }
+    }
 </script>
 <script>
-    function totalSearch(){
+    function totalModify() {
         var x;
-        var contentModify=prompt("请输入要搜索的内容","Content...");
-	    if (contentModify!=null){
-		x += "<label class='label-primary'>"+contentModify+"</label>";
-	    document.getElementById("dataShown").innerHTML=x;
-	}
-	}
+        var titleModify = prompt("请输入要修改的标题", "Title...");
+        var contentModify = prompt("请输入要修改的内容", "Content...");
+        if (titleModify != null && contentModify != null) {
+            x = "<label class='label-default'>" + titleModify + "</label>";
+            x += "<label class='label-default'>" + contentModify + "</label>";
+            document.getElementById("dataShown").innerHTML = x;
+        }
+    }
+</script>
+<script>
+    function totalSearch() {
+        var x;
+        var contentModify = prompt("请输入要搜索的内容", "Content...");
+        if (contentModify != null) {
+            x += "<label class='label-primary'>" + contentModify + "</label>";
+            document.getElementById("dataShown").innerHTML = x;
+        }
+    }
 </script>
