@@ -2,6 +2,8 @@ const axios = require('axios');
 var express = require('express');
 var bodyParser = require('body-parser');
 var Cookies = require('cookies');
+var cookies = require('cookie-parser');
+var Token = "";
 var urlRegisterPost = "https://VoiceTestGame-Dijkstra.app.secoder.net/api/users/registration/";
 var urlLoginPost = "https://VoiceTestGame-Dijkstra.app.secoder.net/api/users/login/";
 var urlAdd = "https://VoiceTestGame-Dijkstra.app.secoder.net/api/manager/add/";
@@ -71,27 +73,26 @@ router.post('/login', function(req, res, next) {
         })
         .then(function(response) {
             console.log("success");
-            console.log(response.data.msg);
-            console.log(response.data.code);
-            if (response.data.code == 200) {
+            console.log(response);
+            if (response.status == 200) {
+                Token = response.data.token
                 console.log("still working here");
-                browser.cookies.set('userInfo', JSON.stringify({　　
-                    username: req.body.user,
-                    password: req.body.pwd
-                }));
                 console.log("still working after cookies.set");
                 console.log("after loading userinfo");
                 console.log("200");
+                res.redirect(200, "/manager");
                 return res.render("main", {
                     userName: req.body.user
                 });
             } else {
+                res.redirect(404, "/error");
                 return res.render("error");
             }
         })
         .catch(function(error) {
             console.log(error);
             console.log("error");
+            res.redirect(404, "/error");
             return res.redirect(404, "error");
         });
 });
@@ -129,7 +130,7 @@ router.post('/manager', function(req, res, next) {
     console.log(url);
     console.log(content);
     axios
-        .post(url, content)
+        .post(url, content, { headers: { 'Authorization': 'JWT' + Token } })
         .then(function(response) {
             console.log("success");
             console.log(response.data.msg);

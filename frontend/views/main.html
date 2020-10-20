@@ -167,8 +167,8 @@
 				</a>
                                 <ul class="dropdown-menu">
                                     <li><a onclick="totalAdd()">增加&nbsp&nbsp<p class="glyphicon glyphicon-plus"></p></a></li>
-                                    <li><a href="totalSearch()">查询&nbsp&nbsp<p class="glyphicon glyphicon-edit" ></p></a></li>
-                                    <li><a href="totalModify()"> 修改&nbsp&nbsp<p class="glyphicon glyphicon-hand-right" ></p></a></li>
+                                    <li><a onclick="totalSearch()">查询&nbsp&nbsp<p class="glyphicon glyphicon-edit" ></p></a></li>
+                                    <li><a onclick="totalModify()"> 修改&nbsp&nbsp<p class="glyphicon glyphicon-hand-right" ></p></a></li>
                                     <li class="divider"></li>
                                     <li><a href="#">设置</a></li>
                                     <li class="divider"></li>
@@ -250,12 +250,8 @@
                         $(e.currentTarget).find("span").addClass("glyphicon glyphicon-triangle-bottom");
                     })
                 })
-                $(".panel-body > .nav > li > a").on("click", function(e) {
-                    alert(e.currentTarget.textContent);
-                });
             });
         </script>
-
     </div>
     <div class="col-xs-7 col-sm-7 col-md-6 col-lg-6 text-center">
 
@@ -280,7 +276,7 @@
                     document.getElementById("op").innerText = "add";
                     document.getElementById("opForm").innerHTML = "<input type='text' name='option' id='option'  style='display:none' value='add'></input>";
                     document.getElementById("opForm").innerHTML += "<input type='text' placeholder='title' class='form-control' name='title'></input>";
-                    document.getElementById("opForm").innerHTML += "<input type='text' placeholder='content' class='form-control' nane='content'></input>";
+                    document.getElementById("opForm").innerHTML += "<input type='text' placeholder='content' class='form-control' name='content'></input>";
                     document.getElementById("opForm").innerHTML += "<input type='file' name='fileaudio' class='file fileinput' required/>";
                     document.getElementById("opForm").innerHTML += "<input type='file' name='filevideo' class='file fileinput' required/>";
                     document.getElementById("opForm").innerHTML += "<button class='list-group-item active' placeholder='增加' onclick='addClicked()'>增加</button>";
@@ -496,11 +492,11 @@
             var opForm = $("form#opForm");
             if (opValue == "add") {
                 document.getElementById("option").value = "add";
-                opForm.action = "/api/manager/add";
+
                 opForm.submit();
             } else if (opValue == "modify") {
                 document.getElementById("option").value = "modify";
-                opForm.action = "/api/manager/edit";
+
                 opForm.submit();
             } else if (opValue == "query") {
                 document.getElementById("option").value = "query";
@@ -613,45 +609,6 @@
 </footer>
 
 </html>
-<script>
-    $(document).ready(function() {
-        if ($("#pagination")) {
-            var pagecount = <%= locals.pagecount %>;
-            var pagesize = <%= locals.pagesize %>;
-            var currentpage = <%= locals.currentpage %>;
-            var counts, pagehtml = "";
-            if (pagecount % pagesize == 0) {
-                counts = parseInt(pagecount / pagesize);
-            } else {
-                counts = parseInt(pagecount / pagesize) + 1;
-            }
-            //只有一页内容
-            if (pagecount <= pagesize) {
-                pagehtml = "";
-            }
-            //大于一页内容
-            if (pagecount > pagesize) {
-                if (currentpage > 1) {
-                    pagehtml += '<li><a rel="external nofollow" href="/course/index/' + (currentpage - 1) + '">上一页</a></li>';
-                }
-                for (var i = 0; i < counts; i++) {
-                    if (i >= (currentpage - 3) && i < (currentpage + 3)) {
-                        if (i == currentpage - 1) {
-                            pagehtml += '<li class="active"><a rel="external nofollow" href="/course/index/' + (i + 1) + '">' + (i + 1) + '</a></li>';
-                        } else {
-                            pagehtml += '<li><a rel="external nofollow" href="/course/index/' + (i + 1) + '">' + (i + 1) + '</a></li>';
-                        }
-
-                    }
-                }
-                if (currentpage < counts) {
-                    pagehtml += '<li><a rel="external nofollow" href="/course/index/' + (currentpage + 1) + '">下一页</a></li>';
-                }
-            }
-            $("#pagination").html(pagehtml);
-        }
-    });
-</script>
 <script>
     function totalAdd() {
         var x;
