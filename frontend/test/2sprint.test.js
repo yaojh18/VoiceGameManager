@@ -33,49 +33,8 @@ describe('supertest 第一轮测试', function() {
         request(app)
             .get('/login')
             .set('Cache-control', 'no-cache')
-            .expect(200, done);
+            .expect(200)
+            .then(() => done(), done);
     });
 
-    it('Post 请求 login', function(done) {
-        request(app)
-            .post('/login')
-            .set('Content-Type', 'application/json')
-            .send({
-                username: 'admin',
-                password: '123456'
-            })
-            .expect(200, done);
-    });
-    it("Post 请求 register", function(done) {
-        request(app)
-            .post('/register')
-            .set('Content-Type', 'application/json')
-            .send({
-                username: 'admin',
-                password: '123456',
-                password2: '123456',
-                password3: '12345678'
-            })
-            .expect(200, done);
-    });
-    it("Post 请求 register failed", function(done) {
-        request(app)
-            .post('/register')
-            .set('Content-Type', 'application/json')
-            .send({
-                username: 'admin',
-                password: '123456',
-            })
-            .expect(200, done);
-    });
-    it("Post 请求 login failed", function(done) {
-        request(app)
-            .post('/login')
-            .set('Content-Type', 'application/json')
-            .send({
-                username: 'admin',
-                password: '123457',
-            })
-            .expect(200, done);
-    });
 });

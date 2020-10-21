@@ -259,19 +259,6 @@
             <a id="op" class="list-group-item" disabled="disabled">-**-</a>
             <a onclick="createAdd()" class="list-group-item active operation-list" placeholder="增加">增加</a>
             <script>
-                $.ajax({
-                    url: "placeholder",
-                    dataType: "text",
-                    async: false,
-                    success: function(data) {
-                        alert(typeof data + " ... " + data);
-                    },
-                    error: function(data) {
-                        alert();
-                    }
-                });
-            </script>
-            <script>
                 function createAdd() {
                     document.getElementById("op").innerText = "add";
                     document.getElementById("opForm").innerHTML = "<input type='text' name='option' id='option'  style='display:none' value='add'></input>";

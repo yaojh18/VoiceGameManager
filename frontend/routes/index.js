@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 var Cookies = require('cookies');
 var cookies = require('cookie-parser');
 var Token = "";
+var globalUser = "";
 var urlRegisterPost = "https://VoiceTestGame-Dijkstra.app.secoder.net/api/users/registration/";
 var urlLoginPost = "https://VoiceTestGame-Dijkstra.app.secoder.net/api/users/login/";
 var urlAdd = "https://VoiceTestGame-Dijkstra.app.secoder.net/api/manager/add/";
@@ -24,13 +25,14 @@ router.get('/login', function(req, res, next) {
     });
 });
 router.get('/manager', function(req, res, next) {
+    console.log("well, this is not true");
     res.render('main', {
-        'title': 'Manager Page'
+        'title': 'Manager Page',
+        userName: globalUser
     });
 });
 
 router.post('/register', function(req, res, next) {
-
     axios
         .post(urlRegisterPost, {
             "username": req.body.user,
@@ -46,6 +48,7 @@ router.post('/register', function(req, res, next) {
                     'password': req.body.pwd
                 });
                 console.log("after loading userinfo");
+                globalUser = req.body.user;
                 res.render("main", {
                     title: "Main Page",
                     userName: req.body.user
@@ -73,26 +76,21 @@ router.post('/login', function(req, res, next) {
         })
         .then(function(response) {
             console.log("success");
-            console.log(response);
+            //console.log(response);
             if (response.status == 200) {
                 Token = response.data.token
                 console.log("still working here");
                 console.log("still working after cookies.set");
                 console.log("after loading userinfo");
                 console.log("200");
-                res.redirect(200, "/manager");
-                return res.render("main", {
-                    userName: req.body.user
-                });
+                return res.redirect(200, "manager");
             } else {
-                res.redirect(404, "/error");
                 return res.render("error");
             }
         })
         .catch(function(error) {
             console.log(error);
             console.log("error");
-            res.redirect(404, "/error");
             return res.redirect(404, "error");
         });
 });
