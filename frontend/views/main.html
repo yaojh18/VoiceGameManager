@@ -271,7 +271,7 @@
             </script>
             <script>
                 function addClicked() {
-                    document.console.log("Helloworld");
+                    document.getElementById('opForm').
                     document.getElementById('opForm').submit();
                 }
             </script>
@@ -479,7 +479,6 @@
             var opForm = $("form#opForm");
             if (opValue == "add") {
                 document.getElementById("option").value = "add";
-
                 opForm.submit();
             } else if (opValue == "modify") {
                 document.getElementById("option").value = "modify";
