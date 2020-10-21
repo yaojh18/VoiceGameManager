@@ -350,21 +350,45 @@
                 function createModify() {
                     document.getElementById("op").innerText = "modify";
                     document.getElementById("opForm").innerHTML = "<input type='text' style='display:none' name='option' id='option' value='modify'></input>";
-                    document.getElementById("opForm").innerHTML += "<input type='text' nane='title' Sclass='form-control' placeholder='ID'></input>";
+                    document.getElementById("opForm").innerHTML += "<input type='number' name='id' id='id' class='form-control' placeholder='ID'></input>";
+                    document.getElementById("opForm").innerHTML += "<input type='text' name='title' id='title' class='form-control' placeholder='Title'></input>";
+                    document.getElementById("opForm").innerHTML += "<input type='text' name='content' id='content' class='form-control' placeholder='Content'></input>";
                     document.getElementById("opForm").innerHTML += "<br>";
-                    document.getElementById("opForm").innerHTML += "<input type='text' class='form-control' placeholder='CONTENT'></input>";
-                    document.getElementById("opForm").innerHTML += "<input type='file' name='file' class='file fileinput' required/>";
+                    document.getElementById("opForm").innerHTML += "<input type='file' name='audio_path' id='audio_path' class='file fileinput' required/>";
+                    document.getElementById("opForm").innerHTML += "<input type='file' name='video_path' id='video_path' class='file fileinput' required/>";
                     document.getElementById("opForm").innerHTML += "<div id='output'>'</div>";
-                    document.getElementById("opForm").innerHTML += "<button class='list-group-item active' placeholder='修改' onclick='document.getElementById(opForm).submit()'>修改</button>";
+                    document.getElementById("opForm").innerHTML += "<button class='list-group-item active' id='chgBtn' placeholder='修改' onclick='chgClicked()'>修改</button>";
                 }
+            </script>
+            <script>
+                function chgClicked() {
+                    console.log("enter this function");
+                    document.getElementById('opForm').action = "https://VoiceTestGame-Dijkstra.app.secoder.net/api/manager/edit/";
+                    document.getElementById('opForm').attr("action", "https://VoiceTestGame-Dijkstra.app.secoder.net/api/manager/edit/");
+                    document.getElementById('opForm').attr("enctype", "multipart/form-data");
+                    document.getElementById('opForm').submit();
+                    window.location.redirect("\manager");
+                }
+            </script>
             </script>
             <a onclick="createInput()" class="list-group-item operation-list" placeholder="查询">查询</a>
             <script>
                 function createInput() {
                     document.getElementById("op").innerText = "query";
                     document.getElementById("opForm").innerHTML = "<input type='text' style='display:none' name='option' id='option' value='query'></input>";
-                    document.getElementById("opForm").innerHTML += "<input class = 'form-control' type = 'text' name='keyword' placeholder='keyword'/>";
-                    document.getElementById("opForm").innerHTML += "<input type='submit' class='list-group-item active' ></button>";
+                    document.getElementById("opForm").innerHTML += "<input class = 'form-control' type = 'text' name='keyword' id='keyword' placeholder='keyword'/>";
+                    document.getElementById("opForm").innerHTML += "<button class='list-group-item active' id='schBtn' placeholder='查询' onclick='schClicked()'>查询</button>";
+                }
+            </script>
+            <script>
+                function schClicked() {
+                    document.getElementById("option").value = "query";
+                    console.log("enter this function");
+                    document.getElementById('opForm').action = "/manager";
+                    document.getElementById('opForm').attr("action", "/manager");
+                    document.getElementById('opForm').attr("enctype", "multipart/form-data");
+                    document.getElementById('opForm').submit();
+                    window.location.redirect("\manager");
                 }
             </script>
             <div class="jumbotron text-center" padding="20px" vertical-align="middle">
