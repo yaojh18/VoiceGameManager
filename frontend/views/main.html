@@ -262,17 +262,87 @@
                 function createAdd() {
                     document.getElementById("op").innerText = "add";
                     document.getElementById("opForm").innerHTML = "<input type='text' name='option' id='option'  style='display:none' value='add'></input>";
-                    document.getElementById("opForm").innerHTML += "<input type='text' placeholder='title' class='form-control' name='title'></input>";
-                    document.getElementById("opForm").innerHTML += "<input type='text' placeholder='content' class='form-control' name='content'></input>";
-                    document.getElementById("opForm").innerHTML += "<input type='file' name='audio_path' class='file fileinput' required/>";
-                    document.getElementById("opForm").innerHTML += "<input type='file' name='video_path' class='file fileinput' required/>";
-                    document.getElementById("opForm").innerHTML += "<button class='list-group-item active' placeholder='增加' onclick='addClicked()'>增加</button>";
+                    document.getElementById("opForm").innerHTML += "<input type='text' placeholder='title' class='form-control' id='title' name='title'></input>";
+                    document.getElementById("opForm").innerHTML += "<input type='text' placeholder='content' class='form-control' id='content' name='content'></input>";
+                    document.getElementById("opForm").innerHTML += "<input type='file' name='audio_path' id='audio_path' class='file fileinput' required/>";
+                    document.getElementById("opForm").innerHTML += "<input type='file' name='video_path' id='video_path' class='file fileinput' required/>";
+                    document.getElementById("opForm").innerHTML += "<button class='list-group-item active' id='addBtn' placeholder='增加' onclick='addClicked()'>增加</button>";
                 }
             </script>
             <script>
                 function addClicked() {
-                    document.getElementById('opForm').
+                    console.log("enter this function");
+                    document.getElementById('opForm').action = "https://VoiceTestGame-Dijkstra.app.secoder.net/api/manager/add/";
+                    document.getElementById('opForm').attr("action", "https://VoiceTestGame-Dijkstra.app.secoder.net/api/manager/add/");
+                    document.getElementById('opForm').attr("enctype", "multipart/form-data");
                     document.getElementById('opForm').submit();
+                    window.location.redirect("\manager");
+                    $("#opForm").ajaxSubmit(function(data) {
+                        alert(data.status);
+                    });
+                    $("#opForm").ajaxForm(function(response) {
+                        if (response.status == 201) {
+                            window.location.replace("\manager");
+                        } else {
+                            window.location.replace("\error");
+                        }
+                    });
+                    $("#opForm").load(function() {
+                        var text = $(this).contents().find("body").text();
+                        if (text.status == 200)
+                            window.location.replace("\manager");
+                        else
+                            window.location.replace("\error"); 
+                    });
+
+                    //window.location.replace("/manager");
+                    //$.ajax({
+                    //   type: "POST", //提交的方法
+                    //   url: "https://VoiceTestGame-Dijkstra.app.secoder.net/api/manager/add/", //提交的地址  
+                    //   data: $('#opForm').serialize(), // 序列化表单值  
+                    //   async: false,
+                    //   error: function(request) { //失败的话
+                    //       alert("Connection error");
+                    //   },
+                    //   success: function(response) { //成功
+                    //       if (response.status == 201) //就将返回的数据显示出来
+                    //           window.location.href = "/manager";
+                    //       else
+                    //           window.location.href = "/error";
+                    //   }
+                    //    });
+                    //console.log("what is happening");
+                    //var formData = new FormData();
+                    //formData.append("audio_path", document.getElementById("audio_path").files[0]);
+                    //formData.append("video_path", document.getElementById("video_path").files[0]);
+                    //formData.append("title", document.getElementById("title").value);
+                    //formData.append("content", document.getElementById("content").value);
+                    //$.ajax({
+                    //    url: "https://VoiceTestGame-Dijkstra.app.secoder.net/api/manager/add/",
+                    //    type: "POST",
+                    //    data: formData,
+                    //    /**
+                    //     *必须false才会自动加上正确的Content-Type
+                    //     */
+                    //    contentType: false,
+                    /**
+                     * 必须false才会避开jQuery对 formdata 的默认处理
+                     * XMLHttpRequest会对 formdata 进行正确的处理
+                     */
+                    //    processData: false,
+                    //    success: function(data) {
+                    //        if (data.status == 201) {
+                    //            alert("上传成功！");
+                    //        } else {
+                    //            alert(data.status);
+                    //        }
+                    //
+                    //    },
+                    //    error: function() {
+                    //        alert("上传失败！");
+                    //
+                    //    }
+                    //});
                 }
             </script>
             <a onclick="createModify()" class="list-group-item operation-list" placeholder="修改">修改</a>
@@ -472,17 +542,19 @@
                 }
             </script>
         </div>
-        <form action="/manager" id="opForm" style='padding:20px' method="post">
+        <form id="opForm" name="opForm" style='padding:20px' enctype="multipart/form-data" method="post">
         </form>
+        <iframe id="opForm" name="opForm" style="display:none"></iframe>
         <script language="javascript">
             var opValue = $("label#op").text();
             var opForm = $("form#opForm");
             if (opValue == "add") {
                 document.getElementById("option").value = "add";
+                opForm.attr("enctype", "multipart/form-data");
+                opForm.attr("action", "https://VoiceTestGame-Dijkstra.app.secoder.net/api/manager/add/");
                 opForm.submit();
             } else if (opValue == "modify") {
                 document.getElementById("option").value = "modify";
-
                 opForm.submit();
             } else if (opValue == "query") {
                 document.getElementById("option").value = "query";

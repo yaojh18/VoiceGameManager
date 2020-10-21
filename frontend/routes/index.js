@@ -8,7 +8,8 @@ var cookies = require('cookie-parser');
 var Token = "";
 var config = {  
     headers: {
-        'Authorization': 'JWT' + Token
+        'Authorization': 'JWT' + Token,
+        'Content-Type': 'multipart/form-data'
     }
 };          
 var globalUser = "";
@@ -47,13 +48,13 @@ router.post('/register', function(req, res, next) {
             "password2": req.body.pwd2
         })
         .then(function(response) {
-            console.log(response.data.msg);
-            console.log(response.data.code);
-            if (response.data.code == 200) {
-                res.cookie("userinfo", {
+            // /console.log(response.data.msg);
+            ///console.log(response.data.code);
+            if (response.status == 200) {
+                /*res.cookie("userinfo", {
                     'username': req.body.user,
                     'password': req.body.pwd
-                });
+                });*/
                 console.log("after loading userinfo");
                 globalUser = req.body.user;
                 return res.redirect("/manager");
@@ -98,21 +99,25 @@ router.post('/login', function(req, res, next) {
             return res.redirect(404, "error");
         });
 });
-var Content = new FormData();
+//var Content = {}; //new FormData();
+router.post('https://VoiceTestGame-Dijkstra.app.secoder.net/api/manager/add/', function(req, res, next) {
+    res.redirect("/manager");
+});
 router.post('/manager', function(req, res, next) {
     var url = "";
     console.log("success!");
     console.log("success");
-    console.log(req.body);
-    console.log(req.body.option);
+    //console.log(req.body);
+    //console.log(req.body.option);
     if (req.body.option == "add") {
         console.log("add");
         url = urlAdd;
-        Content.append("title", req.body.title);
-        Content.append("content", req.body.content);
-        Content.append("audio_path", req.body.audio_path);
-        Content.append("video_path", req.body.video_path);
-
+        var Content = new FormData(req.body);
+        //Content.append(");
+        //console.log(typeof(req.body.audio_path));
+        //console.log(typeof(req.body.video_path));
+        //Content.append(");
+        //Content.append(");
     } else if (req.body.option == "modify") {
         console.log("modify");
         url = urlEdit;
@@ -129,13 +134,15 @@ router.post('/manager', function(req, res, next) {
     };
     config = {  
         headers: {
-            'Authorization': 'JWT' + Token
+            'Authorization': "JWT " + Token,
+            'Content-Type': "application/x-www-form-urlencoded"
         }
     };  
     console.log(url);
-    console.log(Content);
+    console.log(Content.get("title"));
+    console.log(Content.get("content"));
     axios
-        .post(url, { "keyword": req.body.keyword }, config)
+        .post(url, Content, config)
         .then(function(response) {
             //console.log(response.data.code);
             console.log(response.status);
@@ -156,6 +163,9 @@ router.post('/manager', function(req, res, next) {
             return res.render("error");
         });
 });
-
+router.all('*', function(req, res, next) {
+    res.header('Authorization', 'JWT ' + Token);
+    next();
+});
 
 module.exports = router;
