@@ -36,5 +36,46 @@ describe('supertest 第一轮测试', function() {
             .expect(200)
             .then(() => done(), done);
     });
+    it("Post 请求 register failed", function(done) {
+        this.timeout(12000);
+        request(app)
+            .post('/register')
+            .set('Content-Type', 'application/json')
+            .send({
+                username: "admin",
+                password: "123456",
+                password2: "123457",
+            })
+            .expect(200)
+            .then(() => done(), done);
+    });
+    it("Post 请求 login failed", function(done) {
+        this.timeout(12000);
+        request(app)
+            .post('/login')
+            .set('Content-Type', 'application/json')
+            .send({
+                username: "admin",
+                password: "123457",
+            })
+            .expect(404)
+            .then(() => done(), done);
+    });
 
+
+
+    it("Post 请求 register", function(done) {
+        this.timeout(12000);
+        request(app)
+            .post('/register')
+            .set('Content-Type', 'application/json')
+            .send({
+                username: "admin",
+                password: "123456",
+                password2: "123456",
+                password3: "12345678"
+            })
+            .expect(200)
+            .then(() => done(), done);
+    });
 });
