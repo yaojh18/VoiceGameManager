@@ -5,7 +5,8 @@
     <meta charset="utf-8">
     <title>后台管理界面</title>
     <link href="https://vjs.zencdn.net/7.8.4/video-js.css" rel="stylesheet" />
-
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
+    <script src="http://malsup.github.com/jquery.form.js"></script>
     <!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
     <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
@@ -220,20 +221,16 @@
             color: #2D2C3B;
         }
     </style>
-
+    <label id="authorization" style="display:none">
+        <%=author%>
+    </label>
     <nav class="navbar navbar-default" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand" href="#">管理界面 : 
       <a class="navbar-brand glyphicon glyphicon-user"  href="#">
-      <!--
-      {{ % if user % }}
-           {{ user }}
-      {{ % else % }}
-           placeholder
-     {{ % endif % }} -->
       <%=user%>
-     </a>
+            </a>
                 </a>
 
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#example-navbar-collapse">
@@ -357,100 +354,56 @@
                     document.getElementById("opForm").innerHTML += "<button class='list-group-item active' id='addBtn' placeholder='增加' onclick='addClicked()'>增加</button>";
                 }
             </script>
-            <script>
-                $('button[id=addBtn]').on('click', function() {
-                    $('form[id=opForm]').on('submit', function() {
-                        var postData = new FormData();
-                        postData.append($('input[id=title]').val());
-                        postData.append($('input[id=content]').val());
 
-                        $(this).ajaxSubmit({
-                            type: 'post',
-                            url: 'https://VoiceTestGame-Dijkstra.app.secoder.net/api/manager/add/',
-                            data: postData,
-                            success: function(data) {
-                                alert('提交成功！');
-                            }
-                        });
-                        return false;
-                    });
-                });
-            </script>
             <script>
                 function addClicked() {
-                    console.log("enter this function");
-                    document.getElementById('opForm').action = "https://VoiceTestGame-Dijkstra.app.secoder.net/api/manager/add/";
-                    document.getElementById('opForm').attr("action", "https://VoiceTestGame-Dijkstra.app.secoder.net/api/manager/add/");
-                    document.getElementById('opForm').attr("enctype", "multipart/form-data");
-                    document.getElementById('opForm').submit();
-                    /*
-                    $("#opForm").ajaxSubmit(function(data) {
-                        alert(data.status);
+                    alert("here");
+                    var tokenHeaders = document.getElementById("authorization").value;
+                    alert("here");
+                    var formData = new FormData($('#opForm')[0]);
+                    alert("here");
+                    $.ajax({
+                        url: "https://voicetestgame-dijkstra.app.secoder.net/api/manager/add/",
+                        type: 'post',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        headers: {
+                            'Authorization': tokenHeaders,
+                            'Content-Type': 'multipart/form-data'
+                        },
+                        beforeSend: function() { //请求开始时
+                            alert("before");
+                        },
+                        success: function(e) {
+                            alert("success");
+                        },
+                        error: function(XMLHttpRequest, textStatus, errorThrown) { //#3这个error函数调试时非常有用，如果解析不正确，将会弹出错误框
+                            alert(XMLHttpRequest.status);
+                            alert(XMLHttpRequest.readyState);
+                            alert(textStatus); // paser error;
+                        },
+                    }).done(function(res) {
+                        alert("success");
+                    }).fail(function(res) {
+                        alert("fail");
                     });
-                    $("#opForm").ajaxForm(function(response) {
-                        if (response.status == 201) {
-                            window.location.replace("\manager");
-                        } else {
-                            window.location.replace("\error");
-                        }
-                    });
-                    $("#opForm").load(function() {
-                        var text = $(this).contents().find("body").text();
-                        if (text.status == 200)
-                            window.location.replace("\manager");
-                        else
-                            window.location.replace("\error"); 
-                    }); * /
-
-                    //window.location.replace("/manager");
-                    //$.ajax({
-                    //   type: "POST", //提交的方法
-                    //   url: "https://VoiceTestGame-Dijkstra.app.secoder.net/api/manager/add/", //提交的地址  
-                    //   data: $('#opForm').serialize(), // 序列化表单值  
-                    //   async: false,
-                    //   error: function(request) { //失败的话
-                    //       alert("Connection error");
-                    //   },
-                    //   success: function(response) { //成功
-                    //       if (response.status == 201) //就将返回的数据显示出来
-                    //           window.location.href = "/manager";
-                    //       else
-                    //           window.location.href = "/error";
-                    //   }
-                    //    });
-                    //console.log("what is happening");
-                    //var formData = new FormData();
-                    //formData.append("audio_path", document.getElementById("audio_path").files[0]);
-                    //formData.append("video_path", document.getElementById("video_path").files[0]);
-                    //formData.append("title", document.getElementById("title").value);
-                    //formData.append("content", document.getElementById("content").value);
-                    //$.ajax({
-                    //    url: "https://VoiceTestGame-Dijkstra.app.secoder.net/api/manager/add/",
-                    //    type: "POST",
-                    //    data: formData,
-                    //    /**
-                    //     *必须false才会自动加上正确的Content-Type
-                    //     */
-                    //    contentType: false,
-                    /**
-                     * 必须false才会避开jQuery对 formdata 的默认处理
-                     * XMLHttpRequest会对 formdata 进行正确的处理
-                     */
-                    //    processData: false,
-                    //    success: function(data) {
-                    //        if (data.status == 201) {
-                    //            alert("上传成功！");
-                    //        } else {
-                    //            alert(data.status);
-                    //        }
-                    //
-                    //    },
-                    //    error: function() {
-                    //        alert("上传失败！");
-                    //
-                    //    }
-                    //});
+                    //get();
+                    //document.getElementById("option").value = "add";
+                    //document.getElementById('opForm').action = "/manager";
+                    //document.getElementById('opForm').attr("action", "/manager");
+                    //document.getElementById('opForm').attr("enctype", "multipart/form-data");
+                    //document.getElementById('opForm').submit();
                 }
+            </script>
+            <script>
+                // wait for the DOM to be loaded
+                $(document).ready(function() {
+                    // bind 'myForm' and provide a simple callback function
+                    $('#opForm').ajaxForm(function() {
+                        alert("Thank you for your comment!");
+                    });
+                });
             </script>
             <a onclick="createModify()" class="list-group-item operation-list" placeholder="修改">修改</a>
             <script>
@@ -673,7 +626,7 @@
                 }
             </script>
         </div>
-        <form id="opForm" name="opForm" style='padding:20px' enctype="multipart/form-data" method="post">
+        <form id="opForm" name="opForm" style='padding:20px' enctype="multipart/form-data" method="post" action="/manager">
         </form>
         <iframe id="opForm" name="opForm" style="display:none"></iframe>
         <script language="javascript">
@@ -682,7 +635,7 @@
             if (opValue == "add") {
                 document.getElementById("option").value = "add";
                 opForm.attr("enctype", "multipart/form-data");
-                opForm.attr("action", "https://VoiceTestGame-Dijkstra.app.secoder.net/api/manager/add/");
+                //opForm.attr("action", "/manager");
                 opForm.submit();
             } else if (opValue == "modify") {
                 document.getElementById("option").value = "modify";
@@ -710,13 +663,11 @@
         <br>
         <ul class="list-group">
             <!--{{ % for item in dataItems %}}
-                <li class="list-group-item">
-                       <strong>{{ item.title }}</strong> 
-                       {{ item.author }}
-                       {{ % if item.mark % }}
-                       <span class="badge">{{ item.markText }}</span>
-                </li>
-                {{ % endfor % }}-->
+            <li class="list-group-item">
+                <strong>{{ item.title }}</strong> {{ item.author }} {{ % if item.mark % }}
+                <span class="badge">{{ item.markText }}</span>
+            </li>
+            {{ % endfor % }}-->
             <li class="list-group-item">
                 <strong> this is a demo </strong>
             </li>
@@ -769,6 +720,30 @@
     <!-- 弹窗内容结束 -->
     <script>
         function floatWindowClicked() {
+            windows.console.log("enter this function");
+            var tokenHeaders = document.getElementById("authorization").value();
+            window.console.log(tokenHeaders);
+            let formData = new FormData($('#floatWindowForm')[0]);
+            document.getElementById("option").value = "add";
+            $.ajax({
+                type: "POST",
+                url: 'https://VoiceTestGame-Dijkstra.app.secoder.net/api/manager/add/',
+                headers: {
+                    "Authorization": tokenHeaders,
+                },
+                processData: false, //告诉jQuery不要去处理发送的数据
+                contentType: false, //告诉jQuery不要去设置Content-Type请求头
+                data: formData,
+                beforeSend: function(request) {
+                    //your code
+                },
+                success: function(data, status, xhr) {
+                    console.log(xhr);
+                },
+                error: function(xhr, type) {
+                    window.location.reload();
+                }
+            });
             document.getElementById("floatWindowForm").action = "https://VoiceTestGame-Dijkstra.app.secoder.net/api/manager/add/";
             document.getElementById("floatWindowForm").attr("action", "https://VoiceTestGame-Dijkstra.app.secoder.net/api/manager/add/");
             document.getElementById("floatWindowForm").attr("enctype", "multipart/form-data");

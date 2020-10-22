@@ -2,7 +2,6 @@ var createError = require('http-errors');
 var express = require('express');
 var bodyParser = require('body-parser');
 var ejs = require('ejs');
-
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -13,6 +12,7 @@ var mockRouter = require('./routes/mock')
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+//import { Token } from './routes/common.js';
 
 var app = express();
 
@@ -44,6 +44,21 @@ app.use('/users', usersRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
     next(createError(404));
+});
+app.all('*', function(req, res, next) {
+    console.log('JWT ' + Token);
+    res.header('Authorization', 'JWT ' + Token);
+    // 设置请求头为允许跨域
+    res.header('Access-Control-Allow-Origin', '*');
+    // 设置服务器支持的所有头信息字段
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild, sessionToken');
+    // 设置服务器支持的所有跨域请求的方法
+    res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
+    if (req.method.toLowerCase() == 'options') {
+        res.send(200); // 让options尝试请求快速结束
+    } else {
+        next();
+    }
 });
 
 // error handler
