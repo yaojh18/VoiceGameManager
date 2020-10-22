@@ -131,7 +131,96 @@
             position: fixed;
             z-index: 1;
         }
+        
+        #popLayer {
+            display: none;
+            background-color: #B3B3B3;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 10;
+            -moz-opacity: 0.8;
+            opacity: .80;
+            filter: alpha(opacity=80);
+            /* 只支持IE6、7、8、9 */
+        }
+        /*弹出层*/
+        
+        #open_btn {
+            background: #009900;
+        }
+        
+        #background {
+            display: none;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        
+        #div1 {
+            background: #eeeeee;
+            width: 70%;
+            z-index: 1;
+            margin: 12% auto;
+            overflow: auto;
+        }
+        
+        #div2 {
+            background: #eeeeee;
+            margin: auto;
+            height: 300px;
+            padding: 0 20px;
+        }
+        
+        #close {
+            padding: 5px;
+            background: #5cd31b;
+        }
+        
+        #close-button {
+            float: right;
+            font-size: 30px;
+        }
+        
+        #foot {
+            padding: 5px 0;
+            text-align: center;
+            background: #5cd31b;
+            color: white;
+        }
+        
+        #popBox {
+            display: none;
+            background-color: #FFFFFF;
+            z-index: 11;
+            width: 200px;
+            height: 200px;
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            margin: auto;
+        }
+        
+        #popBox .close {
+            text-align: right;
+            margin-right: 5px;
+            background-color: #F8F8F8;
+        }
+        /*关闭按钮*/
+        
+        #popBox .close a {
+            text-decoration: none;
+            color: #2D2C3B;
+        }
     </style>
+
     <nav class="navbar navbar-default" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -143,7 +232,7 @@
       {{ % else % }}
            placeholder
      {{ % endif % }} -->
-      <%=userName%>
+      <%=user%>
      </a>
                 </a>
 
@@ -152,8 +241,7 @@
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
-		</button>
-
+        </button>
 
 
                 <ul class="nav navbar-nav navbar-right">
@@ -270,13 +358,32 @@
                 }
             </script>
             <script>
+                $('button[id=addBtn]').on('click', function() {
+                    $('form[id=opForm]').on('submit', function() {
+                        var postData = new FormData();
+                        postData.append($('input[id=title]').val());
+                        postData.append($('input[id=content]').val());
+
+                        $(this).ajaxSubmit({
+                            type: 'post',
+                            url: 'https://VoiceTestGame-Dijkstra.app.secoder.net/api/manager/add/',
+                            data: postData,
+                            success: function(data) {
+                                alert('提交成功！');
+                            }
+                        });
+                        return false;
+                    });
+                });
+            </script>
+            <script>
                 function addClicked() {
                     console.log("enter this function");
                     document.getElementById('opForm').action = "https://VoiceTestGame-Dijkstra.app.secoder.net/api/manager/add/";
                     document.getElementById('opForm').attr("action", "https://VoiceTestGame-Dijkstra.app.secoder.net/api/manager/add/");
                     document.getElementById('opForm').attr("enctype", "multipart/form-data");
                     document.getElementById('opForm').submit();
-                    window.location.redirect("\manager");
+                    /*
                     $("#opForm").ajaxSubmit(function(data) {
                         alert(data.status);
                     });
@@ -293,7 +400,7 @@
                             window.location.replace("\manager");
                         else
                             window.location.replace("\error"); 
-                    });
+                    }); * /
 
                     //window.location.replace("/manager");
                     //$.ajax({
@@ -616,6 +723,79 @@
         </ul>
         <ul class="pagination" id="pagination"></ul>
     </div>
+    <input type="button" name="popBox" value="弹出框" οnclick="popBox()">
+    <div id="popLayer"></div>
+    <div id="popBox">
+        <div class="close">
+            <a href="javascript:void(0)" οnclick="closeBox()">关闭</a>
+        </div>
+        <div class="content">我是弹出层</div>
+    </div>
+    <script>
+        /*点击弹出按钮*/
+        function popBox() {
+            var popBox = document.getElementById("popBox");
+            var popLayer = document.getElementById("popLayer");
+            popBox.style.display = "block";
+            popLayer.style.display = "block";
+        };
+
+        /*点击关闭按钮*/
+        function closeBox() {
+            var popBox = document.getElementById("popBox");
+            var popLayer = document.getElementById("popLayer");
+            popBox.style.display = "none";
+            popLayer.style.display = "none";
+        }
+    </script>
+    <button id="open_btn" class="btn">弹窗</button>
+    <!-- 弹窗内容开始 -->
+    <div id="background" class="back">
+        <div id="div1" class="content">
+            <form method="post" id="floatWindowForm" enctype="multipart/form-data" name="floatWindowForm" style="padding:10px">
+                <br>
+                <div style="background-color:grey;padding:0px">
+                    <span id="close-button">×</span>
+                </div>
+                <input type="text" id="title" name="title" class="form-control" placeholder="title" /><br>
+                <input type="text" id="content" name="content" class="form-control" placeholder="content" /><br>
+                <input type="file" id="audio_path" name="audio_path" class="list-group-item" required/><br>
+                <input type="file" id="video_path" name="video_path" class="list-group-item" required/><br>
+                <button id="check-btn" class="btn btn-info" style="width:300px" onclick="floatWindowClicked()">√</button>
+            </form>
+        </div>
+        </form>
+    </div>
+    <!-- 弹窗内容结束 -->
+    <script>
+        function floatWindowClicked() {
+            document.getElementById("floatWindowForm").action = "https://VoiceTestGame-Dijkstra.app.secoder.net/api/manager/add/";
+            document.getElementById("floatWindowForm").attr("action", "https://VoiceTestGame-Dijkstra.app.secoder.net/api/manager/add/");
+            document.getElementById("floatWindowForm").attr("enctype", "multipart/form-data");
+            document.getElementById("floatWindowForm").submit();
+            window.location.redirect("\manager");
+        }
+    </script>
+    </script>
+    <script>
+        var btn = document.getElementById('open_btn');
+        var div = document.getElementById('background');
+        var close = document.getElementById('close-button');
+
+        btn.onclick = function show() {
+            div.style.display = "block";
+        }
+
+        close.onclick = function close() {
+            div.style.display = "none";
+        }
+
+        window.onclick = function close(e) {
+            if (e.target == div) {
+                div.style.display = "none";
+            }
+        }
+    </script>
 
 </body>
 <footer class="container-fluid foot-wrap col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -693,13 +873,18 @@
 </html>
 <script>
     function totalAdd() {
-        var x;
-        var titleAdd = prompt("请输入要填加的标题", "Title...");
-        var contentAdd = prompt("请输入要添加的内容", "Content...");
-        if (titleAdd != null && contentAdd != null) {
-            x = "<label class='label-default'>" + titleAdd + "</label>";
-            x += "<label class='label-default'>" + contentAdd + "</label>";
-            document.getElementById("dataShown").innerHTML = x;
+
+        var div = document.getElementById('background');
+        var close = document.getElementById('close-button');
+        var check = document.getElementById('check-btn');
+        div.style.display = "block";
+        close.onclick = function close() {
+            div.style.display = "none";
+        }
+        window.onclick = function close(e) {
+            if (e.target == div) {
+                div.style.display = "none";
+            }
         }
     }
 </script>

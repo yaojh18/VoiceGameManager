@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 var Cookies = require('cookies');
 var cookies = require('cookie-parser');
 var Token = "";
+var globalUser = "";
 var config = {  
     headers: {
         'Authorization': 'JWT' + Token,
@@ -36,7 +37,7 @@ router.get('/manager', function(req, res, next) {
     console.log("well, this is not true");
     res.render('main', {
         'title': 'Manager Page',
-        userName: globalUser
+        user: globalUser
     });
 });
 
@@ -88,7 +89,8 @@ router.post('/login', function(req, res, next) {
                 console.log("still working after cookies.set");
                 console.log("after loading userinfo");
                 console.log("200");
-                return res.redirect(200, "manager");
+                globalUser = User;
+                return res.render('main', { 'user': globalUser });
             } else {
                 return res.render("error");
             }
@@ -151,7 +153,9 @@ router.post('/manager', function(req, res, next) {
             //console.log(response.data.code);
             if (response.status == 201) {
                 console.log("200");
-                return res.render("main");
+                return res.render("main", {
+                    "user": globalUser
+                });
             } else {
                 return res.render("error");
             }
@@ -165,6 +169,7 @@ router.post('/manager', function(req, res, next) {
 });
 router.all('*', function(req, res, next) {
     res.header('Authorization', 'JWT ' + Token);
+    req.header('Authorization', 'JWT ' + Token);
     next();
 });
 
