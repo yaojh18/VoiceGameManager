@@ -16,12 +16,44 @@
             <el-input  type="textarea" placeholder="message" v-model="content" @input="change()"> {{ content }}</el-input>
             <!--请修改这两行注释中间的代码来输入消息内容-->
         </el-form-item>
-        <el-form-item label="用户名">
-            <!--请修改这两行注释中间的代码来输入用户名-->
-            <el-input placeholder="name" v-model="state.username" @input="changename()"> {{ username }} </el-input>
-            <!--请修改这两行注释中间的代码来输入用户名-->
-            <span v-if="state.username_valid===false" style="color: red" >请设置合法用户名!</span>
-        </el-form-item>
+      <el-form-item label="上传音频文件" label-width="80px">
+        <el-upload
+            ref="uploadAudio"
+            action="https://jsonplaceholder.typicode.com/posts/"
+            :limit=1
+            :auto-upload="false"
+            accept=".wav"
+            :before-upload="beforeUploadFile"
+            :on-change="fileChangeAudio"
+            :on-exceed="exceedFile"
+            :on-success="handleSuccess"
+            :on-error="handleError"
+            :file-list="fileList">
+          <el-button size="small" plain>选择文件</el-button>
+          <div slot="tip" class="el-upload__tip">只能上传.wav音频文件</div>
+        </el-upload>
+      </el-form-item>
+      <el-form-item label="上传视频文件" label-width="80px">
+        <el-upload
+            ref="uploadVideo"
+            action="https://jsonplaceholder.typicode.com/posts"
+            :limit=1
+            :auto-upload="false"
+            accept=".mp4"
+            :before-upload="beforeUploadFile"
+            :on-change="fileChangeVideo"
+            :on-exceed="exceedFile"
+            :on-success="handleSuccess"
+            :on-error="handleError"
+            :file-list="fileList">
+          <el-button size="small" plain>选择文件</el-button>
+          <div slot="tip" class="el-upload__tip">只能上传.mp4视频文件</div>
+        </el-upload>
+      </el-form-item>
+      <el-form-item>
+        <el-button size="small" type="primary" @click="uploadFile">立即上传</el-button>
+        <el-button size="small">取消</el-button>
+      </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
                 <!--请修改这两行注释中间的代码来产生相应按钮的点击事件-->
@@ -36,9 +68,18 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: "PostDialog",
   props: {
+    fileaudio: {
+      type: File,
+      default: () => ""
+    },
+    filevideo: {
+      type: File,
+      default: () => ""
+    },
     dialogVisible: {
       type: Boolean,
       default: () => true
@@ -46,52 +87,133 @@ export default {
     state: {
       type: Object,
       default: () => {
-          return {
+        return {
           username: "",
           username_valid: false
         }
       }
     },
-    content:{
-      type:String,
-      default:() => ""
+    content: {
+      type: String,
+      default: () => ""
     },
-    title:{
-      type:String,
-      default:() =>""
+    title: {
+      type: String,
+      default: () => ""
     }
   },
   // 请在下方设计自己的数据结构以及事件函数
-  data(){
+  data() {
     return {
-      postDialog:{
-                  dialogVisible:true,
-                  form:{
-                      title:this.title,
-                      content:this.content,
-                      username:this.state.username,
-                      datetime:this.timestamp,
-                      username_valid:this.state.username_valid
-                    }
-                },
+      postDialog: {
+        dialogVisible: true,
+        form: {
+          fileaudio: '',
+          filevideo: '',
+          title: this.title,
+          content: this.content,
+          username: this.state.username,
+          datetime: this.timestamp,
+          username_valid: this.state.username_valid
+        }
+      },
+      fileList: []
     }
   },
   methods: {
-      post(){
-        var msg=this;
-        this.dialogVisible = false;
-				//获取密码
-        return msg;
-      },
-      change(e){
-        this.$forceUpdate(e);
-      },
-      changename(e){
-        this.$forceUpdate(e);
-        this.setState({username_valid : true});
-        console.log(this.state.username_valid);
+    // 文件超出个数限制时的钩子
+    exceedFile(files, fileList) {
+      this.$notify.warning({
+        title: '警告',
+        message: `只能选择 ${this.limitNum} 个文件，当前共选择了 ${files.length + fileList.length} 个`
+      });
+    },
+    // 文件状态改变时的钩子
+    fileChangeAudio(file, fileList) {
+      console.log('change')
+      console.log(file)
+      this.form.fileaudio = file.raw
+      console.log(this.form.file)
+      console.log(fileList)
+    },
+    fileChangeVideo(file, fileList) {
+      console.log('change')
+      console.log(file)
+      this.form.filevideo = file.raw
+      console.log(this.form.file)
+      console.log(fileList)
+    },
+    // 上传文件之前的钩子, 参数为上传的文件,若返回 false 或者返回 Promise 且被 reject，则停止上传
+    beforeUploadFile(file) {
+      console.log('before upload')
+      console.log(file)
+      let extension = file.name.substring(file.name.lastIndexOf('.') + 1)
+      let size = file.size / 1024 / 1024
+      if (extension !== 'xlsx') {
+        this.$notify.warning({
+          title: '警告',
+          message: `只能上传Excel2017（即后缀是.xlsx）的文件`
+        });
       }
+      if (size > 10) {
+        this.$notify.warning({
+          title: '警告',
+          message: `文件大小不得超过10M`
+        });
+      }
+    },
+    // 文件上传成功时的钩子
+    handleSuccess(res, file, fileList) {
+      this.$notify.success({
+        title: '成功',
+        message: `文件上传成功`
+      });
+      console.log(res);
+      console.log(file);
+      console.log(fileList);
+    },
+    // 文件上传失败时的钩子
+    handleError(err, file, fileList) {
+      console.log(err);
+      console.log(file);
+      console.log(fileList);
+      this.$notify.error({
+        title: '错误',
+        message: `文件上传失败`
+      });
+    },
+    uploadFile() {
+      this.$refs.uploadAudio.submit()
+      this.$refs.uploadVideo.submit()
+      let formData = new FormData()
+      formData.append('file', this.form.file)
+      axios.post('https://voicetestgame-dijkstra.app.secoder.net/api/manager/add',
+          formData,
+          {"Content-Type": "multipart/form-data"}
+      )
+          .then(res => {
+            console.log('res')
+            console.log(res)
+          })
+          .catch(err => {
+            console.log(err);
+          })
+    },
+  post() {
+    var msg = this;
+    this.dialogVisible = false;
+    //获取密码
+    return msg;
   },
+  change(e) {
+    this.$forceUpdate(e);
+  },
+  changename(e) {
+    this.$forceUpdate(e);
+    this.setState({username_valid: true});
+    console.log(this.state.username_valid);
+  },
+},
   watch: { // 用于实时检测username是否合法
     "state.username": {
       handler(newName) {

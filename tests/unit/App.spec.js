@@ -1,7 +1,7 @@
-import getWrapper from "./utils"
 
-import App from '@/App.vue'
+//import getWrapper from "./utils"
 
+//import App from '@/App.vue'
 
 describe('App.vue', () => {
 
