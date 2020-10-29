@@ -104,7 +104,9 @@ export default {
                 dialogVisible: false,
                 form: {
                     title: "",
-                    content: ""
+                    content: "",
+                    audiofile: "",
+                    videofile: "",
                 }
             },
             alertDialog: {

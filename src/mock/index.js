@@ -13,11 +13,12 @@ var messageList = Array(5).fill({
     })
     //处理获取消息列表
 Mock.mock(/\/api\/message[\s\S]+?/, "GET", (rqst) => {
+        console.log(rqst);
         return messageList
     })
     //处理消息上传
 Mock.mock("/api/message", "POST", (rqst) => {
-    console.log(rqst)
+    console.log(rqst);
     rqst.body = JSON.parse(rqst.body)
     try {
         messageList.push({
