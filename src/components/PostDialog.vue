@@ -149,10 +149,10 @@ export default {
       console.log(file)
       let extension = file.name.substring(file.name.lastIndexOf('.') + 1)
       let size = file.size / 1024 / 1024
-      if (extension !== 'xlsx') {
+      if (extension !== 'mp4' && extension !== 'wav') {
         this.$notify.warning({
           title: '警告',
-          message: `只能上传Excel2017（即后缀是.xlsx）的文件`
+          message: `只能上传mp4或wav的文件`
         });
       }
       if (size > 10) {
@@ -186,7 +186,9 @@ export default {
       this.$refs.uploadAudio.submit()
       this.$refs.uploadVideo.submit()
       let formData = new FormData()
-      formData.append('file', this.form.file)
+      formData.append('audio_path', this.form.fileaudio)
+      formData.append('video_path',this.form.filevideo)
+      formData.append('title',this.title)
       axios.post('https://voicetestgame-dijkstra.app.secoder.net/api/manager/add',
           formData,
           {"Content-Type": "multipart/form-data"}
@@ -196,7 +198,8 @@ export default {
             console.log(res)
           })
           .catch(err => {
-            console.log(err);
+            console.log("err")
+            console.log(err)
           })
     },
   post() {
@@ -207,6 +210,7 @@ export default {
   },
   change(e) {
     this.$forceUpdate(e);
+    this.state.username_valid=true;
   },
   changename(e) {
     this.$forceUpdate(e);
