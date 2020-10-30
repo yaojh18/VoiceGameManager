@@ -5,11 +5,11 @@
 </template>
 
 <script>
-  import Person from "@/components/Person";
+  import Person from "@/components/Person.vue";
   export default {
-    name: 'Person',
+    name: 'PersonView',
     components: {
-        Person
+        Person,
     }
   }
 </script>
