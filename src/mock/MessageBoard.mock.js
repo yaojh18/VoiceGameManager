@@ -2,7 +2,7 @@
 import * as Mock from "better-mock"
 import API from "@/utils/API"
 
-Mock.setup({ timeout: "200-400" })
+//Mock.setup({ timeout: "200-400" })
 
 var messageList = Array(5).fill({
     "user": "Alice",
