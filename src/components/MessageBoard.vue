@@ -48,7 +48,7 @@
             }" />
     <Register v-bind:dialog-visible="Register.dialogVisible" v-on:cancelRegister="Register.dialogVisible=false" v-on:register="({usernameRegister,password,password2})=>{
                 register.registervisible = false;
-                registerCalled(usernameRegister,password,password2);s
+                registerCalled(usernameRegister,password,password2);
             }" />
     <PostDialog v-on:postmsg="({title,content,audio_path,video_path})=>{
             $emit('refresh','');
@@ -119,7 +119,7 @@ export default {
             Logout: {
                 dialogVisible: false,
             },
-    /*        ModifyPwd:{
+            ModifyPwd:{
                 dialogVisible: false,
                 form:{
                   username :"",
@@ -127,7 +127,7 @@ export default {
                   password2: "",
                   password3: ""
                 }
-            },*/
+            },
             Register: {
                 dialogVisible: false,
                 form: {
@@ -139,7 +139,7 @@ export default {
             Search: {
                 dialogVisible:false,
                 form:{
-                  title: "",
+                  keyword: "",
                 }
             },
             Modify: {

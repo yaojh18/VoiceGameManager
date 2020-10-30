@@ -6,8 +6,8 @@
       </el-form-item>
           </el-form>
     <span slot="footer" class="dialog-footer">
-        <el-button v-on:click="$emit('cancellogin',''),dialogVisible=false">取 消</el-button>
-        <el-button v-on:click="$emit('loginfunc',{username:username,password:password}),dialogVisible=false" type="primary" :disabled="state.username_valid===false" :enabled="state.username_valid===true">确 定</el-button>
+        <el-button v-on:click="$emit('cancelsearch',''),dialogVisible=false">取 消</el-button>
+        <el-button v-on:click="$emit('searchfunc',{keyword:keyword}),dialogVisible=false" type="primary" :disabled="state.username_valid===false" :enabled="state.username_valid===true">确 定</el-button>
     </span>
   </el-dialog>
 
@@ -15,7 +15,35 @@
 
 <script>
 export default {
-name: "Search"
+  name: "Search",
+  props: {
+    dialogVisible: {
+      type: Boolean,
+      default: () => true
+    },
+    keyword: {
+      type:String,
+      default :()=>""
+    }
+  },
+  data(){
+    return {
+      Login:{
+        dialogVisible:true,
+        form:{
+          keyword:this.keyword,
+        }
+      },
+    }
+  },
+  methods: {
+    changeKey(e) {
+      this.$forceUpdate(e);
+    },
+    searchfunc(keyword){
+      console.log(keyword);
+    },
+  },
 }
 </script>
 
