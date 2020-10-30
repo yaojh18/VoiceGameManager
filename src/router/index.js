@@ -6,9 +6,9 @@ import Register from '@/views/Register.vue'
 import Stage1 from '@/views/Stage1.vue'
 import Stage2 from '@/views/Stage2.vue'
 import Stage3 from '@/views/Stage3.vue'
-import Data from '@/views/Data.vue'
+import DataView from '@/views/DataView.vue'
 import Add from '@/views/Add.vue'
-import Person from '@/views/Person.vue'
+import PersonView from '@/views/PersonView.vue'
 
 Vue.use(VueRouter)
 
@@ -24,8 +24,8 @@ const routes = [{
     },
     {
         path: '/data',
-        name: 'Data',
-        component: Data,
+        name: 'DataView',
+        component: DataView,
     },
     {
         path: '/register',
@@ -49,8 +49,8 @@ const routes = [{
     },
     {
         path: '/person',
-        name: 'Person',
-        component: Person,
+        name: 'PersonView',
+        component: PersonView,
     },
     {
         path: '/add',

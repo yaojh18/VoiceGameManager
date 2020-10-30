@@ -13,7 +13,7 @@
           <el-button style="display: inline-block;margin-right: 15px;" v-on:click="this.$router.push({path:'/data'})">
                 <router-link to='/data'>数据界面</router-link>
             </el-button>
-            <el-button style="display: inline-block;margin-right: 15px;" v-on:click="this.$router.push({path:'/data'})">
+            <el-button style="display: inline-block;margin-right: 15px;" v-on:click="this.$router.push({path:'/person'})">
                 <router-link to='/person'>个人界面</router-link>
             </el-button>
 

@@ -7,7 +7,7 @@
 <script>
   import Data from "@/components/Data";
   export default {
-    name: 'Data',
+    name: 'DataView',
     components: {
         Data
     }
