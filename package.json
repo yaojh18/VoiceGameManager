@@ -5,7 +5,7 @@
     "scripts": {
         "serve": "vue-cli-service serve",
         "build": "vue-cli-service build",
-        "test:unit": "vue-cli-service test:unit --coverage",
+        "test:unit": "vue-cli-service test:unit --coverage --silent --watchAll=false",
         "lint": "vue-cli-service lint",
         "cov": "vue-cli-service test:unit --coverage"
     },

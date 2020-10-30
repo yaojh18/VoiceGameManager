@@ -1,5 +1,5 @@
 import getWrapper from "./utils"
-import "@/mock/index"
+//import "@/mock/index"
 
 import MessageBlock from '@/components/MessageBlock.vue'
 
