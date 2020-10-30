@@ -5,7 +5,7 @@
     "scripts": {
         "serve": "vue-cli-service serve",
         "build": "vue-cli-service build",
-        "test:unit": "nyc vue-cli-service test:unit --reporter=mochawesome",
+        "test:unit": "set NODE_ENV=test PORT=3300 && nyc vue-cli-service test:unit --reporter=xml --reporter=mochawesome",
         "lint": "vue-cli-service lint",
         "cov": "vue-cli-service test:unit --coverage"
     },
