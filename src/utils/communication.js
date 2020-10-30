@@ -20,9 +20,9 @@ export const getList = () => fetch(API.GETLIST.path, {
     method: API.GETLIST.method,
     headers: { "Authorization": "" },
 });
-export const addmsg = (title, content, username) => fetch(API.ADD.path, {
+export const addmsg = (title, content, audio_path, video_path ) => fetch(API.ADD.path, {
     method: API.ADD.method,
-    body: JSON.stringify({ title, content, username }),
+    body: JSON.stringify({title:title,content:content,audio_path:audio_path,video_path:video_path}),
     headers: {
         "Content-Type": "multipart/form-data",
         "Authorization": ""

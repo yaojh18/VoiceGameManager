@@ -7,8 +7,10 @@
             <el-button style="display: inline-block;margin-right: 15px;" v-on:click="postDialog.dialogVisible=true">
                 <i class="el-icon-edit">增加</i>
             </el-button>
-
-            <el-button style="display: inline-block;margin-right: 15px;" v-on:click="this.$router.push({path:'/data'})">
+          <el-button style="display: inline-block;margin-right: 15px;" v-on:click="Search.dialogVisible=true">
+            <i class="el-icon-edit">搜索</i>
+          </el-button>
+          <el-button style="display: inline-block;margin-right: 15px;" v-on:click="this.$router.push({path:'/data'})">
                 <router-link to='/data'>数据界面</router-link>
             </el-button>
             <el-button style="display: inline-block;margin-right: 15px;" v-on:click="this.$router.push({path:'/data'})">
@@ -20,16 +22,16 @@
                 <!--请修改这两行注释中间的代码完成"刷新"功能-->
                 <i class="el-icon-refresh" style="object-fit: fill">刷新</i>
             </el-button>
-            <el-button style="display: inline-block;margin-right: 15px;" v-on:click="Login.dialogVisible=true">
+            <el-button style="display: inline-block;margin-right: 15px;" v-on:click="Register.dialogVisible=true">
                 <i class="el-icon-edit">注册</i>
             </el-button>
             <el-button style="display: inline-block;margin-right: 15px;" v-on:click="changeLogin()">
                 <i class="el-icon-edit">登录</i>
             </el-button>
-            <el-button style="display: inline-block;margin-right: 15px;" v-on:click="Login.loginvisible=true">
+            <el-button style="display: inline-block;margin-right: 15px;" v-on:click="ModifyPwd.dialogVisible=true">
                 <i class="el-icon-edit">修改密码</i>
             </el-button>
-            <el-button style="display: inline-block;margin-right: 15px;" v-on:click="Login.loginvisible=true">
+            <el-button style="display: inline-block;margin-right: 15px;" v-on:click="Logout.dialogVisible=true">
                 <i class="el-icon-edit">登出</i>
             </el-button>
         </el-header>
@@ -39,26 +41,40 @@
 
         <el-footer>@DIJKSTRA</el-footer>
     </el-container>
-    <Login v-bind:dialog-visible="Login.DialogVisible" v-on:cancelLogin="Login.loginvisible=false" v-on:login="({usernameLogin,password})=>{
-                Login.DialogVisible = false;
+    <ModifyPwd v-bind:dialog-visible="ModifyPwd.dialogVisible" v-on:cancelModifyPwd="ModifyPwd.dialogVisible=false"/>
+    <Login v-bind:dialog-visible="Login.dialogVisible" v-on:cancelLogin="Login.dialogVisible=false" v-on:login="({usernameLogin,password})=>{
+                Login.dialogVisible = false;
                 loginCalled(usernameLogin,password);
             }" />
-    <Register v-bind:dialog-visible="Register.registervisible" v-on:cancelRegister="Register.registervisible=false" v-on:register="({usernameRegister,password,password2})=>{
+    <Register v-bind:dialog-visible="Register.dialogVisible" v-on:cancelRegister="Register.dialogVisible=false" v-on:register="({usernameRegister,password,password2})=>{
                 register.registervisible = false;
                 registerCalled(usernameRegister,password,password2);s
             }" />
-    <PostDialog v-on:postmsg="({title,content,username})=>{
+    <PostDialog v-on:postmsg="({title,content,audio_path,video_path})=>{
+            $emit('refresh','');
+            postDialog.dialogVisible = false;
+            post(title,content,audio_path,video_path);
+        }" v-bind:dialog-visible="postDialog.dialogVisible" v-on:cancel="postDialog.dialogVisible=false" />
+    <Logout v-bind:dialog-visible="Logout.dialogVisible" v-on:cancelLogout="Logout.dialogVisible=false"/>
+    <Modify v-on:postModify="({title,content,audio_path,video_path})=>{
             messageList.push({
                 title,
                 content,
-                user:username,
-                timestamp:new Date().valueOf(),
+                audio:audio_path,
+                video:video_path
             });
             $emit('refresh','');
-            postDialog.dialogVisible = false;
-            post(title,content,username);
-        }" v-bind:dialog-visible="postDialog.dialogVisible" v-on:cancel="postDialog.dialogVisible=false" />
-    <!--请补全这两行注释中间的PostDialog-->
+            Modify.dialogVisible = false;
+            postModify(title,content,audio_path,video_path);
+        }" v-bind:dialog-visible="Modify.dialogVisible" v-on:cancel="Modify.dialogVisible=false" />
+    <Search v-on:postSearch="({title})=>{
+            messageList.push({
+                title,
+            });
+            $emit('refresh','');
+            Search.dialogVisible = false;
+            postSearch(title);
+        }" v-bind:dialog-visible="Search.dialogVisible" v-on:cancel="Search.dialogVisible=false" />
     <el-dialog style="text-align: center" :title="alertDialog.text" :visible.sync="alertDialog.dialogVisible" width="40%">
     </el-dialog>
 </div>
@@ -69,6 +85,10 @@ import MessageList from "@/components/MessageList"
 import PostDialog from "@/components/PostDialog"
 import Login from "@/components/Login"
 import Register from "@/components/Register"
+import Modify from "@/components/Modify"
+import Search from "@/components/Search"
+import Logout from "@/components/Logout"
+import ModifyPwd from "@/components/ModifyPwd"
 import {
     addmsg,
     login,
@@ -80,7 +100,11 @@ export default {
         MessageList,
         PostDialog,
         Register,
-        Login
+        Login,
+        Search,
+        Modify,
+        Logout,
+        ModifyPwd
     },
     // 请在下方设计自己的数据结构及函数来完成最终的留言板功能
     data() {
@@ -92,12 +116,39 @@ export default {
                     password: ""
                 }
             },
+            Logout: {
+                dialogVisible: false,
+            },
+    /*        ModifyPwd:{
+                dialogVisible: false,
+                form:{
+                  username :"",
+                  password: "",
+                  password2: "",
+                  password3: ""
+                }
+            },*/
             Register: {
-                registervisible: false,
+                dialogVisible: false,
                 form: {
                     usernameRegister: "",
                     password: "",
                     password2: ""
+                }
+            },
+            Search: {
+                dialogVisible:false,
+                form:{
+                  title: "",
+                }
+            },
+            Modify: {
+                dialogVisible:false,
+                form:{
+                    title: "",
+                    content: "",
+                    audio: "",
+                    video: "",
                 }
             },
             postDialog: {
@@ -122,15 +173,25 @@ export default {
         }
     },
     methods: {
-        post: (title, content, username) => {
-            console.log(username);
-            document.cookie = `user=${username}`;
-            addmsg(title, content, username).then((res) => {
+        post: (title, content, audio_path, video_path) => {
+            console.log(title);
+            console.log(content);
+            //document.cookie = `user=${title}`;
+            addmsg(title, content, audio_path, video_path).then((res) => {
                 if (res.status == 201)
                     this.alertDialog.dialogVisible = true;
                 else
                     this.alertDialog.dialogVisible = false;
             });
+        },
+        postModify:(title,content,audio_path,video_path) => {
+          console.log(title);
+          console.log(content);
+          console.log(audio_path);
+          console.log(video_path);
+        },
+        postSearch:(keyWord) => {
+          console.log(keyWord);
         },
         loginCalled: (usernameLogin, password) => {
             console.log(usernameLogin);

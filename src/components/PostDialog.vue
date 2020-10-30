@@ -58,7 +58,7 @@
     <span slot="footer" class="dialog-footer">
                 <!--请修改这两行注释中间的代码来产生相应按钮的点击事件-->
                 <el-button  v-on:click="post,$emit('cancel','')">取 消</el-button>
-                <el-button  v-on:click="$emit('postmsg',{title:title,content:content,username:state.username,timestamp:new Date().getTime()}),dialogVisible=false" type="primary"
+                <el-button  v-on:click="$emit('postmsg',{title:title,content:content,audio_path:audio_path,video_path:video_path}),dialogVisible=false" type="primary"
                             :disabled="state.username_valid===false"
                             :enabled="state.username_valid===true"
                             >确 定</el-button>
