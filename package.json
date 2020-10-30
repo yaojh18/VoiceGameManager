@@ -5,7 +5,7 @@
     "scripts": {
         "serve": "vue-cli-service serve",
         "build": "vue-cli-service build",
-        "test:unit": "vue-cli-service test:unit --coverage --silent --watchAll=false",
+        "test:unit": "nyc vue-cli-service test:unit --reporter=mochawesome",
         "lint": "vue-cli-service lint",
         "cov": "vue-cli-service test:unit --coverage"
     },
@@ -24,11 +24,14 @@
         "@vue/cli-service": "~4.4.0",
         "@vue/test-utils": "^1.0.3",
         "babel-eslint": "^10.1.0",
+        "babel-plugin-istanbul": "^6.0.0",
         "better-mock": "^0.2.8",
         "cz-conventional-changelog": "^3.2.0",
         "eslint": "^6.7.2",
         "eslint-plugin-vue": "^6.2.2",
+        "istanbul-instrumenter-loader": "^3.0.1",
         "mockjs": "^1.1.0",
+        "nyc": "^15.1.0",
         "vue-template-compiler": "^2.6.11"
     },
     "eslintConfig": {
