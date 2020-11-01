@@ -1,72 +1,73 @@
 {
-    "name": "messageboard2020",
-    "version": "0.1.0",
-    "private": true,
-    "scripts": {
-        "serve": "vue-cli-service serve",
-        "build": "vue-cli-service build",
-        "test:unit": "set NODE_ENV=test PORT=3300 && nyc vue-cli-service test:unit --reporter=xml --reporter=mochawesome",
-        "lint": "vue-cli-service lint",
-        "cov": "vue-cli-service test:unit --coverage"
+  "name": "messageboard2020",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "test:unit": "set NODE_ENV=test PORT=3300 && nyc vue-cli-service test:unit --reporter=xml --reporter=mochawesome",
+    "lint": "vue-cli-service lint",
+    "cov": "vue-cli-service test:unit --coverage"
+  },
+  "dependencies": {
+    "axios": "^0.20.0",
+    "core-js": "^3.6.5",
+    "echarts": "^4.9.0",
+    "element-ui": "^2.13.2",
+    "mockjs": "^1.1.0",
+    "vue": "^2.6.11",
+    "vue-router": "^3.3.4"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~4.4.0",
+    "@vue/cli-plugin-eslint": "~4.4.0",
+    "@vue/cli-plugin-unit-jest": "^4.4.6",
+    "@vue/cli-service": "~4.4.0",
+    "@vue/test-utils": "^1.0.3",
+    "babel-eslint": "^10.1.0",
+    "babel-plugin-istanbul": "^6.0.0",
+    "better-mock": "^0.2.8",
+    "cz-conventional-changelog": "^3.2.0",
+    "eslint": "^6.7.2",
+    "eslint-plugin-vue": "^6.2.2",
+    "istanbul-instrumenter-loader": "^3.0.1",
+    "mockjs": "^1.1.0",
+    "nyc": "^15.1.0",
+    "vue-template-compiler": "^2.6.11"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
     },
-    "dependencies": {
-        "axios": "^0.20.0",
-        "core-js": "^3.6.5",
-        "element-ui": "^2.13.2",
-        "mockjs": "^1.1.0",
-        "vue": "^2.6.11",
-        "vue-router": "^3.3.4"
-    },
-    "devDependencies": {
-        "@vue/cli-plugin-babel": "~4.4.0",
-        "@vue/cli-plugin-eslint": "~4.4.0",
-        "@vue/cli-plugin-unit-jest": "^4.4.6",
-        "@vue/cli-service": "~4.4.0",
-        "@vue/test-utils": "^1.0.3",
-        "babel-eslint": "^10.1.0",
-        "babel-plugin-istanbul": "^6.0.0",
-        "better-mock": "^0.2.8",
-        "cz-conventional-changelog": "^3.2.0",
-        "eslint": "^6.7.2",
-        "eslint-plugin-vue": "^6.2.2",
-        "istanbul-instrumenter-loader": "^3.0.1",
-        "mockjs": "^1.1.0",
-        "nyc": "^15.1.0",
-        "vue-template-compiler": "^2.6.11"
-    },
-    "eslintConfig": {
-        "root": true,
-        "env": {
-            "node": true
-        },
-        "extends": [
-            "plugin:vue/essential",
-            "eslint:recommended"
-        ],
-        "parserOptions": {
-            "parser": "babel-eslint"
-        },
-        "rules": {},
-        "overrides": [
-            {
-                "files": [
-                    "**/__tests__/*.{j,t}s?(x)",
-                    "**/tests/unit/**/*.spec.{j,t}s?(x)"
-                ],
-                "env": {
-                    "jest": true
-                }
-            }
-        ]
-    },
-    "browserslist": [
-        "> 1%",
-        "last 2 versions",
-        "not dead"
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
     ],
-    "config": {
-        "commitizen": {
-            "path": "./node_modules/cz-conventional-changelog"
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "rules": {},
+    "overrides": [
+      {
+        "files": [
+          "**/__tests__/*.{j,t}s?(x)",
+          "**/tests/unit/**/*.spec.{j,t}s?(x)"
+        ],
+        "env": {
+          "jest": true
         }
+      }
+    ]
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ],
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
     }
+  }
 }
