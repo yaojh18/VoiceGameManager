@@ -24,7 +24,7 @@ export const searchBack = (title) => fetch(API.SEARCH.path,{
     method: API.SEARCH.method,
     body:JSON.stringify({'keyword':title}),
     headers: {"Content-Type":"application/json"},
-})
+}).then((res)=>emit("sendbackSearch",res.json()));
 export const addmsg = (title, content, audio_path, video_path ) => fetch(API.ADD.path, {
     method: API.ADD.method,
     body: JSON.stringify({title:title,content:content,audio_path:audio_path,video_path:video_path}),
