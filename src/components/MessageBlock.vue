@@ -10,7 +10,6 @@
                 <span class="messageblock-datetime" style="padding: 4px;">
                 
                 {{ datetime }}
-
                 </span>
                 <span class="messageblock-user" style="padding: 4px;">{{ user }}</span>
             </div>

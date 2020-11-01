@@ -4,8 +4,6 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import axios from 'axios';
 
-
-
 Vue.use(ElementUI);
 Vue.config.productionTip = false;
 Vue.prototype.$axios = axios;
@@ -14,8 +12,29 @@ import App from './App.vue'
 
 new Vue({
     router,
+    axios,
     render: h => h(App),
 }).$mount('#app')
+
+axios.interceptors.request.use(req=>{
+  let token = localStorage.getItem('token')
+  if(token){
+      req.headers.Authorization = 'JWT '+ token
+  }
+  return req;
+},error=>{
+    return Promise.reject(error);
+})
+axios.interceptors.response.use(res=>{
+    if(res.status == 200 && res.data.token ){
+        console.log(token);
+        localStorage.set("token",res.data.token);
+    }
+    return res;
+},error=>{
+    return Promise.reject(error.response.data)
+})
+
 Vue.filter('dateFormat', function(originVal) {
     const dt = new Date(originVal)
     const y = dt.getFullYear()
