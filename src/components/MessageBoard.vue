@@ -68,10 +68,6 @@
             postModify(title,content,audio_path,video_path);
         }" v-bind:dialog-visible="Modify.dialogVisible" v-on:cancel="Modify.dialogVisible=false" />
     <Search v-on:postSearch="({title})=>{
-            messageList.push({
-                title,
-            });
-            $emit('refresh','');
             Search.dialogVisible = false;
             postSearch(title);
         }" v-bind:dialog-visible="Search.dialogVisible" v-on:cancel="Search.dialogVisible=false" />
@@ -92,7 +88,9 @@ import ModifyPwd from "@/components/ModifyPwd"
 import {
     addmsg,
     login,
-    register
+    register,
+    searchBack,
+    getList,
 } from "@/utils/communication"
 export default {
     name: "MessageBoard",
@@ -184,6 +182,11 @@ export default {
                     this.alertDialog.dialogVisible = false;
             });
         },
+        refreshList:()=> {
+           getList().then((res)=>{
+               console.log(res);
+           });
+        },
         postModify:(title,content,audio_path,video_path) => {
           console.log(title);
           console.log(content);
@@ -192,19 +195,15 @@ export default {
         },
         postSearch:(keyWord) => {
           console.log(keyWord);
+          searchBack(keyWord);
         },
         loginCalled: (usernameLogin, password) => {
-            console.log(usernameLogin);
+            window.console.log(usernameLogin);
+            window.console.log(password);
             document.cookie = `user=${usernameLogin}`;
-            login(usernameLogin, password).then((res) => {
-                if (res.status === 200) {
-                    this.alertDialog.dialogVisible = true;
-                    this.usernameLogged = usernameLogin;
-                } else {
-                    this.alertDialog.dialogVisible = false;
-                    this.usernameLogged = "unknown";
-                }
-            });
+            login(usernameLogin, password);
+            this.alertDialog.dialogVisible = true;
+            this.usernameLogged = usernameLogin;
         },
         registerCalled: (usernameRegister, password, password2) => {
             console.log(usernameRegister);
