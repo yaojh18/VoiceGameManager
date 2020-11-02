@@ -9,9 +9,8 @@ export const login = (usernameLogin, password) => fetch(API.LOGIN.path, {
         method: API.LOGIN.method,
         body: JSON.stringify({ "username":usernameLogin, "password":password }),
         headers: { "Content-Type": "application/json" },
-    }).then((res) => res.json())
-    .then((r) => r.data);
-export const register = (usernameRegister, password, password2) => fetch(API.REGISTER.path, {
+    });
+export const registerBack = (usernameRegister, password, password2) => fetch(API.REGISTER.path, {
     method: API.REGISTER.method,
     body: JSON.stringify({ username:usernameRegister, password:password, password2:password2 }),
     headers: { "Content-Type": "application/json" },
@@ -24,12 +23,12 @@ export const searchBack = (title) => fetch(API.SEARCH.path,{
     method: API.SEARCH.method,
     body:JSON.stringify({'keyword':title}),
     headers: {"Content-Type":"application/json"},
-}).then((res)=>emit("sendbackSearch",res.json()));
+});
 export const addmsg = (title, content, audio_path, video_path ) => fetch(API.ADD.path, {
     method: API.ADD.method,
-    body: JSON.stringify({title:title,content:content,audio_path:audio_path,video_path:video_path}),
+    body: {title:title,content:content,audio_path:audio_path,video_path:video_path},
     headers: {
         "Content-Type": "multipart/form-data",
-        "Authorization": ""
+        "Authorization": "",
     },
 });

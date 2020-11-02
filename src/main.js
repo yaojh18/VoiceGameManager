@@ -29,7 +29,7 @@ axios.interceptors.request.use(req=>{
 })
 axios.interceptors.response.use(res=>{
     if(res.status == 200 && res.data.token ){
-        console.log(token);
+        console.log(res.data.token);
         localStorage.set("token",res.data.token);
     }
     return res;

@@ -8,8 +8,12 @@ const API = {
         method: "post"
     },
     ADD: {
-        path: "/api/manager/add/",
+        path: "/api/manager/",
         method: "post"
+    },
+    DELETE: {
+        path: "/api/manager/",
+        method: "delete",
     },
     EDIT: {
         path: "/api/manager/edit/",
@@ -17,10 +21,6 @@ const API = {
     },
     SEARCH: {
         path: "/api/manager/search/",
-        method: "post"
-    },
-    DELETE: {
-        path: "/api/manager/delete/",
         method: "post"
     },
     LOGIN: {

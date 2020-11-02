@@ -22,7 +22,7 @@
                 <!--请修改这两行注释中间的代码完成"刷新"功能-->
                 <i class="el-icon-refresh" style="object-fit: fill">刷新</i>
             </el-button>
-            <el-button style="display: inline-block;margin-right: 15px;" v-on:click="Register.dialogVisible=true">
+            <el-button style="display: inline-block;margin-right: 15px;" v-on:click="changeRegister()">
                 <i class="el-icon-edit">注册</i>
             </el-button>
             <el-button style="display: inline-block;margin-right: 15px;" v-on:click="changeLogin()">
@@ -47,7 +47,7 @@
                 loginCalled(usernameLogin,password);
             }" />
     <Register v-bind:dialog-visible="Register.dialogVisible" v-on:cancelRegister="Register.dialogVisible=false" v-on:register="({usernameRegister,password,password2})=>{
-                register.registervisible = false;
+                Register.dialogVisible = false;
                 registerCalled(usernameRegister,password,password2);
             }" />
     <PostDialog v-on:postmsg="({title,content,audio_path,video_path})=>{
@@ -88,7 +88,7 @@ import ModifyPwd from "@/components/ModifyPwd"
 import {
     addmsg,
     login,
-    register,
+    registerBack,
     searchBack,
     getList,
 } from "@/utils/communication"
@@ -154,8 +154,8 @@ export default {
                 form: {
                     title: "",
                     content: "",
-                    audiofile: "",
-                    videofile: "",
+                    audio_path: "",
+                    video_path: "",
                 }
             },
             alertDialog: {
@@ -167,6 +167,7 @@ export default {
                 username_valid: false
             },
             messageList: [],
+            infoList: [],
             usernameLogged: ""
         }
     },
@@ -185,6 +186,7 @@ export default {
         refreshList:()=> {
            getList().then((res)=>{
                console.log(res);
+
            });
         },
         postModify:(title,content,audio_path,video_path) => {
@@ -195,20 +197,28 @@ export default {
         },
         postSearch:(keyWord) => {
           console.log(keyWord);
-          searchBack(keyWord);
+          searchBack(keyWord).then((res)=>{
+            for (var k = 0; k < res.length; k++) {
+                this.messageList.append(res[k]);}
+          });
         },
         loginCalled: (usernameLogin, password) => {
             window.console.log(usernameLogin);
             window.console.log(password);
             document.cookie = `user=${usernameLogin}`;
-            login(usernameLogin, password);
-            this.alertDialog.dialogVisible = true;
+            login(usernameLogin, password).then((res)=>{
+              if(res.status == 200){
+                this.alertDialog.dialogVisible = true;
+              }else{
+                this.alertDialog.dialogVisible = false;
+              }
+            });
             this.usernameLogged = usernameLogin;
         },
         registerCalled: (usernameRegister, password, password2) => {
             console.log(usernameRegister);
             document.cookie = `user=${usernameRegister}`;
-            register(usernameRegister, password, password2).then((res) => {
+            registerBack(usernameRegister, password, password2).then((res) => {
                 if (res.status === 200) {
                     this.alertDialog.dialogVisible = true;
                     this.usernameLogged = usernameRegister;
@@ -224,6 +234,9 @@ export default {
         },
         changeDialog() {
             this.postDialog.dialogVisible = true;
+        },
+        changeRegister(){
+            this.Register.dialogVisible = true;
         },
         changeLogin() {
             this.Login.dialogVisible = true;
