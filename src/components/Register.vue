@@ -1,19 +1,19 @@
-<template visible.sync="vvvisible">
-<el-dialog dialogVisible=true>
+<template>
+<el-dialog :visible.sync="dialogVisible" >
     <el-form label-width="80px">
         <el-form-item label="用户名">
-             <el-input placeholder="请输入用户名" v-model="username" @input="change()">{{ username }}</el-input>
+             <el-input placeholder="请输入用户名" v-model="username" @input="changeRegisterName()">{{ username }}</el-input>
         </el-form-item>
         <el-form-item label="密码">
-            <el-input placeholder="请输入密码" v-model="password" @input="change()">{{ username }}</el-input>
+            <el-input placeholder="请输入密码" v-model="password" @input="changeRegisterPassword()">{{ password }}</el-input>
         </el-form-item>
         <el-form-item label="确认密码">
-            <el-input placeholder="请输入确认密码" v-model="password" @input="change()">{{ username }}</el-input>
+            <el-input placeholder="请输入确认密码" v-model="password2" @input="changeRegisterPassword2()">{{ password2 }}</el-input>
         </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
-        <el-button  v-on:click="$emit('cancelregister',''),loginvisible=false">取 消</el-button>
-        <el-button  v-on:click="$emit('logincalled',{username:username,password:password}),loginvisible=false" type="primary"
+        <el-button  v-on:click="$emit('cancelRegister',''),dialogVisible=false">取 消</el-button>
+        <el-button  v-on:click="$emit('register',{usernameRegister:username,password:password,password2:password2}),dialogVisible=false" type="primary"
                             :disabled="state.username_valid===false"
                             :enabled="state.username_valid===true"
                             >确 定</el-button>
@@ -25,7 +25,7 @@
         export default {
         name: "Register",
         props: {
-        registervisible: {
+        dialogVisible: {
       type: Boolean,
       default: () => true
     },
@@ -42,17 +42,23 @@
         type:String,
         default:() => ""
     },
-    password:{
-        type:String,
-        default:() => ""
+    password: {
+      type: String,
+      default: () => ""
     },
+          password2: {
+            type: String,
+            default: () => ""
+          }
     },
   // 请在下方设计自己的数据结构以及事件函数
     data(){
     return {
+            //dialogVisible:true,
             form:{
                 username:this.username,
-                password:this.password
+                password:this.password,
+                password2:this.password2
                     },
             }
     },
@@ -63,14 +69,18 @@
 				//获取密码
         return msg;
       },
-      change(e){
+      changeRegisterName(e){
         this.$forceUpdate(e);
+        this.state.username_valid = true;
       },
-      changename(e){
+      changeRegisterPassword(e){
         this.$forceUpdate(e);
-        this.setState({username_valid : true});
-        console.log(this.state.username_valid);
-      }
+        this.state.username_valid = true;
+      },
+      changeRegisterPassword2(e){
+        this.$forceUpdate(e);
+        this.state.username_valid = true;
+      },
   },
   watch: { // 用于实时检测username是否合法
     "state.username": {
