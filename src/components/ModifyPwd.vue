@@ -57,11 +57,13 @@ export default {
   },
   data(){
     return {
-      Login:{
+      ModifyPwd:{
         dialogVisible:true,
         form:{
           username:this.username,
           password:this.password,
+          password2:this.password2,
+          password3:this.password3,
         }
       },
     }

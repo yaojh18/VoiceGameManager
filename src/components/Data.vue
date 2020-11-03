@@ -4,9 +4,11 @@
       <el-aside class="app-side app-side-left"
                 :class="isCollapse ? 'app-side-collapsed' : 'app-side-expanded'">
         <div class="app-side-logo">
+          <router-link to='/'>
           <img src="@/assets/logo.png"
                :width="isCollapse ? '60' : '60'"
                height="60" />
+          </router-link>
         </div>
         <div>
           <el-menu default-active="1-4-1"

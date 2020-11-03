@@ -7,7 +7,7 @@
           </el-form>
     <span slot="footer" class="dialog-footer">
         <el-button v-on:click="$emit('cancelsearch',''),dialogVisible=false">取 消</el-button>
-        <el-button v-on:click="$emit('searchfunc',{keyword:keyword}),dialogVisible=false" type="primary" :disabled="state.username_valid===false" :enabled="state.username_valid===true">确 定</el-button>
+        <el-button v-on:click="$emit('searchCalled',{keyword:keyword}),dialogVisible=false" type="primary" :disabled="state.username_valid===false" :enabled="state.username_valid===true">确 定</el-button>
     </span>
   </el-dialog>
 
@@ -39,9 +39,6 @@ export default {
   methods: {
     changeKey(e) {
       this.$forceUpdate(e);
-    },
-    searchfunc(keyword){
-      console.log(keyword);
     },
   },
 }

@@ -2,12 +2,12 @@
 <div id="message-board">
     <el-container style="height:100%; border: 1px solid #eee">
         <el-header style="text-align: right; font-size: 10px">
-            <el-button style="display: inline-block; text-align:right; margin-left:15px;" v-model="usernameLogged" v-on:click="gotoPerson()">
-                用户名:{{usernameLogged='unknown'}} </el-button>
+            <el-button style="display: inline-block; text-align:right; margin-left:15px;" v-model="usernameLogged" v-bind="usernameLogged" v-on:click="gotoPerson()">
+                {{usernameLogged}} </el-button>
             <el-button style="display: inline-block;margin-right: 15px;" v-on:click="postDialog.dialogVisible=true">
                 <i class="el-icon-edit">增加</i>
             </el-button>
-          <el-button style="display: inline-block;margin-right: 15px;" v-on:click="Search.dialogVisible=true">
+          <el-button style="display: inline-block;margin-right: 15px;" v-on:click="changeSearch()">
             <i class="el-icon-edit">搜索</i>
           </el-button>
           <el-button style="display: inline-block;margin-right: 15px;" v-on:click="this.$router.push({path:'/data'})">
@@ -51,7 +51,6 @@
                 registerCalled(usernameRegister,password,password2);
             }" />
     <PostDialog v-on:postmsg="({title,content,audio_path,video_path})=>{
-            $emit('refresh','');
             postDialog.dialogVisible = false;
             post(title,content,audio_path,video_path);
         }" v-bind:dialog-visible="postDialog.dialogVisible" v-on:cancel="postDialog.dialogVisible=false" />
@@ -67,9 +66,9 @@
             Modify.dialogVisible = false;
             postModify(title,content,audio_path,video_path);
         }" v-bind:dialog-visible="Modify.dialogVisible" v-on:cancel="Modify.dialogVisible=false" />
-    <Search v-on:postSearch="({title})=>{
+    <Search v-on:searchCalled="({keyword})=>{
             Search.dialogVisible = false;
-            postSearch(title);
+            postSearch(keyword);
         }" v-bind:dialog-visible="Search.dialogVisible" v-on:cancel="Search.dialogVisible=false" />
     <el-dialog style="text-align: center" :title="alertDialog.text" :visible.sync="alertDialog.dialogVisible" width="40%">
     </el-dialog>
@@ -168,11 +167,12 @@ export default {
             },
             messageList: [],
             infoList: [],
-            usernameLogged: ""
+            usernameLogged: "unknown"
         }
     },
     methods: {
         post: (title, content, audio_path, video_path) => {
+            this.Login.dialogVisible = true;
             console.log(title);
             console.log(content);
             //document.cookie = `user=${title}`;
@@ -195,9 +195,9 @@ export default {
           console.log(audio_path);
           console.log(video_path);
         },
-        postSearch:(keyWord) => {
-          console.log(keyWord);
-          searchBack(keyWord).then((res)=>{
+        postSearch:(keyword) => {
+          console.log(keyword);
+          searchBack(keyword).then((res)=>{
             for (var k = 0; k < res.length; k++) {
                 this.messageList.append(res[k]);}
           });
@@ -206,14 +206,17 @@ export default {
             window.console.log(usernameLogin);
             window.console.log(password);
             document.cookie = `user=${usernameLogin}`;
+            this.usernameLogged = "logged1";
             login(usernameLogin, password).then((res)=>{
+              this.usernameLogged = "logged2";
               if(res.status == 200){
                 this.alertDialog.dialogVisible = true;
               }else{
                 this.alertDialog.dialogVisible = false;
               }
             });
-            this.usernameLogged = usernameLogin;
+            this.usernameLogged = "logged3";
+            this.usernameLogged.update();
         },
         registerCalled: (usernameRegister, password, password2) => {
             console.log(usernameRegister);
@@ -241,8 +244,11 @@ export default {
         changeLogin() {
             this.Login.dialogVisible = true;
         },
+        changeSearch(){
+            this.Search.dialogVisible = true;
+        },
         gotoPerson(){
-            this.$router.go('/stage1');
+            this.$router.go('/person');
         }
     },
 }

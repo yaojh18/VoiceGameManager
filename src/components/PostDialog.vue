@@ -17,16 +17,16 @@
             <!--请修改这两行注释中间的代码来输入消息内容-->
         </el-form-item>
       <el-form-item>
-        <el-input type="file" v-model="audio_path" @change="getFile($event,'file_audio')"></el-input>
+        <el-input type="file" v-model="audio_path" @change="getFile($event,'audio_path')"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-input type="file" v-model="video_path" @change="getFile($event,'file_video')"></el-input>
+        <el-input type="file" v-model="video_path" @change="getFile($event,'video_path')"></el-input>
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
                 <!--请修改这两行注释中间的代码来产生相应按钮的点击事件-->
                 <el-button  v-on:click="$emit('cancel','')">取 消</el-button>
-                <el-button  v-on:click="submitForm($event);dialogVisible=false" type="primary"
+                <el-button  v-on:click="$emit('postmsg',{'title':this.title,'content':this.content,'audio_path':this.audio_path,'video_path':this.video_path});submitForm($event);dialogVisible=false;" type="primary"
                             :disabled="state.username_valid===false"
                             :enabled="state.username_valid===true"
                             >确 定</el-button>
@@ -96,7 +96,7 @@ export default {
     submitForm(event) {
       event.preventDefault();
       for (let i in this.form) {
-        this.formData.append(i, this.param[i]);
+        this.formData.append(i.first, i.second);
       }
       let config = {
         headers: {
