@@ -5,7 +5,7 @@
         :visible.sync="dialogVisible"
         :show-close=false
         width="80%">
-    <el-form label-width="80px">
+    <el-form label-width="80px" id="newform" ref="newform">
         <el-form-item label="标题">
             <!--请修改这两行注释中间的代码来输入消息标题-->
             <el-input placeholder="title" v-model="title" @input="change()">{{ title }}</el-input>
@@ -17,16 +17,44 @@
             <!--请修改这两行注释中间的代码来输入消息内容-->
         </el-form-item>
       <el-form-item>
-        <el-input type="file" v-model="audio_path" @change="getFile($event,'audio_path')"></el-input>
+          <el-upload class="xj-upload clearfix"
+                     ref="uploadAudio"
+                     accept="wav"
+                     action="https://voicetestgame-dijkstra.app.secoder.net/api/manager/"
+                     :before-uplaod="beforeuploadAudio"
+                     :before-remove="beforeRemove"
+                     multiple
+                     :limit="1"
+                     :on-exceed="handleExceed"
+                     name="audio_path"
+                     :on-success="fileSuccessUploadAudio"
+                     :on-error="fileError"
+                     :auto-upload="false">
+            <div class="btn">上传音频</div>
+          </el-upload>
       </el-form-item>
       <el-form-item>
-        <el-input type="file" v-model="video_path" @change="getFile($event,'video_path')"></el-input>
+        <el-upload class="xj-upload clearfix"
+                   ref="uploadVideo"
+                   accept="mp4"
+                   action="https://voicetestgame-dijkstra.app.secoder.net/api/manager/"
+                   :before-uplaod="beforeuploadVideo"
+                   :before-remove="beforeRemove"
+                   multiple
+                   :limit="1"
+                   :on-exceed="handleExceed"
+                   name="video_path"
+                   :on-success="fileSuccessUploadVideo"
+                   :on-error="fileError"
+                   :auto-upload="false">
+          <div class="btn">上传视频</div>
+        </el-upload>
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
                 <!--请修改这两行注释中间的代码来产生相应按钮的点击事件-->
                 <el-button  v-on:click="$emit('cancel','')">取 消</el-button>
-                <el-button  v-on:click="$emit('postmsg',{'title':this.title,'content':this.content,'audio_path':this.audio_path,'video_path':this.video_path});submitForm($event);dialogVisible=false;" type="primary"
+                <el-button  v-on:click="uploadFile();" type="primary"
                             :disabled="state.username_valid===false"
                             :enabled="state.username_valid===true"
                             >确 定</el-button>
@@ -42,11 +70,9 @@ export default {
   props: {
     audio_path: {
       type: File,
-      default: () => ""
     },
     video_path: {
       type: File,
-      default: () => ""
     },
     dialogVisible: {
       type: Boolean,
@@ -81,17 +107,56 @@ export default {
           title: this.title,
           content: this.content,
         },
-        formData: new FormData(),
+        newform: new FormData(),
       },
     }
   },
   methods: {
     getFile(event, input_file_name) {
-      this.formData.append(input_file_name, event.target.files[0]);
+      //this.formData.append(input_file_name, event.target.files[0]);
       this.state.username_valid = true;
     },
     change(){
       this.state.username_valie = true;
+    },
+    uploadFile(){
+      this.loading=true;
+
+      this.$refs.uploadAudio.submit()
+    },
+    fileSuccessUploadAudio(response,file,fileList){
+      this.newform['audio_path'] = response.split('?')[1].split('&')[1].split('=')[1]
+      this.$refs.uploadVideo.submit()
+    },
+    fileSuccessUploadVideo(response,file,fileList){
+      this.newform['video_path'] = response.split('?')[1].split('&')[1].split('=')[1]
+      this.uploadForm();
+    },
+    uploadForm(){
+      const self = this
+      this.$refs['newform'].validate((valid)=>{
+        if(valid){
+          self.newform['title'] = self.form.title;
+          self.newform['content'] = self.form.content;
+          self.$axios({
+            method:'post',
+            url:"https://voicetestgame-dijkstra.app.secoder.net/api/manager/",
+            dta:self.newform,
+            headers:{
+              'Content-Type':"multipart/form-data",
+              "Authorization":"JWT "+localStorage.getItem('token')
+            }
+          })
+          .then(function(res){
+            console.log(res)
+            self.loading=false
+            self.$message.success('上传成功')
+            self.dialogVisible=false
+          })
+        }
+      });
+      this.$emit('postmsg',{'title':this.title,'content':this.content,'audio_path':this.audio_path,'video_path':this.video_path});
+      this.submitForm();
     },
     submitForm(event) {
       event.preventDefault();

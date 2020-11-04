@@ -17,18 +17,21 @@ export const registerBack = (usernameRegister, password, password2) => fetch(API
 });
 export const getList = () => fetch(API.GETLIST.path, {
     method: API.GETLIST.method,
-    headers: { "Authorization": "" },
+    headers: { "Authorization":"JWT "+localStorage.getItem('token')},
 }).then((res)=>res.json());
 export const searchBack = (title) => fetch(API.SEARCH.path,{
     method: API.SEARCH.method,
     body:JSON.stringify({'keyword':title}),
-    headers: {"Content-Type":"application/json"},
+    headers: {
+        "Content-Type":"application/json",
+        "Authorization":"JWT "+localStorage.getItem('token')
+    },
 });
 export const addmsg = (title, content, audio_path, video_path ) => fetch(API.ADD.path, {
     method: API.ADD.method,
     body: {title:title,content:content,audio_path:audio_path,video_path:video_path},
     headers: {
         "Content-Type": "multipart/form-data",
-        "Authorization": "",
+        "Authorization":"JWT "+localStorage.getItem('token')
     },
 });

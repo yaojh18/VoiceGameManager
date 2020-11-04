@@ -11,9 +11,9 @@
                 
                 {{ datetime }}
                 </span>
-                <span class="messageblock-user" style="padding: 4px;">{{ user }}</span>
+                <span class="messageblock-user" style="padding: 4px;">{{ level_id }}</span>
             </div>
-            <div class="messageblock-content">{{ content }}</div>
+            <div class="messageblock-content">{{ id }}</div>
         </el-submenu>
     </el-menu>
 </template>
@@ -26,13 +26,13 @@
                 type:String,
                 default: () => "unknown title"
             },
-            content: {
+            level_id: {
                 type:String,
-                default: () => "unknown content"
+                default: () => "unknown level_id"
             },
-            user: {
+            id: {
                 type:String,
-                default: () => "unknown user"
+                default: () => "unknown id"
             },
             timestamp: {
                 type:Number,

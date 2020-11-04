@@ -32,9 +32,9 @@ const API = {
         method: "post"
     },
     GETLIST: {
-        path: "/api/manager/get_list/",
+        path: "/api/manager/",
         method: "get"
-    }
+    },
 
 }
 
