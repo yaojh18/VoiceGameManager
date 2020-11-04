@@ -19,9 +19,17 @@ export const getList = () => fetch(API.GETLIST.path, {
     method: API.GETLIST.method,
     headers: { "Authorization":"JWT "+localStorage.getItem('token')},
 }).then((res)=>res.json());
-export const searchBack = (title) => fetch(API.SEARCH.path,{
+export const searchBack = (keyword) => fetch(API.SEARCH.path,{
     method: API.SEARCH.method,
-    body:JSON.stringify({'keyword':title}),
+    body:JSON.stringify({'keyword':keyword}),
+    headers: {
+        "Content-Type":"application/json",
+        "Authorization":"JWT "+localStorage.getItem('token')
+    },
+});
+export const searchBackId = (level_id) => fetch(API.SEARCH.path,{
+    method: API.SEARCH.method,
+    body:JSON.stringify({'level_id':level_id}),
     headers: {
         "Content-Type":"application/json",
         "Authorization":"JWT "+localStorage.getItem('token')
@@ -35,3 +43,22 @@ export const addmsg = (title, content, audio_path, video_path ) => fetch(API.ADD
         "Authorization":"JWT "+localStorage.getItem('token')
     },
 });
+export const getUserMsg = () => fetch(API.USER.path,{
+    method:  API.USER.method,
+    headers:{
+        "Authorization":"JWT "+localStorage.getItem('token'),
+    }
+});
+export const editUserMsg = (username,password,password_old,email,name) =>fetch(API.MODIFYUSER.path,{
+    method:API.MODIFYUSER.method,
+    body: {
+        'username':username,
+        'password':password,
+        'password_old':password_old,
+        'email':email,
+        'name':name
+    },
+    headers:{
+        "Authorization":"JWT "+localStorage.getItem('token')
+    }
+})

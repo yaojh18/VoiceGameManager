@@ -2,14 +2,57 @@
 <div id="message-board">
     <el-container style="height:100%; border: 1px solid #eee">
         <el-header style="text-align: right; font-size: 10px">
-            <el-button style="display: inline-block; text-align:right; margin-left:15px;" v-model="usernameLogged" v-bind="usernameLogged" v-on:click="gotoPerson()">
-                {{usernameLogged}} </el-button>
-            <el-button style="display: inline-block;margin-right: 15px;" v-on:click="postDialog.dialogVisible=true">
-                <i class="el-icon-edit">增加</i>
-            </el-button>
-          <el-button style="display: inline-block;margin-right: 15px;" v-on:click="changeSearch()">
-            <i class="el-icon-edit">搜索</i>
-          </el-button>
+            <el-dropdown style="display: inline-block; text-align:right; margin-left:15px; margin-right:15px; " class="avatar-container" trigger="click" >
+              <div class="avatar-wrapper">
+                <el-button type="primary" size="medium" v-model="usernameLogged"  v-bind="usernameLogged">
+                  {{usernameLogged}}
+                  <i class="el-icon-caret-bottom" />
+                </el-button>
+                <el-dropdown-menu slot="dropdown" class="user-dropdown">
+                  <el-dropdown-item>
+                  <span style="display:block;" @click="gotoPerson()">个人信息修改</span>
+                  </el-dropdown-item>
+                  <el-dropdown-item divided>
+                    <span style="display:block;" @click="personShow()">个人信息展示</span>
+                  </el-dropdown-item>
+                </el-dropdown-menu>
+              </div>
+            </el-dropdown>
+              <el-dropdown style="display: inline-block; text-align:right; margin-left:15px; margin-right:15px; " class="avatar-container" trigger="click" >
+                <div class="avatar-wrapper">
+                  <el-button type="default" size="medium"  >
+                    搜索
+                    <i class="el-icon-caret-bottom" />
+                  </el-button>
+                  <el-dropdown-menu slot="dropdown" class="user-dropdown">
+                    <el-dropdown-item>
+                      <span style="display:block;" v-on:click="changeSearchId()" >根据关卡搜索</span>
+                    </el-dropdown-item>
+                    <el-dropdown-item divided>
+                      <span style="display:block;" v-on:click="changeSearchWord()">根据关键词搜索</span>
+                    </el-dropdown-item>
+                  </el-dropdown-menu>
+                </div>
+              </el-dropdown>
+          <el-dropdown style="display: inline-block; text-align:right; margin-left:15px; margin-right:15px; " class="avatar-container" trigger="click" >
+            <div class="avatar-wrapper">
+              <el-button type="default" size="medium"  >
+                数据操作
+                <i class="el-icon-caret-bottom" />
+              </el-button>
+              <el-dropdown-menu slot="dropdown" class="user-dropdown">
+                <el-dropdown-item>
+                  <span style="display:block;" v-on:click="postDialog.dialogVisible=true" ><i class="el-icon-add">增加</i></span>
+                </el-dropdown-item>
+                <el-dropdown-item divided>
+                  <span style="display:block;" v-on:click="changeModify()"><i class="el-icon-add">修改</i></span>
+                </el-dropdown-item>
+                <el-dropdown-item divided>
+                  <span style="display:block;" v-on:click="changeSearch()"><i class="el-icon-add">查询</i></span>
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </div>
+          </el-dropdown>
           <el-button style="display: inline-block;margin-right: 15px;" v-on:click="getListMsg()">
             <i class="el-icon-edit">数据列表</i>
           </el-button>
@@ -43,7 +86,7 @@
               <ul v-for="info in infoList" :key="info">
               </ul>
             </div>
-            <MessageList v-bind:messageList="messageList" ></MessageList>
+            <MessageList v-bind="messageList" ></MessageList>
         </el-main>
 
         <el-footer>@DIJKSTRA</el-footer>
@@ -77,10 +120,18 @@
             Search.dialogVisible = false;
             postSearch(keyword);
         }" v-bind:dialog-visible="Search.dialogVisible" v-on:cancel="Search.dialogVisible=false" />
+          <SearchId v-on:searchIdCalled="({level_id})=>{
+            SearchId.dialogVisible = false;
+            postSearchId(level_id);
+        }" v-bind:dialog-visible="SearchId.dialogVisible" v-on:cancel="SearchId.dialogVisible=false" />
+    <SearchSelect v-on:chooseSearchSelect="({arg})=>{changeSelect(arg)}" v-bind:dialog-visible="SearchSelect.dialogVisible"/>
+
     <el-dialog style="text-align: center" :title="alertDialog.text" :visible.sync="alertDialog.dialogVisible" width="40%">
     </el-dialog>
     <el-dialog style="text-align: center" :title="alertRegisterDialog.text" :visible.sync="alertRegisterDialog.dialogVisible" width="40%">
     </el-dialog>
+
+
 </div>
 </template>
 
@@ -91,6 +142,8 @@ import Login from "@/components/Login"
 import Register from "@/components/Register"
 import Modify from "@/components/Modify"
 import Search from "@/components/Search"
+import SearchId from "@/components/SearchId"
+import SearchSelect from "@/components/SearchSelect"
 import Logout from "@/components/Logout"
 import ModifyPwd from "@/components/ModifyPwd"
 import {
@@ -98,7 +151,9 @@ import {
     login,
     registerBack,
     searchBack,
+    searchBackId,
     getList,
+    getUserMsg,
 } from "@/utils/communication"
 export default {
     name: "MessageBoard",
@@ -108,6 +163,8 @@ export default {
         Register,
         Login,
         Search,
+        SearchId,
+        SearchSelect,
         Modify,
         Logout,
         ModifyPwd
@@ -148,13 +205,22 @@ export default {
                   keyword: "",
                 }
             },
+            SearchId:{
+              dialogVisible:false,
+              form:{
+                level_id:"",
+              }
+            },
+            SearchSelect:{
+              dialogVisible:false,
+            },
             Modify: {
                 dialogVisible:false,
                 form:{
                     title: "",
                     content: "",
-                    audio: "",
-                    video: "",
+                    audio_path: "",
+                    video_path: "",
                 }
             },
             postDialog: {
@@ -210,8 +276,23 @@ export default {
         postSearch:(keyword) => {
           console.log(keyword);
           searchBack(keyword).then((res)=>{
+            console.log(res);
             for (var k = 0; k < res.length; k++) {
-                this.messageList.append(res[k]);}
+                this.messageList.push(res[k]);}
+          });
+        },
+        postSearchId:(level_id) =>{
+          console.log(level_id);
+          const self=this;
+          searchBackId(level_id).then((res)=>{
+            console.log(this.messageList);
+            this.messageList.push({
+              'level_id': res['level_id'],
+              'title': res['title'],
+              'id':res['id'],
+              'timestamp':new Date().getTime(),
+            });
+            console.log(self.messageList);
           });
         },
         loginCalled: function(usernameLogin, password) {
@@ -260,8 +341,23 @@ export default {
         changeLogin() {
             this.Login.dialogVisible = true;
         },
+        changeSearchId(){
+          this.SearchId.dialogVisible = true;
+        },
+        changeSearchWord(){
+          this.Search.dialogVisible = true;
+        },
         changeSearch(){
-            this.Search.dialogVisible = true;
+          this.SearchSelect.dialogVisible = true;
+        },
+        changeModify(){
+          this.Modify.dialogVisible = true;
+        },
+        personShow(){
+           getUserMsg().then((res)=>{
+             console.log(res);
+             console.log(typeof(res));
+           });
         },
         getListMsg(){
             getList().then((res)=>{
@@ -282,7 +378,18 @@ export default {
             });
         },
         gotoPerson(){
-            this.$router.go('/person');
+          if(this.usernameLogged=="unknown") {
+            this.$router.push({path: '/'});
+            this.$router.go({path: '/'});
+          } else
+            this.$router.push({path:'/person'});
+        },
+        changeSelect(arg){
+          if(arg=='0'){
+            Search.dialogVisible = true;
+          }else{
+            SearchId.dialogVisible = true;
+          }
         }
     },
 }
