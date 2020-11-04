@@ -1,4 +1,5 @@
 <template>
+<div id="message-board">
   <el-dialog style="text-align: center" title="修改密码" :visible.sync="dialogVisible" :show-close=false width="80%">
     <el-form label-width="100px">
       <el-form-item label="用户名">
@@ -13,15 +14,25 @@
       <el-form-item label="确认新密码">
         <el-input placeholder="请再次输入新密码" v-model="password3" @input="changePwd3()">{{ password3 }}</el-input>
       </el-form-item>
+      <el-form-item label="请输入电子邮箱地址">
+        <el-input placeholder="请输入电子邮箱" v-model="email" >{{ email }}</el-input>
+      </el-form-item>
+      <el-form-item label="请输入姓名">
+        <el-input placeholder="请输入姓名" v-model="name" >{{ name }}</el-input>
+      </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
         <el-button v-on:click="$emit('cancelModifyPwd',''),dialogVisible=false">取 消</el-button>
-        <el-button v-on:click="$emit('modifypwd',{username:username,password:password,password2:password2,password3:password3}),dialogVisible=false" type="primary" :disabled="state.username_valid===false" :enabled="state.username_valid===true">确 定</el-button>
+        <el-button v-on:click="editUser();dialogVisible=false" type="primary" :disabled="state.username_valid===false||state.pwd_valid===false||state.pwd2_valid===false||state.pwd3_valid===false" :enabled="state.username_valid===true&&state.pwd_valid===true&&state.pwd2_valid===true&&state.pwd3_valid===true">确 定</el-button>
     </span>
   </el-dialog>
+  <el-dialog style="text-align: center" :title="alertDialog.text" :visible.sync="alertDialog.dialogVisible" width="40%">
+  </el-dialog>
+</div>
 </template>
 
 <script>
+import editUserMsg from "@/utils/communication";
 export default {
   name: "ModifyPwd",
   props: {
@@ -33,7 +44,10 @@ export default {
       type: Object,
       default: () => {
         return {
-          username_valid: false
+          username_valid: false,
+          pwd_valid: false,
+          pwd2_valid: false,
+          pwd3_valid: false
         }
       }
     },
@@ -53,7 +67,14 @@ export default {
       type: String,
       default: () => ""
     },
-
+    email:{
+      type:String,
+      default: () => ""
+    },
+    name:{
+      type:String,
+      default: () => ""
+    }
   },
   data(){
     return {
@@ -64,8 +85,14 @@ export default {
           password:this.password,
           password2:this.password2,
           password3:this.password3,
+          email:this.email,
+          name:this.name,
         }
       },
+      alertDialog:{
+         dialogVisible:false,
+         text:"输入信息有误",
+      }
     }
   },
   methods: {
@@ -75,22 +102,34 @@ export default {
     },
     changePwd(e) {
       this.$forceUpdate(e);
-      this.state.username_valid = true;
+      this.state.pwd_valid = true;
     },
     changePwd2(e) {
       this.$forceUpdate(e);
-      this.state.username_valid = true;
+      this.state.pwd2_valid = true;
     },
     changePwd3(e) {
       this.$forceUpdate(e);
-      this.state.username_valid = true;
+      this.state.pwd3_valid = true;
     },
-    modifypwd(username,password,password2,password3){
-       console.log("modifypwd");
-       console.log(username,password,password2,password3);
-    },
+    editUser(){
+      if(this.password2==this.password3){
+        if(!this.email)
+          this.email = "";
+        if(!this.name)
+          this.name = "";
+        editUserMsg(this.username,this.password2,this.password,this.email,this.name);
+      }else{
+        this.alertDialog.dialogVisible = true;
+      }
+    }
   },
   watch: { // 用于实时检测username是否合法
   }
 }
 </script>
+<style scoped>
+    #message-board{
+        height: calc(100vh - 16px);
+    }
+</style>

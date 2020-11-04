@@ -15,6 +15,14 @@ const API = {
         path: "/api/manager/",
         method: "delete",
     },
+    USER:{
+        path:"/api/users/",
+        method: "get",
+    },
+    MODIFYUSER: {
+        path:"/api/users/",
+        method: "put",
+    },
     EDIT: {
         path: "/api/manager/edit/",
         method: "post"

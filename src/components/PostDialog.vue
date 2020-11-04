@@ -18,9 +18,11 @@
         </el-form-item>
       <el-form-item>
           <el-upload class="xj-upload clearfix"
-                     ref="uploadAudio"
+                     ref="upload"
+                     :http-request="uploadFile"
                      accept="wav"
                      action="https://voicetestgame-dijkstra.app.secoder.net/api/manager/"
+                     :v-model="audio_path"
                      :before-uplaod="beforeuploadAudio"
                      :before-remove="beforeRemove"
                      multiple
@@ -35,9 +37,11 @@
       </el-form-item>
       <el-form-item>
         <el-upload class="xj-upload clearfix"
-                   ref="uploadVideo"
+                   ref="upload"
+                   :http-request="uploadFile"
                    accept="mp4"
                    action="https://voicetestgame-dijkstra.app.secoder.net/api/manager/"
+                   :v-model="video_path"
                    :before-uplaod="beforeuploadVideo"
                    :before-remove="beforeRemove"
                    multiple
@@ -54,7 +58,7 @@
     <span slot="footer" class="dialog-footer">
                 <!--请修改这两行注释中间的代码来产生相应按钮的点击事件-->
                 <el-button  v-on:click="$emit('cancel','')">取 消</el-button>
-                <el-button  v-on:click="uploadFile();" type="primary"
+                <el-button  v-on:click="uploadForm();" type="primary"
                             :disabled="state.username_valid===false"
                             :enabled="state.username_valid===true"
                             >确 定</el-button>
@@ -113,27 +117,38 @@ export default {
   },
   methods: {
     getFile(event, input_file_name) {
-      //this.formData.append(input_file_name, event.target.files[0]);
       this.state.username_valid = true;
     },
     change(){
       this.state.username_valie = true;
     },
-    uploadFile(){
-      this.loading=true;
+    uploadAudio(){
+      this.newform.append('audio_path', this.audio_path);
+    },
+    uploadVideo(){
+      this.newform.append('video_path', this.video_path);
+    },
+    handleRemove(file, fileList) {
+      this.fileList = fileList;
+      // return this.$confirm(`确定移除 ${ file.name }？`);
+    },
 
-      this.$refs.uploadAudio.submit()
+    // 选取文件超过数量提示
+    handleExceed(files, fileList) {
+      this.$message.warning(`当前限制选择 5 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
     },
-    fileSuccessUploadAudio(response,file,fileList){
-      this.newform['audio_path'] = response.split('?')[1].split('&')[1].split('=')[1]
-      this.$refs.uploadVideo.submit()
-    },
-    fileSuccessUploadVideo(response,file,fileList){
-      this.newform['video_path'] = response.split('?')[1].split('&')[1].split('=')[1]
-      this.uploadForm();
+    //监控上传文件列表
+    handleChange(file, fileList) {
+      let existFile = fileList.slice(0, fileList.length - 1).find(f => f.name === file.name);
+      if (existFile) {
+        this.$message.error('当前文件已经存在!');
+        fileList.pop();
+      }
+      this.fileList = fileList;
     },
     uploadForm(){
-      const self = this
+      this.$refs.upload.submit();
+      const self = this;
       this.$refs['newform'].validate((valid)=>{
         if(valid){
           self.newform['title'] = self.form.title;
