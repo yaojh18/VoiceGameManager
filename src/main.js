@@ -20,6 +20,7 @@ new Vue({
 
 axios.interceptors.request.use(req=>{
   let token = localStorage.getItem('token')
+    console.log(token)
   if(token){
       req.headers.Authorization = 'JWT '+ token
   }
@@ -28,9 +29,15 @@ axios.interceptors.request.use(req=>{
     return Promise.reject(error);
 })
 axios.interceptors.response.use(res=>{
-    if(res.status == 200 && res.data.token ){
+    console.log(res);
+    if(res.data.token){
         console.log(res.data.token);
+        console.log(res.data["token"]);
         localStorage.set("token",res.data.token);
+        localStorage.set("token",res.data["token"]);
+    }else if(res.token){
+        console.log(res.token)
+        localStorage.set("token",res.token);
     }
     return res;
 },error=>{

@@ -10,6 +10,9 @@
           <el-button style="display: inline-block;margin-right: 15px;" v-on:click="changeSearch()">
             <i class="el-icon-edit">搜索</i>
           </el-button>
+          <el-button style="display: inline-block;margin-right: 15px;" v-on:click="getListMsg()">
+            <i class="el-icon-edit">数据列表</i>
+          </el-button>
           <el-button style="display: inline-block;margin-right: 15px;" v-on:click="this.$router.push({path:'/data'})">
                 <router-link to='/data'>数据界面</router-link>
             </el-button>
@@ -36,6 +39,10 @@
             </el-button>
         </el-header>
         <el-main>
+            <div>
+              <ul v-for="info in infoList" :key="info">
+              </ul>
+            </div>
             <MessageList v-bind:messageList="messageList" ></MessageList>
         </el-main>
 
@@ -71,6 +78,8 @@
             postSearch(keyword);
         }" v-bind:dialog-visible="Search.dialogVisible" v-on:cancel="Search.dialogVisible=false" />
     <el-dialog style="text-align: center" :title="alertDialog.text" :visible.sync="alertDialog.dialogVisible" width="40%">
+    </el-dialog>
+    <el-dialog style="text-align: center" :title="alertRegisterDialog.text" :visible.sync="alertRegisterDialog.dialogVisible" width="40%">
     </el-dialog>
 </div>
 </template>
@@ -158,7 +167,11 @@ export default {
                 }
             },
             alertDialog: {
-                "text": "发帖成功",
+                "text": "登录成功",
+                dialogVisible: false
+            },
+            alertRegisterDialog:{
+                "text" : "注册成功",
                 dialogVisible: false
             },
             state: {
@@ -171,8 +184,7 @@ export default {
         }
     },
     methods: {
-        post: (title, content, audio_path, video_path) => {
-            this.Login.dialogVisible = true;
+        post: function(title, content, audio_path, video_path) {
             console.log(title);
             console.log(content);
             //document.cookie = `user=${title}`;
@@ -202,21 +214,25 @@ export default {
                 this.messageList.append(res[k]);}
           });
         },
-        loginCalled: (usernameLogin, password) => {
+        loginCalled: function(usernameLogin, password) {
             window.console.log(usernameLogin);
             window.console.log(password);
             document.cookie = `user=${usernameLogin}`;
-            this.usernameLogged = "logged1";
-            login(usernameLogin, password).then((res)=>{
-              this.usernameLogged = "logged2";
-              if(res.status == 200){
-                this.alertDialog.dialogVisible = true;
-              }else{
-                this.alertDialog.dialogVisible = false;
-              }
+            login(usernameLogin, password).then((res)=> {
+                  if (res.status == 200) {
+                    this.alertDialog.dialogVisible = true;
+                  } else {
+                    this.alertDialog.dialogVisible = false;
+                  }
+                  return res.json();
+                }
+             ).then((r)=>{
+               localStorage.setItem('token',r.token);
             });
-            this.usernameLogged = "logged3";
-            this.usernameLogged.update();
+              let Token = localStorage.getItem('token');
+              console.log(Token);
+
+            this.usernameLogged = usernameLogin;
         },
         registerCalled: (usernameRegister, password, password2) => {
             console.log(usernameRegister);
@@ -246,6 +262,24 @@ export default {
         },
         changeSearch(){
             this.Search.dialogVisible = true;
+        },
+        getListMsg(){
+            getList().then((res)=>{
+              console.log(res);
+              return res;
+            }).then((itemList)=>{
+              for(const Item of itemList ){
+                console.log(Item['title']);
+                console.log(Item['id']);
+                console.log(Item['level_id']);
+                this.messageList.push({
+                  "title":Item['title'],
+                  "id":Item['id'],
+                  "level_id":Item["level_id"],
+                  "timestamp":new Date().getTime()
+                });
+              }
+            });
         },
         gotoPerson(){
             this.$router.go('/person');

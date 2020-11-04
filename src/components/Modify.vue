@@ -1,5 +1,5 @@
 <template>
-<el-dialog style="text-align: center" title="登录" :visible.sync="modify" :show-close=false width="80%">
+<el-dialog style="text-align: center" title="登录" :visible.sync="dialogVisible" :show-close=false width="80%">
     <el-form label-width="80px">
         <el-form-item label="标题">
             <el-input placeholder="请输入修改标题" v-model="title" @input="changeTitle()">{{ title }}</el-input>
@@ -8,16 +8,16 @@
             <el-input placeholder="请输入内容" v-model="content" @input="changeContent()">{{ content }}</el-input>
         </el-form-item>
         <el-form-item label="音频">
-            <el-input placeholder="请输入音频" v-model="audiofile" @input="changeAudio()">{{ audiofile }}</el-input>
+            <el-input placeholder="请输入音频" v-model="audio_path" @input="changeAudio()">{{ audio_path }}</el-input>
         </el-form-item>
         <el-form-item label="视频">
-            <el-input placeholder="请输入视频" v-model="videofile" @input="changeVideo()">{{ videofile }}</el-input>
+            <el-input placeholder="请输入视频" v-model="video_path" @input="changeVideo()">{{ video_path }}</el-input>
         </el-form-item>
 
     </el-form>
     <span slot="footer" class="dialog-footer">
-        <el-button v-on:click="$emit('cancelmodify',''),loginvisible=false">取 消</el-button>
-        <el-button v-on:click="$emit('logincalled',{username:username,password:password}),loginvisible=false" type="primary" :disabled="state.username_valid===false" :enabled="state.username_valid===true">确 定</el-button>
+        <el-button v-on:click="$emit('cancelmodify',''),dialogVisible=false">取 消</el-button>
+        <el-button v-on:click="dialogVisible=false" type="primary" :disabled="state.username_valid===false" :enabled="state.username_valid===true">确 定</el-button>
     </span>
 </el-dialog>
 </template>
@@ -26,7 +26,7 @@
 export default {
     name: "Modify",
     props: {
-        modifyvisible: {
+        dialogVisible: {
             type: Boolean,
             default: () => false
         },
@@ -47,11 +47,11 @@ export default {
             type: String,
             default: () => ""
         },
-        audiofile:{
+        audio_path:{
             type:File,
             default: ()=> ""
         },
-        videofile:{
+        video_path:{
             type:File,
             default: ()=> ""
         },
@@ -75,13 +75,30 @@ export default {
         change(e) {
             this.$forceUpdate(e);
         },
-        changename(e) {
+        changeTitle(e) {
             this.$forceUpdate(e);
             this.setState({
                 username_valid: true
             });
-            console.log(this.state.username_valid);
-        }
+        },
+        changeContent(e){
+          this.$forceUpdate(e);
+          this.setState({
+            username_valid: true
+          });
+        },
+        changeAudio(e){
+          this.$forceUpdate(e);
+          this.setState({
+            username_valid: true
+          });
+        },
+        changeVideo(e){
+          this.$forceUpdate(e);
+          this.setState({
+            username_valid: true
+          });
+        },
     },
     watch: { // 用于实时检测username是否合法
         "state.username": {
