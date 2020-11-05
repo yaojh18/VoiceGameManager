@@ -27,9 +27,15 @@ export const searchBack = (keyword) => fetch(API.SEARCH.path,{
         "Authorization":"JWT "+localStorage.getItem('token')
     },
 });
-export const searchBackId = (level_id) => fetch(API.SEARCH.path,{
+export const searchBackIdLevel = (level_id) => fetch(API.SEARCH.path + "/" + String(level_id),{
     method: API.SEARCH.method,
-    body:JSON.stringify({'level_id':level_id}),
+    headers: {
+        "Content-Type":"application/json",
+        "Authorization":"JWT "+localStorage.getItem('token')
+    },
+})
+export const searchBackId = (data_id) => fetch(API.SEARCH.path + "?level_id=" + String(data_id),{
+    method: API.SEARCH.method,
     headers: {
         "Content-Type":"application/json",
         "Authorization":"JWT "+localStorage.getItem('token')
@@ -61,4 +67,25 @@ export const editUserMsg = (username,password,password_old,email,name) =>fetch(A
     headers:{
         "Authorization":"JWT "+localStorage.getItem('token')
     }
+})
+export const deleteMsg = (data_id) => fetch(API.DELETE.path+String(data_id),{
+    method:API.DELETE.method,
+    headers: {
+        "Content-Type":"application/json",
+        "Authorization":"JWT "+localStorage.getItem('token')
+    },
+});
+export const EditMsg = (data_id,level_id,title,content,audio_path,video_path) => fetch(API.EDIT.path+String(data_id),{
+    method:API.EDIT.method,
+    body: JSON.stringify({
+        "title":title,
+        "content":content,
+        "audio_path":audio_path,
+        "video_path":video_path,
+        "level_id":level_id,
+    }),
+    headers: {
+        "Content-Type":"application/json",
+        "Authorization":"JWT "+localStorage.getItem('token')
+    },
 })
