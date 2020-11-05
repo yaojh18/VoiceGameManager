@@ -56,7 +56,7 @@ export default({
         submitForm(e) {
             console.log("helloworld");
             e.preventDefault();
-            for (let i in this.param) {
+            for (let i in this.form) {
                 this.formData.append(i, this.form[i]);
             }
             console.log("helloworld");
@@ -67,7 +67,7 @@ export default({
                 }
             };
           console.log("helloworld");
-            $http.post('https://voicetestgame-dijkstra.app.secoder.net/api/users/', this.formData, config).then(function (res) {
+            this.$http.post('https://voicetestgame-dijkstra.app.secoder.net/api/users/', this.formData, config).then(function (res) {
                 if (res.status === 200) {
                     console.log(res);
                 }
