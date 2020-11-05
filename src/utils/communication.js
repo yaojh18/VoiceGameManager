@@ -41,6 +41,13 @@ export const searchBackId = (data_id) => fetch(API.SEARCH.path + "?level_id=" + 
         "Authorization":"JWT "+localStorage.getItem('token')
     },
 });
+export const AddBack = (formdata) => fetch(API.ADD.path,{
+    method:API.ADD.method,
+    body:formdata,
+    headers:{
+        "Authorization":"JWT "+localStorage.getItem('token')
+    },
+});
 export const addmsg = (title, content, audio_path, video_path ) => fetch(API.ADD.path, {
     method: API.ADD.method,
     body: {title:title,content:content,audio_path:audio_path,video_path:video_path},
@@ -88,4 +95,11 @@ export const EditMsg = (data_id,level_id,title,content,audio_path,video_path) =>
         "Content-Type":"application/json",
         "Authorization":"JWT "+localStorage.getItem('token')
     },
-})
+});
+export const ModifyBack = (formdata,dataId) => fetch(API.MODIFYY.path +"/"+String(data_id),{
+    method:API.MODIFYY.method,
+    body:formdata,
+    headers:{
+        "Authorization":"JWT "+localStorage.getItem('token')
+    },
+});

@@ -81,7 +81,7 @@
             <el-menu-item index="3"
                           disabled>消息中心</el-menu-item>
             <el-menu-item index="4">
-              <a href="#">订单管理</a>
+              <a href="#">数据管理</a>
             </el-menu-item>
           </el-menu>
 
@@ -165,7 +165,7 @@ export default {
       // 绘制图表
       myChart.setOption({
         title: {
-          text: 'ECharts 入门示例'
+          text: '数据可视化平台'
         },
         tooltip: {},
         xAxis: {
@@ -174,7 +174,7 @@ export default {
         yAxis: {},
         series: [
           {
-            name: '销量',
+            name: '分数',
             type: 'bar',
             data: [5, 20, 36, 10, 10, 20]
           }

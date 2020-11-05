@@ -43,6 +43,10 @@ const API = {
         path: "/api/manager/",
         method: "get"
     },
+    MODIFYY:{
+        path:"/api/manager/",
+        method: "put"
+    },
 
 }
 

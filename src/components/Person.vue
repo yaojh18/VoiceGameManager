@@ -1,5 +1,5 @@
 <template>
-  <el-container>
+  <el-container height="100px">
     <el-button v-on:click="handleModify()" style="display: inline-block;margin-right: 15px;">
       <i class="el-icon-edit">个人信息修改</i>
     </el-button>

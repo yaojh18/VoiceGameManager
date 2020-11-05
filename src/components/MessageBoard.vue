@@ -112,17 +112,7 @@
             post(title,content,audio_path,video_path);
         }" v-bind:dialog-visible="postDialog.dialogVisible" v-on:cancel="postDialog.dialogVisible=false" />
     <Logout v-bind:dialog-visible="Logout.dialogVisible" v-on:cancelLogout="Logout.dialogVisible=false" v-on:func="FuncCalled()"/>
-    <Modify v-on:postModify="({title,content,audio_path,video_path})=>{logout
-            messageList.push({
-                title,
-                content,
-                audio:audio_path,
-                video:video_path
-            });
-            $emit('refresh','');
-            Modify.dialogVisible = false;
-            postModify(title,content,audio_path,video_path);
-        }" v-bind:dialog-visible="Modify.dialogVisible" v-on:cancel="Modify.dialogVisible=false" />
+    <Modify v-bind:dialog-visible="Modify.dialogVisible" />
     <Delete v-bind:dialog-visible="Delete.dialogVisible" v-on:DeleteCalledAgain="({data_id})=>DeleteFuncCalled(data_id)"/>
     <Search v-on:searchCalled="({keyword})=>{
             Search.dialogVisible = false;
@@ -213,10 +203,11 @@ export default {
                 }
             },
             Add:{
-                dialogVisible: false,
+               dialogVisible: false,
                form: {
                 title: this.title,
                 content: this.content,
+                 level_id:this.level_id,
               },
               formData: new FormData(),
             },
@@ -254,8 +245,8 @@ export default {
                 form:{
                     title: "",
                     content: "",
-                    audio_path: "",
-                    video_path: "",
+                    ID: 0,
+                    dataId:0,
                 }
             },
             Delete:{
