@@ -1,111 +1,132 @@
 <template>
-<el-dialog style="text-align: center" title="修改" :visible.sync="dialogVisible" :show-close=false width="80%">
+  <el-dialog style="text-align: center"
+             title="添加"
+             :visible.sync="dialogVisible"
+             :show-close=false
+             width="80%">
     <el-form label-width="80px">
-        <el-form-item label="标题">
-            <el-input placeholder="请输入修改标题" v-model="title" @input="changeTitle()">{{ title }}</el-input>
-        </el-form-item>
-        <el-form-item label="内容">
-            <el-input placeholder="请输入内容" v-model="content" @input="changeContent()">{{ content }}</el-input>
-        </el-form-item>
-        <el-form-item label="音频">
-            <el-input placeholder="请输入音频" v-model="audio_path" @input="changeAudio()">{{ audio_path }}</el-input>
-        </el-form-item>
-        <el-form-item label="视频">
-            <el-input placeholder="请输入视频" v-model="video_path" @input="changeVideo()">{{ video_path }}</el-input>
-        </el-form-item>
-
+      <el-form-item>
+        <label>关卡ID  </label>
+        <input type="text" v-model="level"/>
+      </el-form-item>
+      <el-form-item label="修改数据ID">
+        <input type='text' v-model="dataId"/>
+      </el-form-item>
+      <el-form-item>
+        <label>题目  </label>
+        <input type="text" v-model="title"/>
+      </el-form-item>
+      <el-form-item>
+        <label>文案  </label>
+        <input type="text" v-model="content"/>
+      </el-form-item>
+      <el-form-item>
+        <label>上传音频   </label>
+        <input type="file" @change="getFile($event,'audio_path')"/>
+      </el-form-item>
+      <el-form-item>
+        <label>上传视频   </label>
+        <input type="file" @change="getFile($event,'video_path')"/>
+      </el-form-item>
+      <button @click=submitForm($event)>OK</button>
     </el-form>
     <span slot="footer" class="dialog-footer">
-        <el-button v-on:click="$emit('cancelmodify',''),dialogVisible=false">取 消</el-button>
-        <el-button v-on:click="dialogVisible=false" type="primary" :disabled="state.username_valid===false" :enabled="state.username_valid===true">确 定</el-button>
-    </span>
-</el-dialog>
+  <el-button  v-on:click="$emit('cancelAdd',''),dialogVisible=false">取 消</el-button>
+  <el-button  v-on:click="$emit('addCalled',''),dialogVisible=false" type="primary" enabled>确 定</el-button>
+</span>
+  </el-dialog>
 </template>
-
 <script>
-export default {
-    name: "Modify",
-    props: {
-        dialogVisible: {
-            type: Boolean,
-            default: () => false
-        },
-        state: {
-            type: Object,
-            default: () => {
-                return {
-                    username: "",
-                    username_valid: false
-                }
-            }
-        },
-        title: {
-            type: String,
-            default: () => ""
-        },
-        content: {
-            type: String,
-            default: () => ""
-        },
-        audio_path:{
-            type:File,
-            default: ()=> ""
-        },
-        video_path:{
-            type:File,
-            default: ()=> ""
-        },
+import {ModifyBack} from "@/utils/communication"
+export default({
+  name: "Modify",
+  props:{
+    dialogVisible: {
+      type: Boolean,
+      default: () => true
     },
-    // 请在下方设计自己的数据结构以及事件函数
-    data() {
-        return {
-            form: {
-                username: this.username,
-                password: this.password
-            },
-        }
+    level:{
+      type:Number,
+      default: ()=>0
     },
-    methods: {
-        post() {
-            var msg = this;
-            this.dialogVisible = false;
-            //获取密码
-            return msg;
-        },
-        change(e) {
-            this.$forceUpdate(e);
-        },
-        changeTitle(e) {
-            this.$forceUpdate(e);
-            this.setState({
-                username_valid: true
-            });
-        },
-        changeContent(e){
-          this.$forceUpdate(e);
-          this.setState({
-            username_valid: true
-          });
-        },
-        changeAudio(e){
-          this.$forceUpdate(e);
-          this.setState({
-            username_valid: true
-          });
-        },
-        changeVideo(e){
-          this.$forceUpdate(e);
-          this.setState({
-            username_valid: true
-          });
-        },
+    title:{
+      type:String,
+      default: ()=>""
     },
-    watch: { // 用于实时检测username是否合法
-        "state.username": {
-            handler(newName) {
-                this.state.username_valid = /^[A-Za-z\u4e00-\u9fa5][-A-Za-z0-9\u4e00-\u9fa5_]*$/.test(newName)
-            }
-        }
+    dataId:{
+      type:Number,
+      default:()=>0
+    },
+    content:{
+      type:String,
+      default: ()=>""
+    },
+  },
+  data(){
+    return {
+      form: {
+        title: this.title,
+        content: this.content,
+        level_id:this.level_id,
+        dataId:this.dataId,
+      },
+      formData: new FormData(),
     }
-}
+  },
+  mounted: function () {
+
+  },
+  methods: {
+    getFile(e, input_file_name) {
+      console.log(input_file_name);
+      this.formData.append(input_file_name, e.target.files[0]);
+      console.log(this.formData);
+      console.log(e.target.files[0]);
+    },
+    submitForm(e) {
+      console.log("helloworld");
+      e.preventDefault();
+      this.formData.append("title",this.title);
+      this.formData.append("content",this.content);
+      this.formData.append("level_id",this.level);
+      console.log("helloworld");
+      let config = {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Authorization' : 'JWT '+localStorage.getItem("token")
+        }
+      };
+      console.log("helloworld");
+      console.log(this.formData);
+      ModifyBack(this.formData,this.dataId);
+      this.$axios({
+        url:'https://voicetestgame-dijkstra.app.secoder.net/api/manager',
+        method:'post',//method默认是get请求
+        data: this.formData,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Authorization' : 'JWT '+localStorage.getItem("token")
+        }
+      }).then(function(res){
+        console.log(res)
+        // axios会对我们请求来的结果进行再一次的封装（ 让安全性提高 ）
+      }).catch(err=>{
+        console.log(err)
+      });
+      //this.$http.post('https://voicetestgame-dijkstra.app.secoder.net/api/users/', this.formData).then((res)=>console.log(res));
+      //this.$http.post('https://voicetestgame-dijkstra.app.secoder.net/api/users/', "",config).then((res)=>console.log(res));
+      this.$axios.post('https://voicetestgame-dijkstra.app.secoder.net/api/users/', this.formData, config).then(function (res) {
+        if (res.status === 200) {
+          console.log(res);
+        }
+      }).catch((error) => {
+        console.log(error);
+      });
+
+    }
+  },
+
+});
 </script>
+
+
