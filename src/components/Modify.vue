@@ -1,5 +1,5 @@
 <template>
-<el-dialog style="text-align: center" title="登录" :visible.sync="dialogVisible" :show-close=false width="80%">
+<el-dialog style="text-align: center" title="修改" :visible.sync="dialogVisible" :show-close=false width="80%">
     <el-form label-width="80px">
         <el-form-item label="标题">
             <el-input placeholder="请输入修改标题" v-model="title" @input="changeTitle()">{{ title }}</el-input>

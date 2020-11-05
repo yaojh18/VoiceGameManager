@@ -156,7 +156,7 @@ export default {
           self.$axios({
             method:'post',
             url:"https://voicetestgame-dijkstra.app.secoder.net/api/manager/",
-            dta:self.newform,
+            data:self.newform,
             headers:{
               'Content-Type':"multipart/form-data",
               "Authorization":"JWT "+localStorage.getItem('token')

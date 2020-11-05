@@ -20,12 +20,14 @@ export default {
   props: {
     messageList: {
       type: Array,
-      default: () => new Array(5).fill({
-        title: "Hello",
-        id: "Unknown id!",
-        level_id: "unknown level_id!",
-        timestamp: new Date().getTime() 
-      })
+      default: () => new Array(5).fill(
+          {
+            "title":"unknown",
+            "level_id":"0",
+            "id":"0",
+            "timestamp":new Date().getTime(),
+          }
+      )
     }
   },
   methods:{

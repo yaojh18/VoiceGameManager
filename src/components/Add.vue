@@ -7,8 +7,8 @@
 <el-form label-width="80px">    
 <input type="text" v-model="title">
 <input type="text" v-model="content">
-<input type="file" @change="getFile($event,'file_avatar')">
-<input type="file" @change="getFile($event,'file_thumb')">
+<input type="file" @change="getFile($event,'audio_path')">
+<input type="file" @change="getFile($event,'video_path')">
 <button @click="submitForm($event)">OK</button>
 </el-form>
 <span slot="footer" class="dialog-footer">
@@ -29,8 +29,8 @@ export default({
         param: {
             title: this.title,
             content: this.content,
-            file_avatar: '',
-            file_thumb: '',
+            audio_path: '',
+            video_path: '',
         },
         formData: new FormData(),
         }

@@ -1,5 +1,5 @@
 <template>
-<el-dialog :visible.sync="dialogVisible" >
+<el-dialog :visible.sync="dialogVisible" title="注册" style="text-align: center" :show-close=false width="80%">
     <el-form label-width="80px">
         <el-form-item label="用户名">
              <el-input placeholder="请输入用户名" v-model="username" @input="changeRegisterName()">{{ username }}</el-input>

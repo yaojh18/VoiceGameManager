@@ -24,12 +24,12 @@ const API = {
         method: "put",
     },
     EDIT: {
-        path: "/api/manager/edit/",
-        method: "post"
+        path: "/api/manager/",
+        method: "put"
     },
     SEARCH: {
-        path: "/api/manager/search/",
-        method: "post"
+        path: "/api/manager",
+        method: "get"
     },
     LOGIN: {
         path: "/api/users/login/",
