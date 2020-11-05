@@ -45,16 +45,16 @@
               </el-button>
               <el-dropdown-menu slot="dropdown" class="user-dropdown">
                 <el-dropdown-item>
-                  <span style="display:block;" v-on:click="postDialog.dialogVisible=true" ><i class="el-icon-add">增加</i></span>
+                  <span style="display:block;" v-on:click="changeAdd()" ><i class="el-icon-edit">增加</i></span>
                 </el-dropdown-item>
                 <el-dropdown-item divided>
-                  <span style="display:block;" v-on:click="changeModify()"><i class="el-icon-add">修改</i></span>
+                  <span style="display:block;" v-on:click="changeModify()"><i class="el-icon-edit">修改</i></span>
                 </el-dropdown-item>
                 <el-dropdown-item divided>
-                  <span style="display:block;" v-on:click="changeSearch()"><i class="el-icon-add">查询</i></span>
+                  <span style="display:block;" v-on:click="changeSearch()"><i class="el-icon-edit">查询</i></span>
                 </el-dropdown-item>
                 <el-dropdown-item divided>
-                  <span style="display:block;" v-on:click="changeDelete()"><i class="el-icon-add">删除</i></span>
+                  <span style="display:block;" v-on:click="changeDelete()"><i class="el-icon-edit">删除</i></span>
                 </el-dropdown-item>
               </el-dropdown-menu>
             </div>
@@ -90,16 +90,6 @@
             <el-button style="display: inline-block;margin-right: 15px;" v-on:click="this.$router.push({path:'/person'})">
                 <router-link to='/person'>个人界面</router-link>
             </el-button>
-
-            <!--请修改这两行注释中间的代码完成"刷新"功能-->
-            <el-button style="display:inline-block;margin-right: 15px;">
-                <!--请修改这两行注释中间的代码完成"刷新"功能-->
-                <i class="el-icon-refresh" style="object-fit: fill">刷新</i>
-            </el-button>
-
-
-
-
         </el-header>
         <el-main>
             <MessageList v-bind:messageList="messageList" v-on:RefreshMsg="this.$forceUpdate()"></MessageList>
@@ -116,6 +106,7 @@
                 Register.dialogVisible = false;
                 registerCalled(usernameRegister,password,password2);
             }" />
+    <Add v-bind:dialog-visible="Add.dialogVisible"/>
     <PostDialog v-on:postmsg="({title,content,audio_path,video_path})=>{
             postDialog.dialogVisible = false;
             post(title,content,audio_path,video_path);
@@ -152,8 +143,8 @@
     </el-dialog>
     <el-dialog style="text-align: center" :title="alertRegisterDialog.text" :visible.sync="alertRegisterDialog.dialogVisible" width="40%">
     </el-dialog>
-
-
+    <el-dialog style="text-align: center" :title="alertDeleteDialog.text" :visible.sync="alertDeleteDialog.dialogVisible" width="40%">
+    </el-dialog>
 </div>
 </template>
 
@@ -170,6 +161,7 @@ import SearchDataId from "@/components/SearchDataId"
 import SearchSelect from "@/components/SearchSelect"
 import Logout from "@/components/Logout"
 import ModifyPwd from "@/components/ModifyPwd"
+import Add from "@/components/Add"
 import {
     addmsg,
     login,
@@ -195,7 +187,8 @@ export default {
         Modify,
         Delete,
         Logout,
-        ModifyPwd
+        ModifyPwd,
+        Add
     },
     // 请在下方设计自己的数据结构及函数来完成最终的留言板功能
     data() {
@@ -218,6 +211,14 @@ export default {
                   password2: "",
                   password3: ""
                 }
+            },
+            Add:{
+                dialogVisible: false,
+               form: {
+                title: this.title,
+                content: this.content,
+              },
+              formData: new FormData(),
             },
             Register: {
                 dialogVisible: false,
@@ -280,6 +281,10 @@ export default {
                 "text" : "注册成功",
                 dialogVisible: false
             },
+            alertDeleteDialog:{
+                "text" : "删除成功",
+                dialogVisible: false,
+            },
             state: {
                 username: "",
                 username_valid: false
@@ -325,6 +330,7 @@ export default {
           console.log(level_id);
           searchBackIdLevel(level_id).then((res)=>{
             console.log(res);
+            console.log(res);
             this.messageList.push({
               'level_id': res['level_id'],
               'title': res['title'],
@@ -342,19 +348,21 @@ export default {
             });
           });
         },
-      postSearchId:(data_id)=>{
+      postSearchId : function(data_id) {
         console.log(data_id);
         searchBackId(data_id).then((res)=>{
           console.log(res);
+          console.log(res.data);
           this.messageList.push({
-            'level_id': res['level_id'],
-            'title': res['title'],
-            'id':res['id'],
+            'level_id': res.data.level_id,
+            'title': res.data.title,
+            'id':res.data.id,
             'timestamp':new Date().getTime(),
           });
           return res.json();
         }).then((r)=>{
           console.log(r);
+          console.log(typeof(r));
           this.messageList.push({
             'level_id': r['level_id'],
             'title': r['title'],
@@ -386,7 +394,12 @@ export default {
         },
         DeleteFuncCalled : (data_id)=>{
           deleteMsg(data_id).then((res)=>{
-            console.log(res);
+              console.log(res);
+              if(res.status == 200){
+                this.alertDeleteDialog.dialogVisible  = true;
+              }else{
+                this.alertDeleteDialog.dialogVisible  = false;
+              }
           });
         },
         registerCalled: (usernameRegister, password, password2) => {
@@ -401,6 +414,9 @@ export default {
                     this.usernameLogged = "unknown";
                 }
             });
+        },
+        changeAdd(){
+        this.Add.dialogVisible=true;
         },
         add(msg) {
             this.messageList.push(msg);
