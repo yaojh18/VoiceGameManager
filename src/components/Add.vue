@@ -1,36 +1,44 @@
 <template>
 <el-dialog style="text-align: center"
-        title="登录"
-        :visible.sync="loginvisible"
+        title="添加"
+        :visible.sync="dialogVisible"
         :show-close=false
         width="80%">
 <el-form label-width="80px">    
-<input type="text" v-model="title">
-<input type="text" v-model="content">
-<input type="file" @change="getFile($event,'audio_path')">
-<input type="file" @change="getFile($event,'video_path')">
-<button @click="submitForm($event)">OK</button>
+  <input type="text" v-model="title"/>
+  <input type="text" v-model="content"/>
+<input type="file" @change="getFile($event,'audio_path')"/>
+<input type="file" @change="getFile($event,'video_path')"/>
+<button @click=submitForm($event)>OK</button>
 </el-form>
 <span slot="footer" class="dialog-footer">
-        <el-button  v-on:click="$emit('cancellogin',''),loginvisible=false">取 消</el-button>
-        <el-button  v-on:click="$emit('logincalled',{username:username,password:password}),loginvisible=false" type="primary"
-                            :disabled="state.username_valid===false"
-                            :enabled="state.username_valid===true"
-                            >确 定</el-button>
+  <el-button  v-on:click="$emit('cancelAdd',''),dialogVisible=false">取 消</el-button>
+  <el-button  v-on:click="$emit('addCalled',''),dialogVisible=false" type="primary" enabled>确 定</el-button>
 </span>
 </el-dialog>
 </template>
 <script>
 export default({
     name: "Add",
-    el: '#app',
+    props:{
+      dialogVisible: {
+        type: Boolean,
+        default: () => true
+      },
+      title:{
+         type:String,
+         default: ()=>""
+      },
+      content:{
+         type:String,
+        default: ()=>""
+      },
+    },
     data(){
         return {
-        param: {
+        form: {
             title: this.title,
             content: this.content,
-            audio_path: '',
-            video_path: '',
         },
         formData: new FormData(),
         }
@@ -39,20 +47,27 @@ export default({
 
     },
     methods: {
-        getFile(event, input_file_name) {
-            this.formData.append(input_file_name, event.target.files[0]);
+        getFile(e, input_file_name) {
+            console.log(input_file_name);
+            this.formData.append(input_file_name, e.target.files[0]);
+            console.log(this.formData);
+            console.log(e.target.files[0]);
         },
-        submitForm(event) {
-            event.preventDefault();
+        submitForm(e) {
+            console.log("helloworld");
+            e.preventDefault();
             for (let i in this.param) {
-                this.formData.append(i, this.param[i]);
+                this.formData.append(i, this.form[i]);
             }
-            let config = {
+            console.log("helloworld");
+          let config = {
                 headers: {
-                    'Content-Type': 'multipart/form-data'
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization' : 'JWT '+localStorage.getItem("token")
                 }
             };
-            this.$http.post('/url', this.formData, config).then(function (res) {
+          console.log("helloworld");
+            $http.post('https://voicetestgame-dijkstra.app.secoder.net/api/users/', this.formData, config).then(function (res) {
                 if (res.status === 200) {
                     console.log(res);
                 }
