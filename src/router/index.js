@@ -8,6 +8,7 @@ import Stage2 from '@/views/Stage2.vue'
 import Stage3 from '@/views/Stage3.vue'
 import DataView from '@/views/DataView.vue'
 import Add from '@/views/Add.vue'
+import Modify from '@/views/Modify.vue'
 import PersonView from '@/views/PersonView.vue'
 
 Vue.use(VueRouter)
@@ -56,6 +57,11 @@ const routes = [{
         path: '/add',
         name: 'Add',
         component: Add,
+    },
+    {
+        path: '/modify',
+        name: 'Modify',
+        component: Modify,
     }
 ]
 

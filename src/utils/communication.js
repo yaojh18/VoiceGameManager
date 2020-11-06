@@ -96,7 +96,7 @@ export const EditMsg = (data_id,level_id,title,content,audio_path,video_path) =>
         "Authorization":"JWT "+localStorage.getItem('token')
     },
 });
-export const ModifyBack = (formdata,dataId) => fetch(API.MODIFYY.path +"/"+String(data_id),{
+export const ModifyBack = (formdata,dataId) => fetch(API.MODIFYY.path +"/"+String(dataId),{
     method:API.MODIFYY.method,
     body:formdata,
     headers:{

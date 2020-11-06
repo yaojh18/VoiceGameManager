@@ -5,7 +5,7 @@
             <el-input placeholder="请输入用户名" v-model="username" @input="changeName()">{{ username }}</el-input>
         </el-form-item>
         <el-form-item label="密码">
-            <el-input placeholder="请输入密码" v-model="password" @input="changePwd()">{{ password }}</el-input>
+            <el-input placeholder="请输入密码" v-model="password" show-password></el-input>
         </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
