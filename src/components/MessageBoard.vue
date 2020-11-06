@@ -1,23 +1,7 @@
 <template>
 <div id="message-board">
     <el-container style="height:100%; border: 1px solid #eee">
-        <el-header style="text-align: right; font-size: 10px">
-            <el-dropdown style="display: inline-block; text-align:right; margin-left:15px; margin-right:15px; " class="avatar-container" trigger="click" >
-              <div class="avatar-wrapper">
-                <el-button type="primary" size="medium" v-model="usernameLogged"  v-bind="usernameLogged">
-                  {{usernameLogged}}
-                  <i class="el-icon-caret-bottom" />
-                </el-button>
-                <el-dropdown-menu slot="dropdown" class="user-dropdown">
-                  <el-dropdown-item>
-                  <span style="display:block;" @click="gotoPerson()">个人信息修改</span>
-                  </el-dropdown-item>
-                  <el-dropdown-item divided>
-                    <span style="display:block;" @click="personShow()">个人信息展示</span>
-                  </el-dropdown-item>
-                </el-dropdown-menu>
-              </div>
-            </el-dropdown>
+        <el-header style="font-size: 10px;background-color:#87CEFA">
               <el-dropdown style="display: inline-block; text-align:right; margin-left:15px; margin-right:15px; " class="avatar-container" trigger="click" >
                 <div class="avatar-wrapper">
                   <el-button type="default" size="medium"  >
@@ -90,12 +74,70 @@
             <el-button style="display: inline-block;margin-right: 15px;" v-on:click="this.$router.push({path:'/person'})">
                 <router-link to='/person'>个人界面</router-link>
             </el-button>
+          <el-dropdown style="align:right;display: inline-block; text-align:right; margin-right:3px; " class="avatar-container" trigger="click" >
+            <div class="avatar-wrapper">
+              <el-button type="primary" size="medium" v-model="usernameLogged"  v-bind="usernameLogged">
+                {{usernameLogged}}
+                <i class="el-icon-caret-bottom" />
+              </el-button>
+              <el-dropdown-menu slot="dropdown" class="user-dropdown">
+                <el-dropdown-item>
+                  <span style="display:block;" @click="gotoPerson()">个人信息修改</span>
+                </el-dropdown-item>
+                <el-dropdown-item divided>
+                  <span style="display:block;" @click="personShow()">个人信息展示</span>
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </div>
+          </el-dropdown>
+
         </el-header>
         <el-main>
-            <MessageList v-bind:messageList="messageList" v-on:RefreshMsg="this.$forceUpdate()"></MessageList>
+            <el-form :inline="true" align="left" class="padding-10-0">
+              <span style="vertical-align:middle;margin-left:15px;" inline-block><i class="el-icon-zoom-in">搜索</i></span>
+              <span style="vertical-align:middle" inline-block>
+                <el-input style="vertical-align:middle;width:200px;margin-left:15px;" inline-block placeholder="输入搜索信息"></el-input>
+              </span>
+              <span inline-block>
+                <el-dropdown style="vertical-align:middle;display: inline-block; text-align:right; margin-left:15px; margin-right:15px; " class="avatar-container" trigger="click" >
+                  <div class="avatar-wrapper">
+                    <el-button size="medium">搜索类型<i class="el-icon-caret-bottom" />
+                    </el-button>
+                    <el-dropdown-menu slot="dropdown" class="user-dropdown">
+                      <el-dropdown-item>
+                        <span style="display:block;" @click="gotoPerson()">关键词搜索</span>
+                      </el-dropdown-item>
+                      <el-dropdown-item divided>
+                        <span style="display:block;" @click="personShow()">数据搜索</span>
+                      </el-dropdown-item>
+                      <el-dropdown-item divided>
+                        <span style="display:block;" @click="personShow()">关卡搜索</span>
+                      </el-dropdown-item>
+                    </el-dropdown-menu>
+                  </div>
+                </el-dropdown>
+              </span>
+            </el-form>
+          <div class="c-content">
+            <div class="c-search-table beauty-Scroll">
+              <el-scrollbar>
+                <MessageList v-bind:messageList="messageList" v-on:RefreshMsg="this.$forceUpdate()"
+                v-on:uploadMsgTB="(choice,title,level_id,id)=>{
+                  if(choice=='close'){
+                     console.log(choice);
+                  }else if(choice=='edit'){
+                     console.log(choice);
+                  }else if(choice=='detail'){
+                     console.log(choice);
+                  }
+                  console.log(title,level_id,id);
+                }">
+                </MessageList>
+              </el-scrollbar>
+            </div>
+          </div>
         </el-main>
-
-        <el-footer>@DIJKSTRA</el-footer>
+        <el-footer style="background-color:#87CEFA">@DIJKSTRA</el-footer>
     </el-container>
     <ModifyPwd v-bind:dialog-visible="ModifyPwd.dialogVisible" v-on:cancelModifyPwd="ModifyPwd.dialogVisible=false"/>
     <Login v-bind:dialog-visible="Login.dialogVisible" v-on:cancelLogin="Login.dialogVisible=false" v-on:login="({usernameLogin,password})=>{
@@ -523,5 +565,15 @@ a {
 
 .router-link-active {
     text-decoration: none;
+}
+.c-search-table{
+  width: 100%;
+}
+.beauty-Scroll{
+  .el-scrollbar{
+    height: 100%; /*此处一定要设置高度，不然内层的计算属性不生效*/
+  }
+  .el-scrollbar__wrap {
+  }
 }
 </style>

@@ -1,19 +1,20 @@
 <template>
     <el-menu :default-openeds="[]" style="background: #b0c7e7;border-radius: 4px;margin: 5px">
-        <el-submenu index="view" style="text-align: left">
+       <el-submenu index="view" style="text-align: left">
             <template slot="title" ><i class="el-icon-chat-square"/>
-                
                 <span class="messageblock-title" >{{ title }}</span>
-                
+                <span style="padding:4px;align:right" on-click="emit('closeclicked','');"><i class="el-icon-close"></i></span>
+                <span style="padding:4px;align:right" on-click="emit('editclicked','');"><i class="el-icon-edit"></i></span>
+                <span style="padding:4px;align:right" on-click="emit('detailclicked','');"><i class="el-icon-zoom-in"></i></span>
             </template>
             <div style="display:flex; margin-top: 3px; font-size: small;color: grey">
                 <span class="messageblock-datetime" style="padding: 4px;">
-                
                 {{ datetime }}
                 </span>
                 <span class="messageblock-user" style="padding: 4px;">{{ level_id }}</span>
             </div>
             <div class="messageblock-content">{{ id }}</div>
+
         </el-submenu>
     </el-menu>
 </template>

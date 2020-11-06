@@ -1,15 +1,16 @@
 <template>
   <el-dialog style="text-align: center"
-             title="添加"
+             title="修改"
              :visible.sync="dialogVisible"
              :show-close=false
-             width="80%">
+             width="90%">
     <el-form label-width="80px">
       <el-form-item>
-        <label>关卡ID  </label>
+        <label>关卡ID </label>
         <input type="text" v-model="level"/>
       </el-form-item>
-      <el-form-item label="修改数据ID">
+      <el-form-item >
+        <label>修改数据ID </label>
         <input type='text' v-model="dataId"/>
       </el-form-item>
       <el-form-item>
@@ -28,7 +29,7 @@
         <label>上传视频   </label>
         <input type="file" @change="getFile($event,'video_path')"/>
       </el-form-item>
-      <button @click=submitForm($event)>OK</button>
+      <button @click=submittt($event)>OK</button>
     </el-form>
     <span slot="footer" class="dialog-footer">
   <el-button  v-on:click="$emit('cancelAdd',''),dialogVisible=false">取 消</el-button>
@@ -83,7 +84,7 @@ export default({
       console.log(this.formData);
       console.log(e.target.files[0]);
     },
-    submitForm(e) {
+    submittt(e) {
       console.log("helloworld");
       e.preventDefault();
       this.formData.append("title",this.title);
