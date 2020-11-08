@@ -6,7 +6,7 @@
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
-        <el-button v-on:click="$emit('cancelsearch',''),dialogVisible=false">取 消</el-button>
+        <el-button v-on:click="dialogVisible=false">取 消</el-button>
         <el-button v-on:click="$emit('searchIdCalled',{level_id:level_id}),dialogVisible=false" type="primary" enabled>确 定</el-button>
     </span>
   </el-dialog>
@@ -23,7 +23,7 @@ export default {
     },
     level_id: {
       type:Number,
-      default :()=>""
+      default :()=> 0
     }
   },
   data(){

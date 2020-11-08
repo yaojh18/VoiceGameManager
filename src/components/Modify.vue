@@ -32,7 +32,7 @@
       <button @click=submittt($event)>OK</button>
     </el-form>
     <span slot="footer" class="dialog-footer">
-  <el-button  v-on:click="$emit('cancelAdd',''),dialogVisible=false">取 消</el-button>
+  <el-button  v-on:click="dialogVisible=false">取 消</el-button>
   <el-button  v-on:click="$emit('addCalled',''),dialogVisible=false" type="primary" enabled>确 定</el-button>
 </span>
   </el-dialog>

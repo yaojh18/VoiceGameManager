@@ -33,7 +33,7 @@ export const searchBackIdLevel = (level_id) => fetch(API.SEARCH.path + "/" + Str
         "Content-Type":"application/json",
         "Authorization":"JWT "+localStorage.getItem('token')
     },
-})
+});
 export const searchBackId = (data_id) => fetch(API.SEARCH.path + "?level_id=" + String(data_id),{
     method: API.SEARCH.method,
     headers: {
@@ -64,17 +64,18 @@ export const getUserMsg = () => fetch(API.USER.path,{
 });
 export const editUserMsg = (username,password,password_old,email,name) =>fetch(API.MODIFYUSER.path,{
     method:API.MODIFYUSER.method,
-    body: {
-        'username':username,
-        'password':password,
-        'password_old':password_old,
-        'email':email,
-        'name':name
-    },
+    body: JSON.stringify({
+        "username":username,
+        "password":password,
+        "password_old":password_old,
+        "email":email,
+        "name":name
+    }),
     headers:{
+        "Content-Type":"application/json",
         "Authorization":"JWT "+localStorage.getItem('token')
     }
-})
+});
 export const deleteMsg = (data_id) => fetch(API.DELETE.path+String(data_id),{
     method:API.DELETE.method,
     headers: {
