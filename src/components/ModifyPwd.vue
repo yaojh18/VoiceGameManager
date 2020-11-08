@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import editUserMsg from "@/utils/communication";
+import {editUserMsg} from "@/utils/communication";
 export default {
   name: "ModifyPwd",
   props: {
@@ -113,11 +113,19 @@ export default {
       this.state.pwd3_valid = true;
     },
     editUser(){
+      console.log(this.password2);
+      console.log(this.password3);
       if(this.password2==this.password3){
         if(!this.email)
-          this.email = "";
+          this.email = "Unknown";
         if(!this.name)
-          this.name = "";
+          this.name = "Unknown";
+        this.alertDialog.dialogVisible = false;
+        console.log(this.username);
+        console.log(this.password2);
+        console.log(this.password);
+        console.log(this.email);
+        console.log(this.name);
         editUserMsg(this.username,this.password2,this.password,this.email,this.name);
       }else{
         this.alertDialog.dialogVisible = true;
