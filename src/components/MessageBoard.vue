@@ -144,32 +144,48 @@
                 Login.dialogVisible = false;
                 loginCalled(usernameLogin,password);
             }" />
-    <Register v-bind:dialog-visible="Register.dialogVisible" v-on:cancelRegister="Register.dialogVisible=false" v-on:register="({usernameRegister,password,password2})=>{
+    <Register v-bind:dialog-visible="Register.dialogVisible"
+              v-on:closeRegister="Register.dialogVisible=false"
+              v-on:register="({usernameRegister,password,password2})=>{
                 Register.dialogVisible = false;
                 registerCalled(usernameRegister,password,password2);
             }" />
-    <Add v-bind:dialog-visible="Add.dialogVisible"/>
+    <Add v-bind:dialog-visible="Add.dialogVisible"
+         v-on:closeAdd="Add.dialogVisible=false"/>
     <PostDialog v-on:postmsg="({title,content,audio_path,video_path})=>{
             postDialog.dialogVisible = false;
             post(title,content,audio_path,video_path);
-        }" v-bind:dialog-visible="postDialog.dialogVisible" v-on:cancel="postDialog.dialogVisible=false" />
-    <Logout v-bind:dialog-visible="Logout.dialogVisible" v-on:cancelLogout="Logout.dialogVisible=false" v-on:func="FuncCalled()"/>
-    <Modify v-bind:dialog-visible="Modify.dialogVisible" />
-    <Delete v-bind:dialog-visible="Delete.dialogVisible" v-on:DeleteCalledAgain="({data_id})=>DeleteFuncCalled(data_id)"/>
+        }"
+                v-bind:dialog-visible="postDialog.dialogVisible"
+                v-on:cancelPostDialog="postDialog.dialogVisible=false" />
+    <Logout v-bind:dialog-visible="Logout.dialogVisible"
+            v-on:cancelLogout="Logout.dialogVisible=false"
+            v-on:logoutfunc="logoutFuncCalled()"
+            v-on:closeLogout="Logout.dialogVisible=false"/>
+    <Modify v-bind:dialog-visible="Modify.dialogVisible"
+            v-on:closeModify="Modify.dialogVisible = false;"/>
+    <Delete v-bind:dialog-visible="Delete.dialogVisible"
+            v-on:DeleteCalledAgain="({data_id})=>DeleteFuncCalled(data_id)"
+            v-on:closeDelete="Delete.dialogVisible=false"/>
     <Search v-on:searchCalled="({keyword})=>{
             Search.dialogVisible = false;
             postSearch(keyword);
-        }" v-bind:dialog-visible="Search.dialogVisible" v-on:cancel="Search.dialogVisible=false" />
+        }" v-bind:dialog-visible="Search.dialogVisible"
+            v-on:closeSearch="Search.dialogVisible=false" />
    <SearchId v-on:searchIdCalled="({level_id})=>{
             SearchId.dialogVisible = false;
             postSearchIdLevel(level_id);
-        }" v-bind:dialog-visible="SearchId.dialogVisible" v-on:cancel="SearchId.dialogVisible=false" />
+        }" v-bind:dialog-visible="SearchId.dialogVisible"
+             v-on:cancel="SearchId.dialogVisible=false"
+             v-on:closeSearchId="SearchId.dialogVisible=false"/>
    <SearchDataId v-on:searchDataIdCalled="({data_id})=>{
             SearchDataId.dialogVisible = false;
             postSearchId(data_id);
-        }" v-bind:dialog-visible="SearchDataId.dialogVisible" v-on:cancel="SearchDataId.dialogVisible=false" />
+        }" v-bind:dialog-visible="SearchDataId.dialogVisible" v-on:closeSearchDataId="SearchDataId.dialogVisible=false" />
 
-  <SearchSelect v-on:chooseSearchSelect="({arg})=>{changeSelect(arg)}" v-bind:dialog-visible="SearchSelect.dialogVisible"/>
+  <SearchSelect v-on:chooseSearchSelect="({arg})=>{SearchSelect.dialogVisible=false;changeSelect(arg)}"
+                v-bind:dialog-visible="SearchSelect.dialogVisible"
+                v-on:closeSearchSelect="SearchSelect.dialogVisible=false"/>
 
     <el-dialog style="text-align: center" :title="alertDialog.text" :visible.sync="alertDialog.dialogVisible" width="40%">
     </el-dialog>
@@ -485,6 +501,7 @@ export default {
         logoutFuncCalled(){
           console.log(this.usernameLogged);
           this.usernameLogged="unknown";
+          localStorage.setItem('token','');
         },
         personShow(){
            getUserMsg().then((res)=>{
