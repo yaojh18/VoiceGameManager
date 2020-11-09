@@ -12,7 +12,7 @@ export const login = (usernameLogin, password) => fetch(API.LOGIN.path, {
     });
 export const registerBack = (usernameRegister, password, password2) => fetch(API.REGISTER.path, {
     method: API.REGISTER.method,
-    body: JSON.stringify({ username:usernameRegister, password:password, password2:password2 }),
+    body: JSON.stringify({ username:usernameRegister, password:password, password_confirm:password2 }),
     headers: { "Content-Type": "application/json" },
 });
 export const getList = () => fetch(API.GETLIST.path, {
@@ -53,7 +53,7 @@ export const addmsg = (title, content, audio_path, video_path ) => fetch(API.ADD
     body: {title:title,content:content,audio_path:audio_path,video_path:video_path},
     headers: {
         "Content-Type": "multipart/form-data",
-        "Authorization":"JWT "+localStorage.getItem('token')
+        "Authorization":"JWT "+localStorage.getItem('token'),
     },
 });
 export const getUserMsg = () => fetch(API.USER.path,{

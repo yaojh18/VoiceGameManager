@@ -36,7 +36,7 @@ const API = {
         method: "post"
     },
     REGISTER: {
-        path: "/api/users/registration/",
+        path: "/api/users/",
         method: "post"
     },
     GETLIST: {
