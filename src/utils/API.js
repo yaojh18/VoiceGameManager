@@ -47,7 +47,18 @@ const API = {
         path:"/api/manager/",
         method: "put"
     },
-
+    MEDIAANALYSIS:{
+        PATH:"/api/manager/data/origin",
+        method: "get",
+    },
+    USERANALYSIS:{
+        PATH:"/api/manager/data/user",
+        method: 'get',
+    },
+    AUDIOANALYSIS:{
+        PATH:"/api/manager/data/user_audio",
+        method:'get',
+    }
 }
 
 export default API
