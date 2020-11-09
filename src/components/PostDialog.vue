@@ -57,7 +57,7 @@
     </el-form>
     <span slot="footer" class="dialog-footer">
                 <!--请修改这两行注释中间的代码来产生相应按钮的点击事件-->
-                <el-button  v-on:click="$emit('cancel','')">取 消</el-button>
+                <el-button  v-on:click="$emit('closePostDialog','')">取 消</el-button>
                 <el-button  v-on:click="uploadForm();" type="primary"
                             :disabled="state.username_valid===false"
                             :enabled="state.username_valid===true"

@@ -6,7 +6,7 @@
       </el-form-item>
           </el-form>
     <span slot="footer" class="dialog-footer">
-        <el-button v-on:click="$emit('cancelsearch',''),dialogVisible=false">取 消</el-button>
+        <el-button v-on:click="$emit('closeSearch',''),dialogVisible=false">取 消</el-button>
         <el-button v-on:click="$emit('searchCalled',{keyword:keyword}),dialogVisible=false" type="primary" enabled>确 定</el-button>
     </span>
   </el-dialog>

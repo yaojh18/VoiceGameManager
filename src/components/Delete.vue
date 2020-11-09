@@ -7,12 +7,12 @@
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
-        <el-button v-on:click="$emit('cancelsearch',''),dialogVisible=false">取 消</el-button>
+        <el-button v-on:click="$emit('closeDelete',''),dialogVisible=false">取 消</el-button>
         <el-button v-on:click="changeState()" type="primary" enabled>确 定</el-button>
     </span>
   </el-dialog>
     <el-dialog style="text-align: center" :title="alertDialog.text" :visible.sync="alertDialog.dialogVisible" width="40%">
-      <el-button v-on:click="dialogVisible=false">取 消</el-button>
+      <el-button v-on:click="$emit('closeDelete');dialogVisible=false">取 消</el-button>
       <el-button v-on:click="changeStateAgain()" type="primary" enabled>确 定</el-button>
     </el-dialog>
   </div>
