@@ -192,7 +192,12 @@
   <SearchSelect v-on:chooseSearchSelect="({arg})=>{SearchSelect.dialogVisible=false;changeSelect(arg)}"
                 v-bind:dialog-visible="SearchSelect.dialogVisible"
                 v-on:closeSearchSelect="SearchSelect.dialogVisible=false"/>
-
+  <infoPerson   v-bind:dialog-visible="infoPerson.dialogVisible"
+                v-on:closeinfoPerson="infoPerson.dialogVisible=false"
+                v-bind:name="infoPerson.name"
+                v-bind:last_login="infoPerson.last_login"
+                v-bind:date_joined="infoPerson.date_joined"
+                v-on:editinfoPerson="infoPerson.dialogVisible=false;this.$router.push({path:'/person'});"></infoPerson>
     <el-dialog style="text-align: center" :title="alertDialog.text" :visible.sync="alertDialog.dialogVisible" width="40%">
     </el-dialog>
     <el-dialog style="text-align: center" :title="alertRegisterDialog.text" :visible.sync="alertRegisterDialog.dialogVisible" width="40%">
@@ -216,6 +221,7 @@ import SearchSelect from "@/components/SearchSelect"
 import Logout from "@/components/Logout"
 import ModifyPwd from "@/components/ModifyPwd"
 import Add from "@/components/Add"
+import infoPerson from "@/components/infoPerson"
 import {
     addmsg,
     login,
@@ -239,6 +245,7 @@ export default {
         SearchDataId,
         SearchSelect,
         Modify,
+        infoPerson,
         Delete,
         Logout,
         ModifyPwd,
@@ -274,6 +281,14 @@ export default {
                  level_id:this.level_id,
               },
               formData: new FormData(),
+            },
+            infoPerson:{
+                dialogVisible: false,
+                form:{
+                  name:this.name,
+                  date_joined:this.date_joined,
+                  last_login:this.last_login,
+                }
             },
             Register: {
                 dialogVisible: false,
@@ -528,7 +543,15 @@ export default {
              return res.json();
            }).then((r)=>{
              console.log(r);
-             console.log(typeof(r));
+             console.log(r[0].username);
+             console.log(r[0].last_login);
+             console.log(r[0].date_joined);
+             this.infoPerson.name=r[0].username;
+             this.infoPerson.last_login=r[0].last_login;
+             this.infoPerson.date_joined=r[0].date_joined;
+             console.log(this.infoPerson.name);
+             //this.$emit('infoPersonChange',{name:r[0].username,last_login:r[0].last_login,date_joined:r[0].date_joined});
+             this.infoPerson.dialogVisible = true;
            });
         },
         getListMsg(){
