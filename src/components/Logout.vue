@@ -25,9 +25,7 @@ export default{
     }
   },
   methods: {
-    logoutfunc(){
-        console.log("you have logged out");
-    },
+
   },
 }
 </script>

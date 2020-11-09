@@ -1,12 +1,12 @@
 <template>
 <div id="message-board">
-    <el-container style="height:100%; border: 1px solid #eee">
+    <el-container style="height:100%; border: 0px solid #eee">
         <el-header style="font-size: 10px;background-color:#87CEFA">
               <el-dropdown style="display: inline-block; text-align:right; margin-left:15px; margin-right:15px; " class="avatar-container" trigger="click" >
                 <div class="avatar-wrapper">
                   <el-button type="default" size="medium"  >
+                    <i class="el-icon-search" />
                     搜索
-                    <i class="el-icon-caret-bottom" />
                   </el-button>
                   <el-dropdown-menu slot="dropdown" class="user-dropdown">
                     <el-dropdown-item>
@@ -24,8 +24,8 @@
           <el-dropdown style="display: inline-block; text-align:right; margin-left:15px; margin-right:15px; " class="avatar-container" trigger="click" >
             <div class="avatar-wrapper">
               <el-button type="default" size="medium"  >
+                <i class="el-icon-data-analysis" />
                 数据操作
-                <i class="el-icon-caret-bottom" />
               </el-button>
               <el-dropdown-menu slot="dropdown" class="user-dropdown">
                 <el-dropdown-item>
@@ -35,10 +35,10 @@
                   <span style="display:block;" v-on:click="changeModify()"><i class="el-icon-edit">修改</i></span>
                 </el-dropdown-item>
                 <el-dropdown-item divided>
-                  <span style="display:block;" v-on:click="changeSearch()"><i class="el-icon-edit">查询</i></span>
+                  <span style="display:block;" v-on:click="changeSearch()"><i class="el-icon-search">查询</i></span>
                 </el-dropdown-item>
                 <el-dropdown-item divided>
-                  <span style="display:block;" v-on:click="changeDelete()"><i class="el-icon-edit">删除</i></span>
+                  <span style="display:block;" v-on:click="changeDelete()"><i class="el-icon-delete">删除</i></span>
                 </el-dropdown-item>
               </el-dropdown-menu>
             </div>
@@ -46,55 +46,61 @@
               <el-dropdown style="display: inline-block; text-align:right; margin-left:15px; margin-right:15px; " class="avatar-container" trigger="click" >
                 <div class="avatar-wrapper">
                   <el-button type="default" size="medium"  >
+                    <i class="el-icon-user" />
                     个人信息操作
-                    <i class="el-icon-caret-bottom" />
                   </el-button>
               <el-dropdown-menu slot="dropdown" class="user-dropdown">
-                <el-dropdown-item>
+                <el-dropdown-item :disabled="usernameLogged!='unknown'"
+                                  :enabled="usernameLogged=='unknown'">
                   <span style="display:block;" v-on:click="changeLogin()" ><i class="el-icon-login">登录</i></span>
                 </el-dropdown-item>
-                <el-dropdown-item divided>
+                <el-dropdown-item divided :disabled="usernameLogged!='unknown'"
+                                  :enabled="usernameLogged=='unknown'">
                   <span style="display:block;" v-on:click="changeRegister()"><i class="el-icon-add">注册</i></span>
                 </el-dropdown-item>
-                <el-dropdown-item divided>
+                <el-dropdown-item divided :disabled="usernameLogged=='unknown'"
+                                  :enabled="usernameLogged!='unknown'">
                   <span style="display:block;" v-on:click="Logout.dialogVisible=true"><i class="el-icon-add">登出</i></span>
                 </el-dropdown-item>
-                <el-dropdown-item divided>
+                <el-dropdown-item divided :disabled="usernameLogged=='unknown'"
+                                  :enabled="usernameLogged!='unknown'">
                   <span style="display:block;" v-on:click="ModifyPwd.dialogVisible=true"><i class="el-icon-edit">修改密码</i></span>
                 </el-dropdown-item>
+
               </el-dropdown-menu>
             </div>
           </el-dropdown>
           <el-button style="display: inline-block;margin-right: 15px;" v-on:click="getListMsg()">
             <i class="el-icon-edit">数据列表</i>
           </el-button>
-          <el-button style="display: inline-block;margin-right: 15px;" v-on:click="this.$router.push({path:'/data'})">
-                <router-link to='/data'>数据界面</router-link>
+          <el-button style="display: inline-block;margin-right: 15px;text-decoration:None" v-on:click="this.$router.push({path:'/data'})">
+                <router-link style="text-decoration:None" to='/data' >数据界面</router-link>
             </el-button>
-            <el-button style="display: inline-block;margin-right: 15px;" v-on:click="this.$router.push({path:'/person'})">
-                <router-link to='/person'>个人界面</router-link>
+            <el-button style="display: inline-block;margin-right: 15px;text-decoration:None" v-on:click="this.$router.push({path:'/person'})">
+                <router-link style="text-decoration:None" to='/person'>个人界面</router-link>
             </el-button>
           <el-dropdown style="align:right;display: inline-block; text-align:right; margin-right:3px; " class="avatar-container" trigger="click" >
             <div class="avatar-wrapper">
-              <el-button type="primary" size="medium" v-model="usernameLogged"  v-bind="usernameLogged">
+              <el-button type="primary" size="medium" v-model="usernameLogged"  v-bind="usernameLogged"
+                         v-on:updateName="console.log('updateMsg');this.usernameLogged=localStorage.getItem('token');">
+                <i class="el-icon-s-custom"/>
                 {{usernameLogged}}
                 <i class="el-icon-caret-bottom" />
               </el-button>
               <el-dropdown-menu slot="dropdown" class="user-dropdown">
                 <el-dropdown-item>
-                  <span style="display:block;" @click="gotoPerson()">个人信息修改</span>
+                  <span style="display:block;" @click="gotoPerson()"><i class="el-icon-edit"/>个人信息修改</span>
                 </el-dropdown-item>
                 <el-dropdown-item divided>
-                  <span style="display:block;" @click="personShow()">个人信息展示</span>
+                  <span style="display:block;" @click="personShow()"><i class="el-icon-s-data"/>个人信息展示</span>
                 </el-dropdown-item>
               </el-dropdown-menu>
             </div>
           </el-dropdown>
-
         </el-header>
         <el-main>
             <el-form :inline="true" align="left" class="padding-10-0">
-              <span style="vertical-align:middle;margin-left:15px;" inline-block><i class="el-icon-zoom-in">搜索</i></span>
+              <span style="vertical-align:middle;margin-left:15px;" v-on:click="clickSearch()" inline-block><i class="el-icon-zoom-in">搜索</i></span>
               <span style="vertical-align:middle" inline-block>
                 <el-input style="vertical-align:middle;width:200px;margin-left:15px;" inline-block placeholder="输入搜索信息"></el-input>
               </span>
@@ -105,13 +111,13 @@
                     </el-button>
                     <el-dropdown-menu slot="dropdown" class="user-dropdown">
                       <el-dropdown-item>
-                        <span style="display:block;" @click="gotoPerson()">关键词搜索</span>
+                        <span style="display:block;" @click="searchSelection=1">关键词搜索</span>
                       </el-dropdown-item>
                       <el-dropdown-item divided>
-                        <span style="display:block;" @click="personShow()">数据搜索</span>
+                        <span style="display:block;" @click="searchSelection=2">数据搜索</span>
                       </el-dropdown-item>
                       <el-dropdown-item divided>
-                        <span style="display:block;" @click="personShow()">关卡搜索</span>
+                        <span style="display:block;" @click="searchSelection=3">关卡搜索</span>
                       </el-dropdown-item>
                     </el-dropdown-menu>
                   </div>
@@ -159,9 +165,9 @@
                 v-bind:dialog-visible="postDialog.dialogVisible"
                 v-on:cancelPostDialog="postDialog.dialogVisible=false" />
     <Logout v-bind:dialog-visible="Logout.dialogVisible"
-            v-on:cancelLogout="Logout.dialogVisible=false"
-            v-on:logoutfunc="logoutFuncCalled()"
-            v-on:closeLogout="Logout.dialogVisible=false"/>
+            v-on:closeLogout="Logout.dialogVisible=false"
+            v-on:logoutfunc="Logout.dialogVisible=false;logoutFuncCalled()"
+            />
     <Modify v-bind:dialog-visible="Modify.dialogVisible"
             v-on:closeModify="Modify.dialogVisible = false;"/>
     <Delete v-bind:dialog-visible="Delete.dialogVisible"
@@ -340,7 +346,8 @@ export default {
             },
             messageList: [],
             infoList: [],
-            usernameLogged: "unknown"
+            usernameLogged: "unknown",
+            searchSelection: 0,
         }
     },
     methods: {
@@ -434,35 +441,44 @@ export default {
                   return res.json();
                 }
              ).then((r)=>{
+               console.log(r.token);
                localStorage.setItem('token',r.token);
             });
               let Token = localStorage.getItem('token');
               console.log(Token);
-
             this.usernameLogged = usernameLogin;
+        localStorage.setItem('name',usernameLogin);
         },
         DeleteFuncCalled : (data_id)=>{
           deleteMsg(data_id).then((res)=>{
               console.log(res);
               if(res.status == 200){
-                this.alertDeleteDialog.dialogVisible  = true;
+                this.alertDeleteDialog.dialogVisible= true;
               }else{
-                this.alertDeleteDialog.dialogVisible  = false;
+                this.alertDeleteDialog.dialogVisible= false;
               }
           });
         },
-        registerCalled: (usernameRegister, password, password2) => {
+        registerCalled: function(usernameRegister, password, password2)  {
             console.log(usernameRegister);
             document.cookie = `user=${usernameRegister}`;
             registerBack(usernameRegister, password, password2).then((res) => {
-                if (res.status === 200) {
-                    this.alertDialog.dialogVisible = true;
-                    this.usernameLogged = usernameRegister;
+                console.log(res.status);
+                console.log(typeof(res));
+                if (res.status === 201) {
+                   this.alertRegisterDialog.dialogVisible = true;
                 } else {
-                    this.alertDialog.dialogVisible = false;
-                    this.usernameLogged = "unknown";
+                  this.alertRegisterDialog.dialogVisible = false;
                 }
+                return res.json();
+            }).then((r)=>{
+              localStorage.setItem('token',r.token);
             });
+            let Token = localStorage.getItem('token');
+            console.log(Token);
+            console.log(usernameRegister);
+            this.usernameLogged = usernameRegister;
+            localStorage.setItem('name',usernameRegister);
         },
         changeAdd(){
         this.Add.dialogVisible=true;
@@ -502,11 +518,17 @@ export default {
           console.log(this.usernameLogged);
           this.usernameLogged="unknown";
           localStorage.setItem('token','');
+          localStorage.setItem('name','unknown');
+          this.dialogVisible = false;
         },
         personShow(){
            getUserMsg().then((res)=>{
              console.log(res);
              console.log(typeof(res));
+             return res.json();
+           }).then((r)=>{
+             console.log(r);
+             console.log(typeof(r));
            });
         },
         getListMsg(){
@@ -560,6 +582,26 @@ export default {
     text-align: left;
 }
 
+
+.scroll {
+  height: 100px;
+  overflow-y: hidden;
+}
+.el-scrollbar{
+  height: 100%;
+}
+/*.el-scrollbar__bar{
+  &.is-vertical{
+    width:100px;//滚动条宽度
+  }
+}*/
+.el-scrollbar__wrap{
+  overflow-y: auto;
+  overflow-x:hidden;
+}
+.el-scrollbar__thumb {
+    background-color: #e3e3e3;
+}
 .el-header {
     background-color: #B3C0D1;
     color: #333;
@@ -591,6 +633,32 @@ a {
     height: 100%; /*此处一定要设置高度，不然内层的计算属性不生效*/
   }
   .el-scrollbar__wrap {
+  }
+}
+.el-dialog__wrapper{
+  .el-dialog__body{
+    padding: 20px 20px 10px;
+    .deleteForm{
+      .errorTip{
+        color: red;
+        font-size: 14px;
+        line-height: 20px;
+        margin: 5px auto;
+      }
+      .el-form-item{
+        margin: 0;
+        .el-form-item__label{
+          width: 90px;
+        }
+        .el-select,.el-input{
+          width: 250px;
+        }
+      }
+    }
+  }
+  .el-dialog__footer{
+    padding-bottom: 15px;
+    padding-top: 5px;
   }
 }
 </style>

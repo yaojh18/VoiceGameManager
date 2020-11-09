@@ -3,9 +3,9 @@
        <el-submenu index="view" style="text-align: left">
             <template slot="title" ><i class="el-icon-chat-square"/>
                 <span class="messageblock-title" >{{ title }}</span>
-                <span style="padding:4px;align:right" on-click="emit('closeclicked','');"><i class="el-icon-close"></i></span>
-                <span style="padding:4px;align:right" on-click="emit('editclicked','');"><i class="el-icon-edit"></i></span>
-                <span style="padding:4px;align:right" on-click="emit('detailclicked','');"><i class="el-icon-zoom-in"></i></span>
+                <span style="padding:4px;align:right" @click="$emit('closeclicked','');"><i class="el-icon-close"></i></span>
+                <span style="padding:4px;align:right" @click="$emit('editclicked','');"><i class="el-icon-edit"></i></span>
+                <span style="padding:4px;align:right" @click="$emit('detailclicked','');"><i class="el-icon-zoom-in"></i></span>
             </template>
             <div style="display:flex; margin-top: 3px; font-size: small;color: grey">
                 <span class="messageblock-datetime" style="padding: 4px;">
@@ -28,12 +28,12 @@
                 default: () => "unknown title"
             },
             level_id: {
-                type:String,
-                default: () => "unknown level_id"
+                type:Number,
+                default: () => 0
             },
             id: {
-                type:String,
-                default: () => "unknown id"
+                type:Number,
+                default: () => 0
             },
             timestamp: {
                 type:Number,
