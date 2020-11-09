@@ -1,18 +1,18 @@
 <template>
-<el-dialog style="text-align: center" title="登录" :visible.sync="dialogVisible" :show-close=false width="80%">
+  <el-dialog style="text-align: center" title="登录" :visible.sync="dialogVisible" :show-close=false width="80%">
     <el-form label-width="80px">
-        <el-form-item label="用户名">
-            <el-input placeholder="请输入用户名" v-model="username" @input="changeName()">{{ username }}</el-input>
-        </el-form-item>
-        <el-form-item label="密码">
-            <el-input placeholder="请输入密码" v-model="password" show-password></el-input>
-        </el-form-item>
+      <el-form-item label="用户名">
+        <el-input placeholder="请输入用户名" v-model="username" @input="changeName()">{{ username }}</el-input>
+      </el-form-item>
+      <el-form-item label="密码">
+        <el-input placeholder="请输入密码" v-model="password" show-password></el-input>
+      </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
         <el-button v-on:click="$emit('cancelLogin',''),dialogVisible=false">取 消</el-button>
         <el-button v-on:click="$emit('login',{usernameLogin:username,password:password}),dialogVisible=false" type="primary" :disabled="state.username_valid===false" :enabled="state.username_valid===true">确 定</el-button>
     </span>
-</el-dialog>
+  </el-dialog>
 </template>
 
 <script>
