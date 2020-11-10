@@ -104,19 +104,19 @@ export const ModifyBack = (formdata,dataId) => fetch(API.MODIFYY.path +"/"+Strin
         "Authorization":"JWT "+localStorage.getItem('token')
     },
 });
-export const DataVideoSearch = (appendage)=>fetch(API.MEDIAANALYSIS.path + String(appendage),{
+export const DataVideoSearch = (appendage)=>fetch(String(appendage),{
     method:API.MEDIAANALYSIS.method,
     headers:{
         "Authorization":"JWT "+localStorage.getItem('token')
     },
 });
-export const DataUserSearch = (appendage) => fetch(API.USERANALYSIS.path+String(appendage),{
+export const DataUserSearch = (appendage) => fetch(String(appendage),{
     method:API.USERANALYSIS.method,
     headers:{
         "Authorization":"JWT "+localStorage.getItem('token')
     }
 });
-export const DataAudioSearch = (appendage) => fetch(API.AUDIOANALYSIS.path +String(appendage),{
+export const DataAudioSearch = (appendage) => fetch( String(appendage),{
    method: API.AUDIOANALYSIS.method,
     headers:{
         "Authorization":"JWT "+localStorage.getItem('token')

@@ -138,7 +138,8 @@
                 </el-form>
               </el-collapse-item>
               <el-collapse-item title="用户" name="2">
-                <el-form-item label="用户排序方式">
+                <el-form>
+                  <el-form-item label="用户排序方式">
                   <el-input placeholder="请输入排序方式" v-model="UserSort" >{{ UserSort }}</el-input>
                 </el-form-item>
                 <el-form-item label="性别">
@@ -150,11 +151,13 @@
                 <el-form-item label="展示页码为">
                   <el-input placeholder="请输入展示页码" v-model="UserPage" >{{ UserPage }}</el-input>
                 </el-form-item>
-                <el-button v-on:click="dataUserSearch()">展 示
+                  <el-button v-on:click="dataUserSearch()">展 示
                 </el-button>
+                </el-form>
               </el-collapse-item>
               <el-collapse-item title="用户音频" name="3">
-                <el-form-item label="性别筛选">
+                <el-form>
+                  <el-form-item label="性别筛选">
                   <el-input placeholder="请输入性别筛选信息" v-model="MediaGender" >{{ MediaGender }}</el-input>
                 </el-form-item>
                 <el-form-item label="媒体开始时间为: ">
@@ -171,6 +174,7 @@
                 </el-form-item>
                 <el-button v-on:click="dataAudioSearch()">展 示
                 </el-button>
+                  </el-form>
               </el-collapse-item>
             </el-collapse>
             <div>
@@ -187,16 +191,19 @@
 </template>
 
 <script>
+import API from '@/utils/API'
 import echarts from 'echarts'
+import {DataVideoSearch,DataAudioSearch,DataUserSearch} from '@/utils/communication'
 export default {
   name: 'Data',
   props: {
-
     // 接收父组件传递过来的信息
     chartData: {
       type: Array,
       default: ()=>[]
     },
+    VideoMsgList:[],
+    VideoMsgListPart_played_num:[],
     VideoTitle: {
       type:String,
       default: ()=>'',
@@ -270,14 +277,53 @@ export default {
   },
   methods: {
     dataVideoSearch(){
+         console.log(this.VideoTitle);
+         console.log(this.VideoLimit);
+         console.log(this.VideoPage);
+         console.log(API.MEDIAANALYSIS.path);
+         var path = "api/manager/data/origin";
+         if(this.VideoLimit!=''||this.VideoTitle!=''||this.VideoPage!='')
+           path+='?';
+         if(this.VideoLimit!=''){
+           path+='size='+String(this.VideoLimit);
+         };
+         if(this.VideoTitle!=''){
+           path+='title='+String(this.VideoTitle);
+         };
+         if(this.VideoPage){
+           path+='page='+String(this.VideoPage);
+         };
 
+
+         DataVideoSearch(path).then((res)=>{
+           console.log(res.body);
+           return res.json();
+         }).then((r)=>{
+
+         });
     },
     dataUserSearch(){
-
+         console.log(this.UserGender);
+         console.log(this.UserPage);
+         console.log(this.UserSize);
+         console.log(this.UserSort);
+         DataUserSearch("api/manager/data/user").then((res)=>{
+           console.log(res);
+           console.log(res.body);
+           return res.json();
+         }).then((r)=>{
+           console.log(r);
+         });
     },
     dataAudioSearch(){
-
-    },
+         console.log(this.MediaGender,this.MediaStartTime,this.MediaEndTime,this.MediaLevel,this.MediaSort);
+         DataAudioSearch("/api/manager/data/user_audio").then((res)=>{
+           console.log(res.body);
+           return res.json();
+         }).then((r)=>{
+           console.log(r);
+         });
+         },
     getPie () {
       // 基于准备好的dom，初始化echarts实例
       let myChart2 = echarts.init(document.getElementById('myChartPie'));
@@ -302,7 +348,6 @@ export default {
 
     },
     drawChart () {
-      const vm = this;
       // 基于准备好的dom，初始化echarts实例
       let myChart =echarts.init(document.getElementById(this.echarts))
       // 绘制图表
@@ -319,13 +364,12 @@ export default {
           {
             name: '分数',
             type: 'bar',
-            data: [5, 20, 36, 10, 10, 20]
+            data: this.VideoMsgListPart_played_num,
           }
         ]
       })
     },
     drawMultiple(){
-      const vm = this;
       // 基于准备好的dom，初始化echarts实例
       let myChartMultiple =echarts.init(document.getElementById('chartMultiple'))
       let dd = {
@@ -338,7 +382,7 @@ export default {
           {
             text: '后台统计图表2',
             subtext: '年龄',
-            left: '50%'
+            left: '80%'
           }
         ],
         top: "80%",
@@ -433,7 +477,6 @@ export default {
 
     // 基于准备好的dom，初始化echarts实例
     let myChart2 = echarts.init(document.getElementById(this.myChartPie));
-    myChart2.setOption(dd);
     // 绘制图表，this.echarts1_option是数据
     let Option1 = ({
       series: [{
@@ -452,7 +495,7 @@ export default {
         data: ['陌生人','在住人','工作人员']
       },
     });
-    //myChart2.setOption(Option1);
+    myChart2.setOption(Option1);
 
     let myChart = echarts.init(document.getElementById(this.echarts));
     let option = {
@@ -486,11 +529,9 @@ export default {
         }
       ]
     };
-    //myChart.setOption(option);
-
+    myChart.setOption(option);
     //建议加上以下这一行代码，不加的效果图如下（当浏览器窗口缩小的时候）。超过了div的界限（红色边框）
     window.addEventListener('resize',function() {myChart.resize()});
-
   let user = sessionStorage.getItem('user');
     if (user) {
       this.username = user;
