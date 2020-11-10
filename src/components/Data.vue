@@ -138,19 +138,37 @@
                 </el-form>
               </el-collapse-item>
               <el-collapse-item title="用户" name="2">
-                <el-form-item label="标题">
-                  <el-input placeholder="请输入搜素关键词" v-model="UserSort" >{{ UserSort }}</el-input>
+                <el-form-item label="用户排序方式">
+                  <el-input placeholder="请输入排序方式" v-model="UserSort" >{{ UserSort }}</el-input>
+                </el-form-item>
+                <el-form-item label="性别">
+                  <el-input placeholder="请输入性别筛选条件" v-model="UserGender" >{{ UserGender }}</el-input>
                 </el-form-item>
                 <el-form-item label="每页显示">
-                  <el-input placeholder="请输入每页显示个数" v-model="VideoLimit" >{{ VideoLimit }}</el-input>
+                  <el-input placeholder="请输入每页显示个数" v-model="UserSize" >{{ UserSize }}</el-input>
+                </el-form-item>
+                <el-form-item label="展示页码为">
+                  <el-input placeholder="请输入展示页码" v-model="UserPage" >{{ UserPage }}</el-input>
                 </el-form-item>
                 <el-button v-on:click="dataUserSearch()">展 示
                 </el-button>
               </el-collapse-item>
               <el-collapse-item title="用户音频" name="3">
-                <div>简化流程：设计简洁直观的操作流程；</div>
-                <div>清晰明确：语言表达清晰且表意明确，让用户快速理解进而作出决策；</div>
-                <div>帮助用户识别：界面简单直白，让用户快速识别而非回忆，减少用户记忆负担。</div>
+                <el-form-item label="性别筛选">
+                  <el-input placeholder="请输入性别筛选信息" v-model="MediaGender" >{{ MediaGender }}</el-input>
+                </el-form-item>
+                <el-form-item label="媒体开始时间为: ">
+                  <el-input placeholder="请输入媒体开始时间信息" v-model="MediaStartTime" >{{ MediaStartTime }}</el-input>
+                </el-form-item>
+                <el-form-item label="媒体结束时间为: ">
+                  <el-input placeholder="请输入媒体结束时间信息" v-model="MediaEndTime" >{{ MediaEndTime }}</el-input>
+                </el-form-item>
+                <el-form-item label="排序选择方式: ">
+                  <el-input placeholder="请输入排序方式" v-model="MediaSort" >{{ MediaSort }}</el-input>
+                </el-form-item>
+                <el-form-item label="音频等级为: ">
+                  <el-input placeholder="请输入音频等级" v-model="MediaLevel" >{{ MediaLevel }}</el-input>
+                </el-form-item>
                 <el-button v-on:click="dataAudioSearch()">展 示
                 </el-button>
               </el-collapse-item>
@@ -173,16 +191,76 @@ import echarts from 'echarts'
 export default {
   name: 'Data',
   props: {
+
     // 接收父组件传递过来的信息
     chartData: {
       type: Array,
       default: ()=>[]
-    }
+    },
+    VideoTitle: {
+      type:String,
+      default: ()=>'',
+    },
+    VideoLimit: {
+      type:String,
+      default: ()=>'',
+    },
+    VideoPage: {
+      type:String,
+      default: ()=>'',
+    },
+    UserSort: {
+      type:String,
+      default: ()=>'',
+    },
+    UserGender:{
+      type:String,
+      default: ()=>'',
+    },
+    UserSize: {
+      type:String,
+      default: ()=>'',
+    },
+    UserPage: {
+      type:String,
+      default: ()=>'',
+    },
+    MediaGender: {
+      type:String,
+      default: ()=>'',
+    },
+    MediaStartTime: {
+      type:String,
+      default: ()=>'',
+    },
+    MediaEndTime: {
+      type:String,
+      default: ()=>'',
+    },
+    MediaSort: {
+      type:String,
+      default: ()=>'',
+    },
+    MediaLevel: {
+      type:String,
+      default: ()=>'',
+    },
   },
   data() {
     return {
       form:{
-
+         VideoTitle: '',
+         VideoLimit: '',
+         VideoPage: '',
+         UserSort: '',
+         UserGender: '',
+         UserSize: '',
+         UserPage: '',
+         MediaGender: '',
+         MediaStartTime: '',
+         MediaEndTime: '',
+         MediaSort: '',
+         MediaLevel: '',
       },
       username: '',
       isCollapse: false,
