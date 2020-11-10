@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "test:unit": "jest --config test/unit/jest.conf.js --coverage",
+    "test:unit": "vue-cli-service test:unit --coverage",
     "lint": "vue-cli-service lint",
     "cov": "vue-cli-service test:unit --coverage"
   },
