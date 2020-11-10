@@ -68,7 +68,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 export default {
   name: "PostDialog",
   props: {
@@ -116,9 +115,6 @@ export default {
     }
   },
   methods: {
-    getFile(event, input_file_name) {
-      this.state.username_valid = true;
-    },
     change(){
       this.state.username_valie = true;
     },
@@ -132,7 +128,6 @@ export default {
       this.fileList = fileList;
       // return this.$confirm(`确定移除 ${ file.name }？`);
     },
-
     // 选取文件超过数量提示
     handleExceed(files, fileList) {
       this.$message.warning(`当前限制选择 5 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
