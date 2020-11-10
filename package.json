@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "test:unit": "set NODE_ENV=test PORT=3300 && nyc vue-cli-service test:unit --reporter=xml --reporter=mochawesome",
+    "test:unit": "set NODE_ENV=test PORT=3300 && nyc vue-cli-service test:unit --coverage",
     "lint": "vue-cli-service lint",
     "cov": "vue-cli-service test:unit --coverage"
   },
@@ -70,5 +70,38 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  }
+  },
+  "jest": {
+         "moduleFileExtensions": [
+             "js",
+             "json",
+             "ts"
+           ],
+         "moduleNameMapper": {
+             "^@creative(.*)$": "<rootDir>/modules/creative$1",
+             "^@admin(.*)$": "<rootDir>/modules/admin$1",
+             "^@configuration(.*)$": "<rootDir>/modules/configuration$1",
+             "^@common(.*)$": "<rootDir>/common$1",
+             "^@auth(.*)$": "<rootDir>/modules/auth$1"
+           },
+         "rootDir": "src",
+         "testRegex": ".spec.ts$",
+         "transform": {
+             "^.+\\.(t|j)s$": "ts-jest"
+           },
+         "collectCoverageFrom": [
+             "**/*.(t|j)s"
+           ],
+         "testResultsProcessor": "jest-sonar-reporter",
+         "coverageDirectory": "../coverage",
+         "coveragePathIgnorePatterns": [
+             "/node_modules/"
+           ],
+         "testEnvironment": "node"
+       },
+  "jestSonar": {
+         "reportPath": "coverage",
+         "reportFile": "test-reporter.xml",
+         "indent": 4
+    }
 }
