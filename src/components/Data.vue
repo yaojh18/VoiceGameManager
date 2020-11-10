@@ -18,12 +18,11 @@
     <el-container>
       <el-aside class="app-side app-side-left"
                 :class="isCollapse ? 'app-side-collapsed' : 'app-side-expanded'">
-        <div class="app-side-logo">
-          <router-link to='/'>
-          <img src="@/assets/logo.png"
+         <div class="app-side-logo">
+            <el-button v-on:click="changehtml()">
+          <el-image src="@/assets/logo.png"
                :width="isCollapse ? '60' : '60'"
-               height="60" />
-          </router-link>
+               height="60" /></el-button>
         </div>
         <div>
           <el-menu default-active="1-4-1"
@@ -66,7 +65,6 @@
           </el-menu>
         </div>
       </el-aside>
-
       <el-container>
         <el-header class="app-header">
           <div style="width: 60px; cursor: pointer;"
@@ -160,20 +158,19 @@
                   <el-form-item label="展示页码为">
                     <el-input placeholder="请输入展示页码" v-model="UserPage" >{{ UserPage }}</el-input>
                   </el-form-item>
-                  <el-button v-on:click="dataUserSearch()">展 示
-                  </el-button>
+                  <el-popover
+                      placement="right"
+                      width="400"
+                      trigger="click">
+                    <div style="width:50%;height:200px;" :id="echarts" class="echarts"  ref="echarts"></div>
+                    <el-table :data="UserData">
+                      <el-table-column width="150" property="user" label="用户"></el-table-column>
+                      <el-table-column width="100" property="gender" label="性别"></el-table-column>
+                      <el-table-column width="300" property="level" label="等级"></el-table-column>
+                    </el-table>
+                    <el-button v-on:click="dataUserSearch()" slot="reference">搜 索</el-button>
+                  </el-popover>
                 </el-form>
-                <el-popover
-                    placement="right"
-                    width="400"
-                    trigger="click">
-                  <el-table :data="gridData">
-                    <el-table-column width="150" property="date" label="日期"></el-table-column>
-                    <el-table-column width="100" property="name" label="姓名"></el-table-column>
-                    <el-table-column width="300" property="address" label="地址"></el-table-column>
-                  </el-table>
-                  <el-button slot="reference">click 激活</el-button>
-                </el-popover>
               </el-tab-pane>
               <el-tab-pane>
                 <span slot="label"><i class="el-icon-mic"></i>音频</span>
@@ -193,20 +190,20 @@
                   <el-form-item label="音频等级为: ">
                     <el-input placeholder="请输入音频等级" v-model="MediaLevel" >{{ MediaLevel }}</el-input>
                   </el-form-item>
-                  <el-button v-on:click="dataAudioSearch()">展 示
-                  </el-button>
+                  <el-popover
+                      placement="right"
+                      width="400"
+                      trigger="click">
+                    <el-table :data="mediaData">
+                      <el-table-column width="150" property="user" label="用户"></el-table-column>
+                      <el-table-column width="100" property="level_id" label="关卡ID"></el-table-column>
+                      <el-table-column width="300" property="timestamp" label="时间"></el-table-column>
+                      <el-table-column width="300" property="score" label="分数"></el-table-column>
+                      <el-table-column width="300" property="audio" label="音频"></el-table-column>
+                    </el-table>
+                    <el-button slot="reference" v-on:click="dataAudioSearch()">展 示</el-button>
+                  </el-popover>
                 </el-form>
-                <el-popover
-                    placement="right"
-                    width="400"
-                    trigger="click">
-                  <el-table :data="gridData">
-                    <el-table-column width="150" property="date" label="日期"></el-table-column>
-                    <el-table-column width="100" property="name" label="姓名"></el-table-column>
-                    <el-table-column width="300" property="address" label="地址"></el-table-column>
-                  </el-table>
-                  <el-button slot="reference">click 激活</el-button>
-                </el-popover>
               </el-tab-pane>
             </el-tabs>
             <el-radio-group v-model="labelPosition" size="small" style="margin-top:30px">
@@ -293,6 +290,14 @@ export default {
       default: ()=>[]
     },
     VideoMsgList:{
+      type:Array,
+      default: ()=>[]
+    },
+    UserData:{
+      type:Array,
+      default: ()=>[]
+    },
+    mediaData:{
       type:Array,
       default: ()=>[]
     },
@@ -415,6 +420,10 @@ export default {
            return res.json();
          }).then((r)=>{
            console.log(r);
+           for(const it of r){
+             this.UserData.push(it);
+           }
+           console.log(this.UserData);
          });
     },
     dataAudioSearch(){
@@ -424,6 +433,10 @@ export default {
            return res.json();
          }).then((r)=>{
            console.log(r);
+           for(const it of r){
+             this.mediaData.push(it);
+           }
+           console.log(this.mediaData);
          });
          },
     getPie () {
@@ -547,6 +560,9 @@ export default {
     },
     toggleSideBar() {
       this.isCollapse = !this.isCollapse
+    },
+    changehtml:function(){
+      this.$router.go(-2);
     },
     logout: function () {
       this.$confirm('确认退出?', '提示', {})
