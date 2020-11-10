@@ -119,6 +119,96 @@
 
         <el-main class="app-body">
           <template>
+            <el-tabs type="border-card" style="margin-top:15px">
+              <el-tab-pane>
+                <span slot="label"><i class="el-icon-video-camera-solid"></i>音视频</span>
+                <el-form>
+                  <el-form-item label="标题">
+                    <el-input placeholder="请输入搜素关键词" v-model="VideoTitle" >{{ VideoTitle }}</el-input>
+                  </el-form-item>
+                  <el-form-item label="每页显示">
+                    <el-input placeholder="请输入每页显示个数" v-model="VideoLimit" >{{ VideoLimit }}</el-input>
+                  </el-form-item>
+                  <el-popover
+                      placement="right"
+                      width="400"
+                      trigger="click">
+                    <div style="width:50%;height:200px;" :id="echarts" class="echarts"  ref="echarts"></div>
+                    <el-table :data="videoData">
+                      <el-table-column width="150" property="female_num" label="女性数量"></el-table-column>
+                      <el-table-column width="100" property="female_score_average" label="女性平均得分"></el-table-column>
+                      <el-table-column width="300" property="male_num" label="男性数量"></el-table-column>
+                      <el-table-column width="300" property="male_score_average" label="男性平均得分"></el-table-column>
+                    </el-table>
+                    <el-button v-on:click="dataVideoSearch()" slot="reference">展 示
+                    </el-button>
+                  </el-popover>
+                </el-form>
+              </el-tab-pane>
+              <el-tab-pane >
+                <span slot="label"><i class="el-icon-user-solid"></i>用户</span>
+                <el-form>
+                  <el-form-item label="用户排序方式">
+                    <el-input placeholder="请输入排序方式" v-model="UserSort" >{{ UserSort }}</el-input>
+                  </el-form-item>
+                  <el-form-item label="性别">
+                    <el-input placeholder="请输入性别筛选条件" v-model="UserGender" >{{ UserGender }}</el-input>
+                  </el-form-item>
+                  <el-form-item label="每页显示">
+                    <el-input placeholder="请输入每页显示个数" v-model="UserSize" >{{ UserSize }}</el-input>
+                  </el-form-item>
+                  <el-form-item label="展示页码为">
+                    <el-input placeholder="请输入展示页码" v-model="UserPage" >{{ UserPage }}</el-input>
+                  </el-form-item>
+                  <el-button v-on:click="dataUserSearch()">展 示
+                  </el-button>
+                </el-form>
+                <el-popover
+                    placement="right"
+                    width="400"
+                    trigger="click">
+                  <el-table :data="gridData">
+                    <el-table-column width="150" property="date" label="日期"></el-table-column>
+                    <el-table-column width="100" property="name" label="姓名"></el-table-column>
+                    <el-table-column width="300" property="address" label="地址"></el-table-column>
+                  </el-table>
+                  <el-button slot="reference">click 激活</el-button>
+                </el-popover>
+              </el-tab-pane>
+              <el-tab-pane>
+                <span slot="label"><i class="el-icon-mic"></i>音频</span>
+                <el-form>
+                  <el-form-item label="性别筛选">
+                    <el-input placeholder="请输入性别筛选信息" v-model="MediaGender" >{{ MediaGender }}</el-input>
+                  </el-form-item>
+                  <el-form-item label="媒体开始时间为: ">
+                    <el-input placeholder="请输入媒体开始时间信息" v-model="MediaStartTime" >{{ MediaStartTime }}</el-input>
+                  </el-form-item>
+                  <el-form-item label="媒体结束时间为: ">
+                    <el-input placeholder="请输入媒体结束时间信息" v-model="MediaEndTime" >{{ MediaEndTime }}</el-input>
+                  </el-form-item>
+                  <el-form-item label="排序选择方式: ">
+                    <el-input placeholder="请输入排序方式" v-model="MediaSort" >{{ MediaSort }}</el-input>
+                  </el-form-item>
+                  <el-form-item label="音频等级为: ">
+                    <el-input placeholder="请输入音频等级" v-model="MediaLevel" >{{ MediaLevel }}</el-input>
+                  </el-form-item>
+                  <el-button v-on:click="dataAudioSearch()">展 示
+                  </el-button>
+                </el-form>
+                <el-popover
+                    placement="right"
+                    width="400"
+                    trigger="click">
+                  <el-table :data="gridData">
+                    <el-table-column width="150" property="date" label="日期"></el-table-column>
+                    <el-table-column width="100" property="name" label="姓名"></el-table-column>
+                    <el-table-column width="300" property="address" label="地址"></el-table-column>
+                  </el-table>
+                  <el-button slot="reference">click 激活</el-button>
+                </el-popover>
+              </el-tab-pane>
+            </el-tabs>
             <el-radio-group v-model="labelPosition" size="small" style="margin-top:30px">
               <el-radio-button label="left"><i class="el-icon-video-camera-solid">音视频</i></el-radio-button>
               <el-radio-button label="right"><i class="el-icon-user-solid">用户</i></el-radio-button>
@@ -202,8 +292,18 @@ export default {
       type: Array,
       default: ()=>[]
     },
-    VideoMsgList:[],
-    VideoMsgListPart_played_num:[],
+    VideoMsgList:{
+      type:Array,
+      default: ()=>[]
+    },
+    VideoMsgListPart_played_num:{
+      type:Array,
+      default: ()=>[]
+    },
+    videoData:{
+      type:Array,
+      default:()=>[]
+    },
     VideoTitle: {
       type:String,
       default: ()=>'',
@@ -285,21 +385,23 @@ export default {
          if(this.VideoLimit!=''||this.VideoTitle!=''||this.VideoPage!='')
            path+='?';
          if(this.VideoLimit!=''){
-           path+='size='+String(this.VideoLimit);
+           path+='size='+String(this.VideoLimit)+"&";
          };
          if(this.VideoTitle!=''){
-           path+='title='+String(this.VideoTitle);
+           path+='title='+String(this.VideoTitle)+"&";
          };
          if(this.VideoPage){
            path+='page='+String(this.VideoPage);
          };
-
-
          DataVideoSearch(path).then((res)=>{
            console.log(res.body);
            return res.json();
          }).then((r)=>{
-
+           //console.log(r);
+           for(const it of r){
+             this.videoData.push(it);
+           }
+           console.log(this.videoData);
          });
     },
     dataUserSearch(){
@@ -353,7 +455,7 @@ export default {
       // 绘制图表
       myChart.setOption({
         title: {
-          text: '数据可视化平台'
+          text: '关卡统计'
         },
         tooltip: {},
         xAxis: {
