@@ -90,40 +90,13 @@ export default({
       this.formData.append("title",this.title);
       this.formData.append("content",this.content);
       this.formData.append("level_id",this.level);
-      console.log("helloworld");
-      let config = {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          'Authorization' : 'JWT '+localStorage.getItem("token")
+      ModifyBack(this.formData,this.dataId).then((res)=>{
+        if(res.status == 200){
+          this.$message('修改成功');
+        }else{
+          this.$message('修改失败'+"\n"+"失败原因为"+String(res.body));
         }
-      };
-      console.log("helloworld");
-      console.log(this.formData);
-      ModifyBack(this.formData,this.dataId);
-      this.$axios({
-        url:'https://voicetestgame-dijkstra.app.secoder.net/api/manager',
-        method:'post',//method默认是get请求
-        data: this.formData,
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          'Authorization' : 'JWT '+localStorage.getItem("token")
-        }
-      }).then(function(res){
-        console.log(res)
-        // axios会对我们请求来的结果进行再一次的封装（ 让安全性提高 ）
-      }).catch(err=>{
-        console.log(err)
       });
-      //this.$http.post('https://voicetestgame-dijkstra.app.secoder.net/api/users/', this.formData).then((res)=>console.log(res));
-      //this.$http.post('https://voicetestgame-dijkstra.app.secoder.net/api/users/', "",config).then((res)=>console.log(res));
-      this.$axios.post('https://voicetestgame-dijkstra.app.secoder.net/api/users/', this.formData, config).then(function (res) {
-        if (res.status === 200) {
-          console.log(res);
-        }
-      }).catch((error) => {
-        console.log(error);
-      });
-
     }
   },
 

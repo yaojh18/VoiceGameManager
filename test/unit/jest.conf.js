@@ -21,6 +21,7 @@ module.exports = {
     setupFiles: ['<rootDir>/test/unit'],
     mapCoverage: true,
     coverageDirectory: '<rootDir>/test/unit/coverage',
+    collectCoverage: true,
     collectCoverageFrom: [
         'src/**/*.{js,vue}',
         '!src/main.js',

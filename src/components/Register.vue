@@ -5,10 +5,10 @@
              <el-input placeholder="请输入用户名" v-model="username" @input="changeRegisterName()">{{ username }}</el-input>
         </el-form-item>
         <el-form-item label="密码">
-            <el-input placeholder="请输入密码" v-model="password" @input="changeRegisterPassword()">{{ password }}</el-input>
+            <el-input placeholder="请输入密码" v-model="password" @input="changeRegisterPassword()" show-password>{{ password }}</el-input>
         </el-form-item>
         <el-form-item label="确认密码">
-            <el-input placeholder="请输入确认密码" v-model="password2" @input="changeRegisterPassword2()">{{ password2 }}</el-input>
+            <el-input placeholder="请输入确认密码" v-model="password2" @input="changeRegisterPassword2()" show-password>{{ password2 }}</el-input>
         </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
