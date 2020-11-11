@@ -8,7 +8,7 @@
       <router-link to='/'><i class="el-icon-s-home">回到主页</i></router-link>
     </el-button>
     </el-header>
-    <ModifyPwd v-bind:dialog-visible="ModifyPwd.dialogVisible"/>
+
   </el-container>
 </template>
 <script>
