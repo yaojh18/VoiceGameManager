@@ -11,11 +11,11 @@ COPY package-lock.json $HOME
 RUN npm install
 
 COPY . $HOME
+WORKDIR .
 RUN npm run build
 
 FROM nginx
-RUN mkdir /app
-COPY --from=0 /app/dist /app
+COPY --from=0 /dist .
 COPY nginx.conf /etc/nginx/nginx.conf
 
 ENV SERVER_PORT 80
