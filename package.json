@@ -17,7 +17,10 @@
     "jest": "^26.6.3",
     "mockjs": "^1.1.0",
     "vue": "^2.6.11",
+<<<<<<< HEAD
     "vue-jest": "^3.0.7",
+=======
+>>>>>>> 0b9e2c374cf3a2f095f99321e87fc551f7772e7e
     "vue-resource": "^1.5.1",
     "vue-router": "^3.3.4"
   },
@@ -26,7 +29,11 @@
     "@vue/cli-plugin-eslint": "~4.4.0",
     "@vue/cli-plugin-unit-jest": "^4.4.6",
     "@vue/cli-service": "~4.4.0",
+<<<<<<< HEAD
     "@vue/test-utils": "^1.1.1",
+=======
+    "@vue/test-utils": "^1.0.3",
+>>>>>>> 0b9e2c374cf3a2f095f99321e87fc551f7772e7e
     "babel-eslint": "^10.1.0",
     "babel-plugin-istanbul": "^6.0.0",
     "better-mock": "^0.2.8",

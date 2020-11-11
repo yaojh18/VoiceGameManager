@@ -78,6 +78,7 @@
         padding-bottom: 10px;
         font-size: large
     }
+<<<<<<< HEAD
 </style>
 <el-dropdown style="display: inline-block; text-align:right; margin-left:15px; margin-right:15px; " class="avatar-container" trigger="click" >
 <div class="avatar-wrapper">
@@ -101,3 +102,6 @@
   </el-dropdown-menu>
 </div>
 </el-dropdown>
+=======
+</style>
+>>>>>>> 0b9e2c374cf3a2f095f99321e87fc551f7772e7e
