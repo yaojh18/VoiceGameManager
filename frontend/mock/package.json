@@ -1,9 +1,0 @@
-{
-    "name": "manager",
-    "version": "1.0.0",
-    "private": true,
-    "author": "zsn",
-    "scripts": {
-        "start": "node index.js"
-    }
-}
