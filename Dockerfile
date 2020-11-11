@@ -8,14 +8,13 @@ WORKDIR $HOME
 
 COPY package.json $HOME
 COPY package-lock.json $HOME
-RUN npm install
 
 COPY . $HOME
-WORKDIR .
-RUN npm run build
+RUN npm install && npm run build
 
 FROM nginx
-COPY --from=0 /dist .
+RUN mkdir /opt/app
+COPY --from=0 /opt/app/dist /opt/app
 COPY nginx.conf /etc/nginx/nginx.conf
 
 ENV SERVER_PORT 80
