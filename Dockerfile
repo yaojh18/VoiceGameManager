@@ -13,6 +13,11 @@ RUN npm install
 COPY . $HOME
 RUN npm run build
 
+FROM nginx
+RUN mkdir /app
+COPY --from=0 /app/dist /app
+COPY nginx.conf /etc/nginx/nginx.conf
+
 ENV SERVER_PORT 80
 EXPOSE 80
 
