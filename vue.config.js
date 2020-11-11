@@ -9,8 +9,7 @@ module.exports = {
                 changOrigin: true,
             }
         },
-        port: 80,
-        open: true,
+        disableHostCheck: true,
     },
 
     lintOnSave: false,
