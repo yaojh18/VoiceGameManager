@@ -1,20 +1,19 @@
 <template>
-    <el-menu :default-openeds="[]" style="background: #b0c7e7;border-radius: 4px;margin: 5px">
+    <el-menu :default-openeds="[]" style="background: #98DFFF;border-radius: 0px;margin: 0px" :visible.sync="dialogVisible">
        <el-submenu index="view" style="text-align: left">
             <template slot="title" ><i class="el-icon-chat-square"/>
-                <span class="messageblock-title" >{{ title }}</span>
-                <span style="padding:4px;align:right" @click="$emit('closeclicked','');"><i class="el-icon-close"></i></span>
-                <span style="padding:4px;align:right" @click="$emit('editclicked','');"><i class="el-icon-edit"></i></span>
-                <span style="padding:4px;align:right" @click="$emit('detailclicked','');"><i class="el-icon-zoom-in"></i></span>
+                <span class="messageblock-title" >title: {{ title }}</span>
+                <el-button style="margin:1px;padding:4px;align:right;background-color: #87CEFA;" @click="closeBlock();$emit('closeclicked','');"><i class="el-icon-close"></i></el-button>
+                <el-button style="margin:1px;padding:4px;align:right;background-color: #87CEFA;" @click="editBlock();$emit('editclicked','');"><i class="el-icon-edit"></i></el-button>
+                <el-button style="margin:1px;padding:4px;align:right;background-color: #87CEFA;" @click="detailBlock();$emit('detailclicked','');"><i class="el-icon-zoom-in"></i></el-button>
             </template>
             <div style="display:flex; margin-top: 3px; font-size: small;color: grey">
                 <span class="messageblock-datetime" style="padding: 4px;">
-                {{ datetime }}
+                datetime: {{ datetime }}
                 </span>
-                <span class="messageblock-user" style="padding: 4px;">{{ level_id }}</span>
+                <span class="messageblock-user" style="padding: 4px;">level_id: {{ level_id }}</span>
             </div>
-            <div class="messageblock-content">{{ id }}</div>
-
+            <div class="messageblock-content">id: {{ id }}</div>
         </el-submenu>
     </el-menu>
 </template>
@@ -23,6 +22,10 @@
     export default {
         name: "MessageBlock",
         props: {
+            dialogVisible:{
+              type:Boolean,
+              default:()=> true
+            },
             title: {
                 type:String,
                 default: () => "unknown title"
@@ -39,6 +42,10 @@
                 type:Number,
                 default: () => 0
             },
+            type_id:{
+                 type:Number,
+                 default: () => 0
+            }
         },
         computed:{
             datetime:function () {
@@ -46,7 +53,18 @@
                 d.setTime(this.timestamp)
                 return d.toLocaleString()
             }
-        }
+        },
+      methods:{
+          closeBlock(){
+            this.dialogVisible = false;
+          },
+          editBlock(){
+            console.log("hello");
+          },
+          detailBlock(){
+            console.log("hello");
+          },
+      }
     }
 </script>
 

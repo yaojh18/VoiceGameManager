@@ -10,6 +10,10 @@
     <input type="text" v-model="level"/>
   </el-form-item>
   <el-form-item>
+    <label>类别ID  </label>
+    <input type="text" v-model="type_id"/>
+  </el-form-item>
+  <el-form-item>
     <label>题目  </label>
     <input type="text" v-model="title"/>
   </el-form-item>
@@ -46,6 +50,10 @@ export default({
         type:Number,
         default: ()=>0
       },
+      type_id:{
+        type:Number,
+        default: ()=>1
+      },
       title:{
          type:String,
          default: ()=>""
@@ -61,6 +69,7 @@ export default({
             title: this.title,
             content: this.content,
             level_id:this.level_id,
+            type_id:this.type_id,
         },
         formData: new FormData(),
         }
@@ -84,6 +93,7 @@ export default({
             this.formData.append("title",this.title);
             this.formData.append("content",this.content);
             this.formData.append("level_id",this.level);
+            this.formData.append("type_id",this.type_id);
             AddBack(this.formData).then((res)=>{
               if(res.status==201){
                 this.$message('添加成功');

@@ -24,8 +24,9 @@ export default {
       default: () => new Array(5).fill(
           {
             "title":"unknown",
-            "level_id":"0",
-            "id":"0",
+            "level_id":0,
+            "id":0,
+            "type_id":0,
             "timestamp":new Date().getTime(),
           }
       )

@@ -15,10 +15,11 @@ export const registerBack = (usernameRegister, password, password2) => fetch(API
     body: JSON.stringify({ username:usernameRegister, password:password, password_confirm:password2 }),
     headers: { "Content-Type": "application/json" },
 });
-export const getList = () => fetch(API.GETLIST.path, {
+export const getList = (type_id) => fetch(API.GETLIST.path + String("?type_id=")+String(type_id), {
     method: API.GETLIST.method,
     headers: { "Authorization":"JWT "+localStorage.getItem('token')},
 }).then((res)=>res.json());
+
 export const searchBack = (keyword) => fetch(API.SEARCH.path,{
     method: API.SEARCH.method,
     body:JSON.stringify({'keyword':keyword}),

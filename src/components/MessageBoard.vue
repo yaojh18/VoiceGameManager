@@ -93,11 +93,7 @@
                 <template>
                   <el-tabs style="margin-top:15px;" v-model="activeName" type="card" @tab-click="handleClick">
                     <el-tab-pane label="男性角色关卡" name="first">
-                      <draggable @update="datadragEnd" :options = "options" v-model="tableData" style='sort: false' >
-                        <transition-group >
                       <MessageList v-bind:messageList="messageListMale" v-on:RefreshMsg="this.$forceUpdate()"/>
-                        </transition-group>
-                      </draggable>
                       <el-tree
                           :data="data"
                           node-key="id"
@@ -114,7 +110,11 @@
                       </el-tree>
                     </el-tab-pane>
                     <el-tab-pane label="女性角色关卡" name="second">
-                      <MessageList v-bind:messageList="messageListFemale" v-on:RefreshMsg="this.$forceUpdate()"/>
+                      <draggable @update="datadragEnd" :options = "options" v-model="tableData" style='sort: false' >
+                        <transition-group >
+                          <MessageList v-bind:messageList="messageListFemale" v-on:RefreshMsg="this.$forceUpdate()"/>
+                        </transition-group>
+                      </draggable>
                     </el-tab-pane>
                     <el-tab-pane label="未知关卡" name="third">
                       <MessageList v-bind:messageList="messageListUnknown" v-on:RefreshMsg="this.$forceUpdate()"/>
@@ -261,6 +261,7 @@ export default {
                 title: this.title,
                 content: this.content,
                  level_id:this.level_id,
+                 type_id:this.type_id,
               },
               formData: new FormData(),
             },
@@ -385,6 +386,7 @@ export default {
                   return res.json();
                 }
              ).then((r)=>{
+               console.log(r.token);
                localStorage.setItem('token',r.token);
             });
               let Token = localStorage.getItem('token');
@@ -527,9 +529,48 @@ export default {
           this.checkMenusList.push({sortNum: index+1+"", menuId: item.id,rovinceCode:this.page.token})
           return  this.checkMenusList
         })
-      }
+      },
         getListMsg(){
-            getList().then((res)=>{
+            console.log("getListMsg");
+            getList(1).then((res)=>{
+              if(res != undefined){
+                this.$message("拉取数据成功");
+              }else{
+                this.$message("拉取数据失败");
+              }
+              console.log(res);
+              return res;
+            }).then((itemList)=>{
+              itemList = itemList["results"];
+              for (const Item of itemList) {
+                this.messageListMale.push({
+                  "title": Item['title'],
+                  "id": Item['id'],
+                  "level_id": Item["level_id"],
+                  "timestamp": new Date().getTime()
+                });
+              }
+            });
+            getList(2).then((res)=>{
+              if(res != undefined){
+                this.$message("拉取数据成功");
+              }else{
+                this.$message("拉取数据失败");
+              }
+              return res;
+            }).then((itemList)=>{
+              itemList = itemList["results"];
+              console.log(itemList);
+              for (const Item of itemList) {
+                this.messageListFemale.push({
+                  "title": Item['title'],
+                  "id": Item['id'],
+                  "level_id": Item["level_id"],
+                  "timestamp": new Date().getTime()
+                });
+              }
+              })
+            getList(0).then((res)=>{
               if(res != undefined){
                 this.$message("拉取数据成功");
               }else{
@@ -537,30 +578,16 @@ export default {
               }
                 return res;
             }).then((itemList)=> {
+              itemList = itemList["results"];
+              console.log(itemList);
               for (const Item of itemList) {
-                if (Item["type_id"] == 0) {
                   this.messageListUnknown.push({
                     "title": Item['title'],
                     "id": Item['id'],
                     "level_id": Item["level_id"],
                     "timestamp": new Date().getTime()
                   });
-                } else if (Item["type_id"] == 1) {
-                  this.messageListMale.push({
-                    "title": Item['title'],
-                    "id": Item['id'],
-                    "level_id": Item["level_id"],
-                    "timestamp": new Date().getTime()
-                  });
-                } else if (Item["type_id"] == 2) {
-                  this.messageListFemale.push({
-                    "title": Item['title'],
-                    "id": Item['id'],
-                    "level_id": Item["level_id"],
-                    "timestamp": new Date().getTime()
-                  });
                 }
-              }
             });
         },
         PwdModify(){
