@@ -33,8 +33,6 @@ unit-test:
   script:
     - npm run test:unit
     - FRONTEND_RET=$?
-    - npm run test:backend
-    - BACKEND_RET=$?
     - if [ $FRONTEND_RET \> 0 ]; then exit $FRONTEND_RET; fi;
     - exit $BACKEND_RET
   after_script:
