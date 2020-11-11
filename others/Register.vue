@@ -79,3 +79,25 @@
         font-size: large
     }
 </style>
+<el-dropdown style="display: inline-block; text-align:right; margin-left:15px; margin-right:15px; " class="avatar-container" trigger="click" >
+<div class="avatar-wrapper">
+  <el-button type="default" size="medium"  >
+    <i class="el-icon-data-analysis" />
+    数据操作
+  </el-button>
+  <el-dropdown-menu slot="dropdown" class="user-dropdown">
+    <el-dropdown-item>
+      <span style="display:block;" v-on:click="changeAdd()" ><i class="el-icon-plus">增加</i></span>
+    </el-dropdown-item>
+    <el-dropdown-item divided>
+      <span style="display:block;" v-on:click="changeModify()"><i class="el-icon-edit">修改</i></span>
+    </el-dropdown-item>
+    <el-dropdown-item divided>
+      <span style="display:block;" v-on:click="changeSearch()"><i class="el-icon-search">查询</i></span>
+    </el-dropdown-item>
+    <el-dropdown-item divided>
+      <span style="display:block;" v-on:click="changeDelete()"><i class="el-icon-delete">删除</i></span>
+    </el-dropdown-item>
+  </el-dropdown-menu>
+</div>
+</el-dropdown>

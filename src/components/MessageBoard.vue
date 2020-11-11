@@ -21,64 +21,13 @@
                   </el-dropdown-menu>
                 </div>
               </el-dropdown>
-          <el-dropdown style="display: inline-block; text-align:right; margin-left:15px; margin-right:15px; " class="avatar-container" trigger="click" >
-            <div class="avatar-wrapper">
-              <el-button type="default" size="medium"  >
-                <i class="el-icon-data-analysis" />
-                数据操作
-              </el-button>
-              <el-dropdown-menu slot="dropdown" class="user-dropdown">
-                <el-dropdown-item>
-                  <span style="display:block;" v-on:click="changeAdd()" ><i class="el-icon-plus">增加</i></span>
-                </el-dropdown-item>
-                <el-dropdown-item divided>
-                  <span style="display:block;" v-on:click="changeModify()"><i class="el-icon-edit">修改</i></span>
-                </el-dropdown-item>
-                <el-dropdown-item divided>
-                  <span style="display:block;" v-on:click="changeSearch()"><i class="el-icon-search">查询</i></span>
-                </el-dropdown-item>
-                <el-dropdown-item divided>
-                  <span style="display:block;" v-on:click="changeDelete()"><i class="el-icon-delete">删除</i></span>
-                </el-dropdown-item>
-              </el-dropdown-menu>
-            </div>
-          </el-dropdown>
-              <el-dropdown style="display: inline-block; text-align:right; margin-left:15px; margin-right:15px; " class="avatar-container" trigger="click" >
-                <div class="avatar-wrapper">
-                  <el-button type="default" size="medium"  >
-                    <i class="el-icon-user" />
-                    个人信息操作
-                  </el-button>
-              <el-dropdown-menu slot="dropdown" class="user-dropdown">
-                <el-dropdown-item :disabled="usernameLogged!='unknown'"
-                                  :enabled="usernameLogged=='unknown'">
-                  <span style="display:block;" v-on:click="changeLogin()" ><i class="el-icon-login">登录</i></span>
-                </el-dropdown-item>
-                <el-dropdown-item divided :disabled="usernameLogged!='unknown'"
-                                  :enabled="usernameLogged=='unknown'">
-                  <span style="display:block;" v-on:click="changeRegister()"><i class="el-icon-add">注册</i></span>
-                </el-dropdown-item>
-                <el-dropdown-item divided :disabled="usernameLogged=='unknown'"
-                                  :enabled="usernameLogged!='unknown'">
-                  <span style="display:block;" v-on:click="Logout.dialogVisible=true"><i class="el-icon-add">登出</i></span>
-                </el-dropdown-item>
-                <el-dropdown-item divided :disabled="usernameLogged=='unknown'"
-                                  :enabled="usernameLogged!='unknown'">
-                  <span style="display:block;" v-on:click="ModifyPwd.dialogVisible=true"><i class="el-icon-edit">修改密码</i></span>
-                </el-dropdown-item>
-
-              </el-dropdown-menu>
-            </div>
-          </el-dropdown>
-          <el-button style="display: inline-block;margin-right: 15px;" v-on:click="getListMsg()">
-            <i class="el-icon-edit">数据列表</i>
+              <el-button style="display: inline-block;margin-right: 15px;" v-on:click="getListMsg()">
+            <i class="el-icon-refresh">刷新</i>
           </el-button>
           <el-button style="display: inline-block;margin-right: 15px;text-decoration:None" v-on:click="this.$router.push({path:'/data'})">
                 <router-link style="text-decoration:None" to='/data' >数据界面</router-link>
             </el-button>
-            <el-button style="display: inline-block;margin-right: 15px;text-decoration:None" v-on:click="this.$router.push({path:'/person'})">
-                <router-link style="text-decoration:None" to='/person'>个人界面</router-link>
-            </el-button>
+
           <el-dropdown style="align:right;display: inline-block; text-align:right; margin-right:3px; " class="avatar-container" trigger="click" >
             <div class="avatar-wrapper">
               <el-button type="primary" size="medium" v-model="usernameLogged"  v-bind="usernameLogged"
@@ -92,7 +41,23 @@
                   <span style="display:block;" @click="gotoPerson()"><i class="el-icon-edit"/>个人信息修改</span>
                 </el-dropdown-item>
                 <el-dropdown-item divided>
-                  <span style="display:block;" @click="personShow()"><i class="el-icon-s-data"/>个人信息展示</span>
+                  <span style="display:block;" @click="personShow()"><i class="el-icon-s-data"/>个人密码修改</span>
+                </el-dropdown-item>
+                <el-dropdown-item divided :disabled="usernameLogged!='unknown'"
+                                        :enabled="usernameLogged=='unknown'">
+                  <span style="display:block;" v-on:click="changeLogin()" ><i class="el-icon-login">登录</i></span>
+                </el-dropdown-item>
+                <el-dropdown-item divided :disabled="usernameLogged!='unknown'"
+                                        :enabled="usernameLogged=='unknown'">
+                  <span style="display:block;" v-on:click="changeRegister()"><i class="el-icon-add">注册</i></span>
+                </el-dropdown-item>
+                <el-dropdown-item divided :disabled="usernameLogged=='unknown'"
+                                        :enabled="usernameLogged!='unknown'">
+                  <span style="display:block;" v-on:click="Logout.dialogVisible=true"><i class="el-icon-add">登出</i></span>
+                </el-dropdown-item>
+                <el-dropdown-item divided :disabled="usernameLogged=='unknown'"
+                                        :enabled="usernameLogged!='unknown'">
+                  <span style="display:block;" v-on:click="ModifyPwd.dialogVisible=true"><i class="el-icon-edit">修改密码</i></span>
                 </el-dropdown-item>
               </el-dropdown-menu>
             </div>
@@ -100,9 +65,9 @@
         </el-header>
         <el-main>
             <el-form :inline="true" align="left" class="padding-10-0">
-              <span style="vertical-align:middle;margin-left:15px;" v-on:click="clickSearch()" inline-block><i class="el-icon-zoom-in">搜索</i></span>
+              <el-button style="vertical-align:middle;margin-left:15px;" v-on:click="clickSearch()" inline-block><i class="el-icon-zoom-in">搜索</i></el-button>
               <span style="vertical-align:middle" inline-block>
-                <el-input style="vertical-align:middle;width:200px;margin-left:15px;" inline-block placeholder="输入搜索信息"></el-input>
+                <el-input style="vertical-align:middle;width:200px;margin-left:15px;" inline-block v-model="searchTmp" placeholder="输入搜索信息"></el-input>
               </span>
               <span inline-block>
                 <el-dropdown style="vertical-align:middle;display: inline-block; text-align:right; margin-left:15px; margin-right:15px; " class="avatar-container" trigger="click" >
@@ -251,7 +216,23 @@ export default {
         ModifyPwd,
         Add
     },
-    // 请在下方设计自己的数据结构及函数来完成最终的留言板功能
+    props:{
+      searchTmp:{
+        type:String,
+      },
+      searchDataId: {
+        type:Number,
+        default :()=> 0
+      },
+      searchLevelId:{
+        type:Number,
+        default :()=> 0
+      },
+      searchKeyWord:{
+        type:String,
+        default:()=>''
+      }
+    },
     data() {
         return {
             Login: {
@@ -362,7 +343,7 @@ export default {
             messageList: [],
             infoList: [],
             usernameLogged: "unknown",
-            searchSelection: 0,
+            searchSelection: 1,
         }
     },
     methods: {
@@ -510,6 +491,15 @@ export default {
         },
         changeLogin() {
             this.Login.dialogVisible = true;
+        },
+        clickSearch(){
+            if(searchSelection == 1){
+
+            }else if(searchSelection == 2){
+
+            }else if(searchSelection == 3){
+
+            }
         },
         changeSearchId(){
           this.SearchId.dialogVisible = true;

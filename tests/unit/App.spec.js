@@ -1,12 +1,12 @@
 
-//import getWrapper from "./utils"
+import getWrapper from "./utils"
 
-//import App from '@/App.vue'
+import App from '@/App.vue'
 
 describe('App.vue', () => {
 
-  //const wrapper = getWrapper(App,{})
+  const wrapper = getWrapper(App,{})
   it('simple coverage', () => {
-  //  console.log(wrapper.findAll("MessageBlock").length)
+    console.log(wrapper.findAll("MessageBlock").length)
   })
 })
