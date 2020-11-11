@@ -14,12 +14,6 @@
       <el-form-item label="确认新密码">
         <el-input placeholder="请再次输入新密码" v-model="password3" @input="changePwd3()">{{ password3 }}</el-input>
       </el-form-item>
-      <el-form-item label="请输入电子邮箱地址">
-        <el-input placeholder="请输入电子邮箱" v-model="email" >{{ email }}</el-input>
-      </el-form-item>
-      <el-form-item label="请输入姓名">
-        <el-input placeholder="请输入姓名" v-model="name" >{{ name }}</el-input>
-      </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
         <el-button v-on:click="$emit('cancelModifyPwd',''),dialogVisible=false">取 消</el-button>

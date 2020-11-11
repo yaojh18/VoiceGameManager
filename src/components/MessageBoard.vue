@@ -21,73 +21,12 @@
                   </el-dropdown-menu>
                 </div>
               </el-dropdown>
-<<<<<<< HEAD
               <el-button style="display: inline-block;margin-right: 15px;" v-on:click="getListMsg()">
             <i class="el-icon-refresh">刷新</i>
-=======
-          <el-dropdown style="display: inline-block; text-align:right; margin-left:15px; margin-right:15px; " class="avatar-container" trigger="click" >
-            <div class="avatar-wrapper">
-              <el-button type="default" size="medium"  >
-                <i class="el-icon-data-analysis" />
-                数据操作
-              </el-button>
-              <el-dropdown-menu slot="dropdown" class="user-dropdown">
-                <el-dropdown-item>
-                  <span style="display:block;" v-on:click="changeAdd()" ><i class="el-icon-plus">增加</i></span>
-                </el-dropdown-item>
-                <el-dropdown-item divided>
-                  <span style="display:block;" v-on:click="changeModify()"><i class="el-icon-edit">修改</i></span>
-                </el-dropdown-item>
-                <el-dropdown-item divided>
-                  <span style="display:block;" v-on:click="changeSearch()"><i class="el-icon-search">查询</i></span>
-                </el-dropdown-item>
-                <el-dropdown-item divided>
-                  <span style="display:block;" v-on:click="changeDelete()"><i class="el-icon-delete">删除</i></span>
-                </el-dropdown-item>
-              </el-dropdown-menu>
-            </div>
-          </el-dropdown>
-              <el-dropdown style="display: inline-block; text-align:right; margin-left:15px; margin-right:15px; " class="avatar-container" trigger="click" >
-                <div class="avatar-wrapper">
-                  <el-button type="default" size="medium"  >
-                    <i class="el-icon-user" />
-                    个人信息操作
-                  </el-button>
-              <el-dropdown-menu slot="dropdown" class="user-dropdown">
-                <el-dropdown-item :disabled="usernameLogged!='unknown'"
-                                  :enabled="usernameLogged=='unknown'">
-                  <span style="display:block;" v-on:click="changeLogin()" ><i class="el-icon-login">登录</i></span>
-                </el-dropdown-item>
-                <el-dropdown-item divided :disabled="usernameLogged!='unknown'"
-                                  :enabled="usernameLogged=='unknown'">
-                  <span style="display:block;" v-on:click="changeRegister()"><i class="el-icon-add">注册</i></span>
-                </el-dropdown-item>
-                <el-dropdown-item divided :disabled="usernameLogged=='unknown'"
-                                  :enabled="usernameLogged!='unknown'">
-                  <span style="display:block;" v-on:click="Logout.dialogVisible=true"><i class="el-icon-add">登出</i></span>
-                </el-dropdown-item>
-                <el-dropdown-item divided :disabled="usernameLogged=='unknown'"
-                                  :enabled="usernameLogged!='unknown'">
-                  <span style="display:block;" v-on:click="ModifyPwd.dialogVisible=true"><i class="el-icon-edit">修改密码</i></span>
-                </el-dropdown-item>
-
-              </el-dropdown-menu>
-            </div>
-          </el-dropdown>
-          <el-button style="display: inline-block;margin-right: 15px;" v-on:click="getListMsg()">
-            <i class="el-icon-edit">数据列表</i>
->>>>>>> 0b9e2c374cf3a2f095f99321e87fc551f7772e7e
           </el-button>
           <el-button style="display: inline-block;margin-right: 15px;text-decoration:None" v-on:click="this.$router.push({path:'/data'})">
                 <router-link style="text-decoration:None" to='/data' >数据界面</router-link>
             </el-button>
-<<<<<<< HEAD
-
-=======
-            <el-button style="display: inline-block;margin-right: 15px;text-decoration:None" v-on:click="this.$router.push({path:'/person'})">
-                <router-link style="text-decoration:None" to='/person'>个人界面</router-link>
-            </el-button>
->>>>>>> 0b9e2c374cf3a2f095f99321e87fc551f7772e7e
           <el-dropdown style="align:right;display: inline-block; text-align:right; margin-right:3px; " class="avatar-container" trigger="click" >
             <div class="avatar-wrapper">
               <el-button type="primary" size="medium" v-model="usernameLogged"  v-bind="usernameLogged"
@@ -97,7 +36,6 @@
                 <i class="el-icon-caret-bottom" />
               </el-button>
               <el-dropdown-menu slot="dropdown" class="user-dropdown">
-<<<<<<< HEAD
                 <el-dropdown-item :disabled="usernameLogged=='unknown'"
                                   :enabled="usernameLogged!='unknown'">
                   <span style="display:block;" @click="PersonModify()" ><i class="el-icon-edit"/>个人信息修改</span>
@@ -117,13 +55,6 @@
                 <el-dropdown-item divided :disabled="usernameLogged=='unknown'"
                                         :enabled="usernameLogged!='unknown'">
                   <span style="display:block;" v-on:click="Logout.dialogVisible=true"><i class="el-icon-add">登出</i></span>
-=======
-                <el-dropdown-item>
-                  <span style="display:block;" @click="gotoPerson()"><i class="el-icon-edit"/>个人信息修改</span>
-                </el-dropdown-item>
-                <el-dropdown-item divided>
-                  <span style="display:block;" @click="personShow()"><i class="el-icon-s-data"/>个人信息展示</span>
->>>>>>> 0b9e2c374cf3a2f095f99321e87fc551f7772e7e
                 </el-dropdown-item>
               </el-dropdown-menu>
             </div>
@@ -131,20 +62,13 @@
         </el-header>
         <el-main>
             <el-form :inline="true" align="left" class="padding-10-0">
-<<<<<<< HEAD
               <el-button style="vertical-align:middle;margin-left:15px;" v-on:click="clickSearch()" inline-block><i class="el-icon-zoom-in">搜索</i></el-button>
               <span style="vertical-align:middle" inline-block>
                 <el-input style="vertical-align:middle;width:200px;margin-left:15px;" inline-block v-model="searchTmp" placeholder="输入搜索信息"></el-input>
-=======
-              <span style="vertical-align:middle;margin-left:15px;" v-on:click="clickSearch()" inline-block><i class="el-icon-zoom-in">搜索</i></span>
-              <span style="vertical-align:middle" inline-block>
-                <el-input style="vertical-align:middle;width:200px;margin-left:15px;" inline-block placeholder="输入搜索信息"></el-input>
->>>>>>> 0b9e2c374cf3a2f095f99321e87fc551f7772e7e
               </span>
               <span inline-block>
                 <el-dropdown style="vertical-align:middle;display: inline-block; text-align:right; margin-left:15px; margin-right:15px; " class="avatar-container" trigger="click" >
                   <div class="avatar-wrapper">
-<<<<<<< HEAD
                     <el-button size="medium" v-model="searchKey">搜索类型:{{searchKey}}<i class="el-icon-caret-bottom" />
                     </el-button>
                     <el-dropdown-menu slot="dropdown" class="user-dropdown">
@@ -156,19 +80,6 @@
                       </el-dropdown-item>
                       <el-dropdown-item divided>
                         <span style="display:block;" @click="searchSelection=3;searchKey='关卡搜索'">关卡搜索</span>
-=======
-                    <el-button size="medium">搜索类型<i class="el-icon-caret-bottom" />
-                    </el-button>
-                    <el-dropdown-menu slot="dropdown" class="user-dropdown">
-                      <el-dropdown-item>
-                        <span style="display:block;" @click="searchSelection=1">关键词搜索</span>
-                      </el-dropdown-item>
-                      <el-dropdown-item divided>
-                        <span style="display:block;" @click="searchSelection=2">数据搜索</span>
-                      </el-dropdown-item>
-                      <el-dropdown-item divided>
-                        <span style="display:block;" @click="searchSelection=3">关卡搜索</span>
->>>>>>> 0b9e2c374cf3a2f095f99321e87fc551f7772e7e
                       </el-dropdown-item>
                     </el-dropdown-menu>
                   </div>
@@ -178,7 +89,6 @@
           <div class="c-content">
             <div class="c-search-table beauty-Scroll">
               <el-scrollbar>
-<<<<<<< HEAD
                 <template>
                   <el-tabs style="margin-top:15px;" v-model="activeName" type="card" @tab-click="handleClick">
                     <el-tab-pane label="男性角色关卡" name="first">
@@ -192,27 +102,16 @@
                     </el-tab-pane>
                   </el-tabs>
                 </template>
-=======
-                <MessageList v-bind:messageList="messageList" v-on:RefreshMsg="this.$forceUpdate()"
-                v-on:uploadMsgTB="(choice,title,level_id,id)=>{
-                  if(choice=='close'){
-                     console.log(choice);
-                  }else if(choice=='edit'){
-                     console.log(choice);
-                  }else if(choice=='detail'){
-                     console.log(choice);
-                  }
-                  console.log(title,level_id,id);
-                }">
-                </MessageList>
->>>>>>> 0b9e2c374cf3a2f095f99321e87fc551f7772e7e
               </el-scrollbar>
             </div>
           </div>
         </el-main>
         <el-footer style="background-color:#87CEFA">@DIJKSTRA</el-footer>
     </el-container>
-    <ModifyPwd v-bind:dialog-visible="ModifyPwd.dialogVisible" v-on:cancelModifyPwd="ModifyPwd.dialogVisible=false"/>
+    <ModifyPerson v-bind:dialog-visible="ModifyPerson.dialogVisible"
+                  v-on:cancelModifyPerson="ModifyPerson.dialogVisible=false"/>
+    <ModifyPwd v-bind:dialog-visible="ModifyPwd.dialogVisible"
+               v-on:cancelModifyPwd="ModifyPwd.dialogVisible=false"/>
     <Login v-bind:dialog-visible="Login.dialogVisible" v-on:cancelLogin="Login.dialogVisible=false" v-on:login="({usernameLogin,password})=>{
                 Login.dialogVisible = false;
                 loginCalled(usernameLogin,password);
@@ -240,28 +139,6 @@
     <Delete v-bind:dialog-visible="Delete.dialogVisible"
             v-on:DeleteCalledAgain="({data_id})=>DeleteFuncCalled(data_id)"
             v-on:closeDelete="Delete.dialogVisible=false"/>
-<<<<<<< HEAD
-=======
-    <Search v-on:searchCalled="({keyword})=>{
-            Search.dialogVisible = false;
-            postSearch(keyword);
-        }" v-bind:dialog-visible="Search.dialogVisible"
-            v-on:closeSearch="Search.dialogVisible=false" />
-   <SearchId v-on:searchIdCalled="({level_id})=>{
-            SearchId.dialogVisible = false;
-            postSearchIdLevel(level_id);
-        }" v-bind:dialog-visible="SearchId.dialogVisible"
-             v-on:cancel="SearchId.dialogVisible=false"
-             v-on:closeSearchId="SearchId.dialogVisible=false"/>
-   <SearchDataId v-on:searchDataIdCalled="({data_id})=>{
-            SearchDataId.dialogVisible = false;
-            postSearchId(data_id);
-        }" v-bind:dialog-visible="SearchDataId.dialogVisible" v-on:closeSearchDataId="SearchDataId.dialogVisible=false" />
-
-  <SearchSelect v-on:chooseSearchSelect="({arg})=>{SearchSelect.dialogVisible=false;changeSelect(arg)}"
-                v-bind:dialog-visible="SearchSelect.dialogVisible"
-                v-on:closeSearchSelect="SearchSelect.dialogVisible=false"/>
->>>>>>> 0b9e2c374cf3a2f095f99321e87fc551f7772e7e
   <infoPerson   v-bind:dialog-visible="infoPerson.dialogVisible"
                 v-on:closeinfoPerson="infoPerson.dialogVisible=false"
                 v-bind:name="infoPerson.name"
@@ -274,13 +151,8 @@
     </el-dialog>
     <el-dialog style="text-align: center" :title="alertDeleteDialog.text" :visible.sync="alertDeleteDialog.dialogVisible" width="40%">
     </el-dialog>
-<<<<<<< HEAD
-    <ModifyPwd v-bind:dialog-visible="ModifyPwd.dialogVisible"/>
-=======
->>>>>>> 0b9e2c374cf3a2f095f99321e87fc551f7772e7e
 </div>
 </template>
-
 <script>
 import MessageList from "@/components/MessageList"
 import PostDialog from "@/components/PostDialog"
@@ -288,15 +160,9 @@ import Login from "@/components/Login"
 import Register from "@/components/Register"
 import Modify from "@/components/Modify"
 import Delete from "@/components/Delete"
-<<<<<<< HEAD
-=======
-import Search from "@/components/Search"
-import SearchId from "@/components/SearchId"
-import SearchDataId from "@/components/SearchDataId"
-import SearchSelect from "@/components/SearchSelect"
->>>>>>> 0b9e2c374cf3a2f095f99321e87fc551f7772e7e
 import Logout from "@/components/Logout"
 import ModifyPwd from "@/components/ModifyPwd"
+import ModifyPerson from "@/components/ModifyPerson"
 import Add from "@/components/Add"
 import infoPerson from "@/components/infoPerson"
 import {
@@ -317,21 +183,14 @@ export default {
         PostDialog,
         Register,
         Login,
-<<<<<<< HEAD
-=======
-        Search,
-        SearchId,
-        SearchDataId,
-        SearchSelect,
->>>>>>> 0b9e2c374cf3a2f095f99321e87fc551f7772e7e
         Modify,
         infoPerson,
         Delete,
         Logout,
         ModifyPwd,
+        ModifyPerson,
         Add
     },
-<<<<<<< HEAD
     props:{
       searchTmp:{
         type:String,
@@ -344,11 +203,6 @@ export default {
     data() {
         return {
             activeName: 'first',
-=======
-    // 请在下方设计自己的数据结构及函数来完成最终的留言板功能
-    data() {
-        return {
->>>>>>> 0b9e2c374cf3a2f095f99321e87fc551f7772e7e
             Login: {
                 dialogVisible: true,
                 form: {
@@ -365,7 +219,6 @@ export default {
                   username :"",
                   password: "",
                   password2: "",
-<<<<<<< HEAD
                   password3: "",
                 }
             },
@@ -377,11 +230,6 @@ export default {
               email:"",
             }
           },
-=======
-                  password3: ""
-                }
-            },
->>>>>>> 0b9e2c374cf3a2f095f99321e87fc551f7772e7e
             Add:{
                dialogVisible: false,
                form: {
@@ -407,30 +255,6 @@ export default {
                     password2: ""
                 }
             },
-<<<<<<< HEAD
-=======
-            Search: {
-                dialogVisible:false,
-                form:{
-                  keyword: "",
-                }
-            },
-            SearchId:{
-              dialogVisible:false,
-              form:{
-                level_id:"",
-              }
-            },
-            SearchDataId:{
-              dialogVisible:false,
-              form:{
-                data_id:"",
-              }
-            },
-            SearchSelect:{
-              dialogVisible:false,
-            },
->>>>>>> 0b9e2c374cf3a2f095f99321e87fc551f7772e7e
             Modify: {
                 dialogVisible:false,
                 form:{
@@ -471,19 +295,12 @@ export default {
                 username: "",
                 username_valid: false
             },
-<<<<<<< HEAD
             messageListMale: [],
             messageListFemale: [],
             messageListUnknown: [],
             infoList: [],
             usernameLogged: "unknown",
             searchSelection: 1,
-=======
-            messageList: [],
-            infoList: [],
-            usernameLogged: "unknown",
-            searchSelection: 0,
->>>>>>> 0b9e2c374cf3a2f095f99321e87fc551f7772e7e
         }
     },
     methods: {
@@ -501,10 +318,6 @@ export default {
         refreshList:()=> {
            getList().then((res)=>{
                console.log(res);
-<<<<<<< HEAD
-=======
-
->>>>>>> 0b9e2c374cf3a2f095f99321e87fc551f7772e7e
            });
         },
         postModify:(title,content,audio_path,video_path) => {
@@ -513,67 +326,7 @@ export default {
           console.log(audio_path);
           console.log(video_path);
         },
-<<<<<<< HEAD
       loginCalled: function(usernameLogin, password) {
-=======
-        postSearch:(keyword) => {
-          console.log(keyword);
-          searchBack(keyword).then((res)=>{
-            console.log(res);
-            for (var k = 0; k < res.length; k++) {
-                this.messageList.push(res[k]);}
-          });
-        },
-        postSearchIdLevel:(level_id)=>{
-          console.log(level_id);
-          searchBackIdLevel(level_id).then((res)=>{
-            console.log(res);
-            console.log(res);
-            this.messageList.push({
-              'level_id': res['level_id'],
-              'title': res['title'],
-              'id':res['id'],
-              'timestamp':new Date().getTime(),
-            });
-            return res.json();
-          }).then((r)=>{
-            console.log(r);
-            this.messageList.push({
-              'level_id': r['level_id'],
-              'title': r['title'],
-              'id':r['id'],
-              'timestamp':new Date().getTime(),
-            });
-          });
-        },
-      postSearchId : function(data_id) {
-        console.log(data_id);
-        searchBackId(data_id).then((res)=>{
-          console.log(res);
-          console.log(res.data);
-          this.messageList.push({
-            'level_id': res.data.level_id,
-            'title': res.data.title,
-            'id':res.data.id,
-            'timestamp':new Date().getTime(),
-          });
-          return res.json();
-        }).then((r)=>{
-          console.log(r);
-          console.log(typeof(r));
-          this.messageList.push({
-            'level_id': r['level_id'],
-            'title': r['title'],
-            'id':r['id'],
-            'timestamp':new Date().getTime(),
-          });
-        });
-      },
-
-      loginCalled: function(usernameLogin, password) {
-            window.console.log(usernameLogin);
-            window.console.log(password);
->>>>>>> 0b9e2c374cf3a2f095f99321e87fc551f7772e7e
             document.cookie = `user=${usernameLogin}`;
             login(usernameLogin, password).then((res)=> {
                   if (res.status == 200) {
@@ -584,20 +337,13 @@ export default {
                   return res.json();
                 }
              ).then((r)=>{
-<<<<<<< HEAD
-=======
-               console.log(r.token);
->>>>>>> 0b9e2c374cf3a2f095f99321e87fc551f7772e7e
                localStorage.setItem('token',r.token);
             });
               let Token = localStorage.getItem('token');
               console.log(Token);
               this.usernameLogged = usernameLogin;
               localStorage.setItem('name',usernameLogin);
-<<<<<<< HEAD
               this.getListMsg();
-=======
->>>>>>> 0b9e2c374cf3a2f095f99321e87fc551f7772e7e
         },
         DeleteFuncCalled : (data_id)=>{
           deleteMsg(data_id).then((res)=>{
@@ -631,15 +377,7 @@ export default {
             localStorage.setItem('name',usernameRegister);
         },
         changeAdd(){
-<<<<<<< HEAD
             this.Add.dialogVisible=true;
-=======
-        this.Add.dialogVisible=true;
-        },
-        add(msg) {
-            this.messageList.push(msg);
-            console.log(msg);
->>>>>>> 0b9e2c374cf3a2f095f99321e87fc551f7772e7e
         },
         changeDialog() {
             this.postDialog.dialogVisible = true;
@@ -650,7 +388,6 @@ export default {
         changeLogin() {
             this.Login.dialogVisible = true;
         },
-<<<<<<< HEAD
         clickSearch(){
             if(this.searchSelection == 1){
               searchBack(this.searchTmp).then((res)=>{
@@ -712,19 +449,6 @@ export default {
                 });
               });
             }
-=======
-        changeSearchId(){
-          this.SearchId.dialogVisible = true;
-        },
-        changeSearchWord(){
-          this.Search.dialogVisible = true;
-        },
-        changeSearchData(){
-          this.SearchDataId.dialogVisible = true;
-        },
-        changeSearch(){
-          this.SearchSelect.dialogVisible = true;
->>>>>>> 0b9e2c374cf3a2f095f99321e87fc551f7772e7e
         },
         changeModify(){
           this.Modify.dialogVisible = true;
@@ -739,27 +463,8 @@ export default {
           localStorage.setItem('name','unknown');
           this.dialogVisible = false;
         },
-        personShow(){
-           getUserMsg().then((res)=>{
-             console.log(res);
-             console.log(typeof(res));
-             return res.json();
-           }).then((r)=>{
-             console.log(r);
-             console.log(r[0].username);
-             console.log(r[0].last_login);
-             console.log(r[0].date_joined);
-             this.infoPerson.name=r[0].username;
-             this.infoPerson.last_login=r[0].last_login;
-             this.infoPerson.date_joined=r[0].date_joined;
-             console.log(this.infoPerson.name);
-             //this.$emit('infoPersonChange',{name:r[0].username,last_login:r[0].last_login,date_joined:r[0].date_joined});
-             this.infoPerson.dialogVisible = true;
-           });
-        },
-<<<<<<< HEAD
         handleClick(tab, event) {
-        console.log(tab, event);
+          console.log(tab, event);
         },
         getListMsg(){
             getList().then((res)=>{
@@ -769,77 +474,51 @@ export default {
                 this.$message("拉取数据失败");
               }
                 return res;
-            }).then((itemList)=>{
-              for(const Item of itemList ){
-                if(Item["type_id"]== 0){
+            }).then((itemList)=> {
+              for (const Item of itemList) {
+                if (Item["type_id"] == 0) {
                   this.messageListUnknown.push({
-                    "title":Item['title'],
-                    "id":Item['id'],
-                    "level_id":Item["level_id"],
-                    "timestamp":new Date().getTime()
+                    "title": Item['title'],
+                    "id": Item['id'],
+                    "level_id": Item["level_id"],
+                    "timestamp": new Date().getTime()
                   });
-                }else if(Item["type_id"]==1){
+                } else if (Item["type_id"] == 1) {
                   this.messageListMale.push({
-                    "title":Item['title'],
-                    "id":Item['id'],
-                    "level_id":Item["level_id"],
-                    "timestamp":new Date().getTime()
+                    "title": Item['title'],
+                    "id": Item['id'],
+                    "level_id": Item["level_id"],
+                    "timestamp": new Date().getTime()
                   });
-                }else if(Item["type_id"]==2){
+                } else if (Item["type_id"] == 2) {
                   this.messageListFemale.push({
-                    "title":Item['title'],
-                    "id":Item['id'],
-                    "level_id":Item["level_id"],
-                    "timestamp":new Date().getTime()
+                    "title": Item['title'],
+                    "id": Item['id'],
+                    "level_id": Item["level_id"],
+                    "timestamp": new Date().getTime()
                   });
                 }
-=======
-        getListMsg(){
-            getList().then((res)=>{
-              console.log(res);
-              return res;
-            }).then((itemList)=>{
-              for(const Item of itemList ){
-                this.messageList.push({
-                  "title":Item['title'],
-                  "id":Item['id'],
-                  "level_id":Item["level_id"],
-                  "timestamp":new Date().getTime()
-                });
-                console.log(this.messageList)
->>>>>>> 0b9e2c374cf3a2f095f99321e87fc551f7772e7e
               }
-              this.$emit("RefreshMsg");
             });
         },
-<<<<<<< HEAD
         PwdModify(){
             this.ModifyPwd.dialogVisible = true;
         },
         PersonModify(){
             this.ModifyPerson.dialogVisible = true;
+            getUserMsg().then((res)=>{
+            if(res.status==200 || res.status == 201){
+              this.$message("拉取信息成功");
+            }else{
+              this.$message("拉取信息失败");
+            }
+            return res.json();
+          }).then((r)=>{
+            this.ModifyPerson.name = r.name;
+            this.ModifyPerson.email = r.email;
+            this.ModifyPerson.username = r.username;
+            })
         },
-=======
-        gotoPerson(){
-          if(this.usernameLogged=="unknown") {
-            this.$router.push({path: '/'});
-            this.$router.go({path: '/'});
-          } else
-            this.$router.push({path:'/person'});
-        },
-        changeSelect(arg){
-          if(arg=='0'){
-            this.Search.dialogVisible = true;
-            this.SearchSelect.dialogVisible = false;
-          }else if(arg=='1'){
-            this.SearchId.dialogVisible = true;
-            this.SearchSelect.dialogVisible = false;
-          }else{
-            this.SearchDataId.dialogVisible = true;
-            this.SearchSelect.dialogVisible = false;
-          }
-        }
->>>>>>> 0b9e2c374cf3a2f095f99321e87fc551f7772e7e
     },
 }
 </script>
