@@ -9,6 +9,8 @@ Vue.prototype.$echarts = echarts;
 Vue.use(ElementUI);
 Vue.config.productionTip = false;
 Vue.prototype.$axios = axios;
+import draggable from 'vuedraggable';
+import Sortable  from 'sortablejs';
 import VueResource from 'vue-resource';
 Vue.use(VueResource);
 

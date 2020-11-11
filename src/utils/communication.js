@@ -76,6 +76,18 @@ export const editUserMsg = (username,password,password_old,email,name) =>fetch(A
         "Authorization":"JWT "+localStorage.getItem('token')
     }
 });
+export const editUserMsgWithoutPwd = (username,email,name) =>fetch(API.MODIFYUSER.path,{
+    method:API.MODIFYUSER.method,
+    body: JSON.stringify({
+        "username":username,
+        "email":email,
+        "name":name
+    }),
+    headers:{
+        "Content-Type":"application/json",
+        "Authorization":"JWT "+localStorage.getItem('token')
+    }
+});
 export const deleteMsg = (data_id) => fetch(API.DELETE.path+String(data_id),{
     method:API.DELETE.method,
     headers: {

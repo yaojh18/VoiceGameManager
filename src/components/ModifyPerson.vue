@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import {editUserMsg } from "@/utils/communication";
+import { editUserMsgWithoutPwd } from "@/utils/communication";
 export default {
   name: "ModifyPerson",
   props: {
@@ -46,13 +46,10 @@ export default {
   },
   data(){
     return {
-      ModifyPwd:{
+      ModifyPerson:{
         dialogVisible:true,
         form:{
           username:this.username,
-          password:this.password,
-          password2:this.password2,
-          password3:this.password3,
           email:this.email,
           name:this.name,
         }
@@ -66,34 +63,29 @@ export default {
   methods: {
     changeName(e) {
       this.$forceUpdate(e);
-      this.state.username_valid = true;
     },
     changeemail(e) {
       this.$forceUpdate(e);
-      this.state.email_valid = true;
     },
     changename(e) {
       this.$forceUpdate(e);
-      this.state.name_valid = true;
+    },
+    changePersonModify:function(name,email,username){
+      console.log(name);
+      console.log(email);
+      console.log(username);
+      this.name=name;
+      this.email=email;
+      this.username=username;
     },
     editUser(){
-      console.log(this.password2);
-      console.log(this.password3);
-      if(this.password2==this.password3){
         if(!this.email)
           this.email = "Unknown";
         if(!this.name)
           this.name = "Unknown";
-        this.alertDialog.dialogVisible = false;
-        console.log(this.username);
-        console.log(this.password2);
-        console.log(this.password);
-        console.log(this.email);
-        console.log(this.name);
-        editUserMsg(this.username,this.password2,this.password,this.email,this.name);
-      }else{
-        this.alertDialog.dialogVisible = true;
-      }
+        if(!this.username)
+          this.alertDialog.dialogVisible = true;
+        editUserMsgWithoutPwd(this.username,this.email,this.name);
     }
   },
   watch: { // 用于实时检测username是否合法

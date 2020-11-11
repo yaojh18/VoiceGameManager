@@ -85,6 +85,7 @@
                   </div>
                 </el-dropdown>
               </span>
+              <el-button style="align:right" v-on:click="Add.dialogVisible=true"><i class="el-icon-plus">增加</i></el-button>
             </el-form>
           <div class="c-content">
             <div class="c-search-table beauty-Scroll">
@@ -92,7 +93,25 @@
                 <template>
                   <el-tabs style="margin-top:15px;" v-model="activeName" type="card" @tab-click="handleClick">
                     <el-tab-pane label="男性角色关卡" name="first">
+                      <draggable @update="datadragEnd" :options = "options" v-model="tableData" style='sort: false' >
+                        <transition-group >
                       <MessageList v-bind:messageList="messageListMale" v-on:RefreshMsg="this.$forceUpdate()"/>
+                        </transition-group>
+                      </draggable>
+                      <el-tree
+                          :data="data"
+                          node-key="id"
+                          default-expand-all
+                          @node-drag-start="handleDragStart"
+                          @node-drag-enter="handleDragEnter"
+                          @node-drag-leave="handleDragLeave"
+                          @node-drag-over="handleDragOver"
+                          @node-drag-end="handleDragEnd"
+                          @node-drop="handleDrop"
+                          draggable
+                          :allow-drop="allowDrop"
+                          :allow-drag="allowDrag">
+                      </el-tree>
                     </el-tab-pane>
                     <el-tab-pane label="女性角色关卡" name="second">
                       <MessageList v-bind:messageList="messageListFemale" v-on:RefreshMsg="this.$forceUpdate()"/>
@@ -109,10 +128,16 @@
         <el-footer style="background-color:#87CEFA">@DIJKSTRA</el-footer>
     </el-container>
     <ModifyPerson v-bind:dialog-visible="ModifyPerson.dialogVisible"
-                  v-on:cancelModifyPerson="ModifyPerson.dialogVisible=false"/>
+                  v-on:cancelModifyPerson="ModifyPerson.dialogVisible=false"
+                  v-bind:name="ModifyPerson.name"
+                  v-bind:email="ModifyPerson.email"
+                  v-bind:username="ModifyPerson.username"
+    />
     <ModifyPwd v-bind:dialog-visible="ModifyPwd.dialogVisible"
                v-on:cancelModifyPwd="ModifyPwd.dialogVisible=false"/>
-    <Login v-bind:dialog-visible="Login.dialogVisible" v-on:cancelLogin="Login.dialogVisible=false" v-on:login="({usernameLogin,password})=>{
+    <Login v-bind:dialog-visible="Login.dialogVisible"
+           v-on:cancelLogin="Login.dialogVisible=false"
+           v-on:login="({usernameLogin,password})=>{
                 Login.dialogVisible = false;
                 loginCalled(usernameLogin,password);
             }" />
@@ -225,9 +250,9 @@ export default {
           ModifyPerson:{
             dialogVisible: false,
             form:{
-              username :"",
-              name:"",
-              email:"",
+              username:this.username,
+              name:this.name,
+              email:this.email,
             }
           },
             Add:{
@@ -283,7 +308,30 @@ export default {
                 "text": "登录成功",
                 dialogVisible: false
             },
-            alertRegisterDialog:{
+          data:[{
+            id: 1,
+            label: "1",
+          },{
+            id:2,
+            label: "2",
+          },{
+            id:3,
+            label: "3",
+          },{
+            id:4,
+            label: "4",
+          },{
+            id:5,
+            label: "5",
+          },{
+            id:6,
+            label: "6",
+          }],
+          defaultProps: {
+            label: 'label'
+          },
+
+          alertRegisterDialog:{
                 "text" : "注册成功",
                 dialogVisible: false
             },
@@ -466,6 +514,20 @@ export default {
         handleClick(tab, event) {
           console.log(tab, event);
         },
+      getdata(evt) {
+        console.log(evt.draggedContext.filterKey)
+        //这里evt.draggedContext后续的内容根据具体的定义变量而定
+      },
+      datadragEnd(evt) {
+        evt.preventDefault();
+        console.log('拖动前的索引 :' + evt.oldIndex)
+        console.log('拖动后的索引 :' + evt.newIndex)
+        this.checkMenusList = []
+        this.tableData.map((item,index) =>{
+          this.checkMenusList.push({sortNum: index+1+"", menuId: item.id,rovinceCode:this.page.token})
+          return  this.checkMenusList
+        })
+      }
         getListMsg(){
             getList().then((res)=>{
               if(res != undefined){
@@ -514,11 +576,45 @@ export default {
             }
             return res.json();
           }).then((r)=>{
-            this.ModifyPerson.name = r.name;
-            this.ModifyPerson.email = r.email;
-            this.ModifyPerson.username = r.username;
+            console.log(r[0]);
+            console.log(typeof(this.ModifyPerson.form.name));
+            this.ModifyPerson.name=r[0].name;
+            this.$emit("changePersonModify",{
+              name:r[0].name,
+              email:r[0].email,
+              username:r[0].username,
+            });
             })
         },
+      handleDragStart(node, ev) {
+        console.log('drag start', node);
+      },
+      handleDragEnter(draggingNode, dropNode, ev) {
+        console.log('tree drag enter: ', dropNode.label);
+      },
+      handleDragLeave(draggingNode, dropNode, ev) {
+        console.log('tree drag leave: ', dropNode.label);
+      },
+      handleDragOver(draggingNode, dropNode, ev) {
+        console.log('tree drag over: ', dropNode.label);
+      },
+      handleDragEnd(draggingNode, dropNode, dropType, ev) {
+        console.log('tree drag end: ', dropNode && dropNode.label, dropType);
+      },
+      handleDrop(draggingNode, dropNode, dropType, ev) {
+        console.log('tree drop: ', dropNode.label, dropType);
+      },
+      allowDrop(draggingNode, dropNode, type) {
+        if (dropNode.data.label === '二级 3-1') {
+          return type !== 'inner';
+        } else {
+          return true;
+        }
+      },
+      allowDrag(draggingNode) {
+        return draggingNode.data.label.indexOf('三级 3-2-2') === -1;
+      },
+
     },
 }
 </script>
