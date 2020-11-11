@@ -47,6 +47,10 @@ const API = {
         path:"/api/manager/",
         method: "put"
     },
+    SIGNLEANALYSIS:{
+        path:"/api/manager/data/origin/chart",
+        method :"get"
+    },
     MEDIAANALYSIS:{
         PATH:"/api/manager/data/origin",
         method: "get",

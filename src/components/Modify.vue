@@ -13,6 +13,10 @@
         <label>修改数据ID </label>
         <input type='text' v-model="dataId"/>
       </el-form-item>
+      <el-form-item >
+        <label>修改数据类型ID </label>
+        <input type='text' v-model="type_id"/>
+      </el-form-item>
       <el-form-item>
         <label>题目  </label>
         <input type="text" v-model="title"/>
@@ -62,6 +66,10 @@ export default({
       type:String,
       default: ()=>""
     },
+    type_id:{
+      type:Number,
+      default: ()=> 1
+    },
   },
   data(){
     return {
@@ -70,6 +78,7 @@ export default({
         content: this.content,
         level_id:this.level_id,
         dataId:this.dataId,
+        type_id:this.type_id,
       },
       formData: new FormData(),
     }

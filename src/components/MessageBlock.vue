@@ -1,4 +1,5 @@
 <template>
+  <div>
     <el-menu :default-openeds="[]" style="background: #98DFFF;border-radius: 0px;margin: 0px" :visible.sync="dialogVisible">
        <el-submenu index="view" style="text-align: left">
             <template slot="title" ><i class="el-icon-chat-square"/>
@@ -16,11 +17,24 @@
             <div class="messageblock-content">id: {{ id }}</div>
         </el-submenu>
     </el-menu>
+    <Modify v-bind:dialog-visible="Modify.dialogVisible"
+          v-on:closeModify="Modify.dialogVisible = false;"
+          v-bind:level="Modify.form.level"
+          v-bind:title="Modify.form.title"
+          v-bind:content="Modify.form.content"
+          v-bind:dataId="Modify.form.dataId"
+          v-bind:type_id="Modify.form.type_id"/>
+</div>
 </template>
 
 <script>
+import Modify from "@/components/Modify"
+import {searchBackIdLevel,DataSingleSearch} from "@/utils/communication.js"
     export default {
         name: "MessageBlock",
+        components:{
+          Modify,
+        },
         props: {
             dialogVisible:{
               type:Boolean,
@@ -47,6 +61,20 @@
                  default: () => 0
             }
         },
+        data() {
+          return {
+            Modify: {
+              dialogVisible:false,
+              form: {
+                title: this.title,
+                content: this.content,
+                level_id: this.level_id,
+                dataId: this.dataId,
+              },
+              formData: new FormData(),
+            }
+          }
+        },
         computed:{
             datetime:function () {
                 var d = new Date()
@@ -59,10 +87,31 @@
             this.dialogVisible = false;
           },
           editBlock(){
+            searchBackIdLevel(this.level_id).then((res)=>{
+              if(res.status == 200 || res.status == 201){
+                this.$message("拉取成功");
+              }else{
+                this.$message("拉取失败");
+              }
+            })
             console.log("hello");
           },
           detailBlock(){
-            console.log("hello");
+            DataSingleSearch(this.level_id).then((res)=>{
+              if(res.status == 200 || res.status == 201){
+                this.$message("拉取成功");
+              }else{
+                this.$message("拉取失败");
+              }
+              return res.json();
+            }).then((r)=>{
+              console.log(r);
+              this.Modify.form.type_id = r["type_id"];
+              this.Modify.form.title = r["title"];
+            })
+            console.log("hello",typeof(this.Modify.dialogVisible));
+            this.Modify.dialogVisible = true;
+            console.log(this.Modify.dialogVisible);
           },
       }
     }
