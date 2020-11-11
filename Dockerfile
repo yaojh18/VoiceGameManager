@@ -16,4 +16,4 @@ RUN npm run build
 ENV SERVER_PORT 80
 EXPOSE 80
 
-CMD ["npm run serve"]
+CMD ["sh","npm run build"]
