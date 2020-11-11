@@ -29,7 +29,7 @@
               </el-button>
               <el-dropdown-menu slot="dropdown" class="user-dropdown">
                 <el-dropdown-item>
-                  <span style="display:block;" v-on:click="changeAdd()" ><i class="el-icon-edit">增加</i></span>
+                  <span style="display:block;" v-on:click="changeAdd()" ><i class="el-icon-plus">增加</i></span>
                 </el-dropdown-item>
                 <el-dropdown-item divided>
                   <span style="display:block;" v-on:click="changeModify()"><i class="el-icon-edit">修改</i></span>
@@ -449,9 +449,9 @@ export default {
             document.cookie = `user=${usernameLogin}`;
             login(usernameLogin, password).then((res)=> {
                   if (res.status == 200) {
-                    this.alertDialog.dialogVisible = true;
+                    this.$message('已登录');
                   } else {
-                    this.alertDialog.dialogVisible = false;
+                    this.$message('登录失败');
                   }
                   return res.json();
                 }
@@ -461,8 +461,8 @@ export default {
             });
               let Token = localStorage.getItem('token');
               console.log(Token);
-            this.usernameLogged = usernameLogin;
-        localStorage.setItem('name',usernameLogin);
+              this.usernameLogged = usernameLogin;
+              localStorage.setItem('name',usernameLogin);
         },
         DeleteFuncCalled : (data_id)=>{
           deleteMsg(data_id).then((res)=>{
