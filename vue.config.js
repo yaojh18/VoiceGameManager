@@ -8,8 +8,11 @@ module.exports = {
                 target: 'https://voicetestgame-dijkstra.app.secoder.net', // 修改为你的Django服务器地址
                 changOrigin: true,
             }
-        }
+        },
+        port: 80,
+        open: true,
     },
+
     lintOnSave: false,
     productionSourceMap: false,
 
