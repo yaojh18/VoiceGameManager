@@ -11,7 +11,7 @@
     <el-form label-width="80px">
       <el-form-item>
         <label>关卡ID </label>
-        <input type="text" v-model="level"/>
+        <input type="text" v-model="level_id"/>
       </el-form-item>
       <el-form-item >
         <label>修改数据ID </label>
@@ -63,7 +63,7 @@
   </el-dialog>
 </template>
 <script>
-import {ModifyBack, searchBackIdLevel} from "@/utils/communication"
+import {ModifyBack, searchBackId} from "@/utils/communication"
 export default({
   name: "Modify",
   props:{
@@ -74,6 +74,10 @@ export default({
     level_id :{
       type:Number,
       default: ()=>0
+    },
+    const_level_id:{
+      type:Number,
+      default: ()=>1,
     },
     title:{
       type:String,
@@ -96,7 +100,7 @@ export default({
     },
     video_path:{
       type:String,
-    }
+    },
   },
   data(){
     return {
@@ -129,11 +133,12 @@ export default({
       console.log(e.target.files[0]);
     },
     retreat(){
-      searchBackIdLevel(this.level_id).then((res)=>{
+      console.log(this.const_level_id);
+      searchBackId(Number(this.dataId)).then((res)=>{
         if(res.status == 200 || res.status == 201){
           this.$message("回退成功");
         }else{
-          this.$message("回退失败");
+          this.$message("退失败");
         }
         return res.json();
       }).then((r)=> {
@@ -141,10 +146,10 @@ export default({
         this.level_id =Number(r["level_id"]);
         this.type_id = Number(r["type_id"]);
         this.title = r["title"];
-        this.content = r["content"];
-        this.dataId = Number(r["dataId"]);
-        this.audio_path = r['audio_path'];
-        this.video_path = r['video_path'];
+        this.form.content = r["content"];
+        this.form.dataId = Number(r["dataId"]);
+        this.form.audio_path = r['audio_path'];
+        this.form.video_path = r['video_path'];
       });
     },
     submittt(e) {

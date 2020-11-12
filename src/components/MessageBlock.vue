@@ -20,7 +20,7 @@
     <Modify v-bind:dialog-visible="Modify.dialogVisible"
             v-on:closeEmit="Modify.dialogVisible = false;"
           v-on:closeModify="Modify.dialogVisible = false;"
-          v-bind:level="Modify.form.level"
+          v-bind:level_id="Modify.form.level_id"
           v-bind:title="Modify.form.title"
           v-bind:content="Modify.form.content"
           v-bind:dataId="Modify.form.dataId"
@@ -111,11 +111,11 @@ import {searchBackIdLevel,DataSingleSearch} from "@/utils/communication.js"
               this.Modify.form.type_id = Number(r["type_id"]);
               this.Modify.form.title = r["title"];
               this.Modify.form.content = r["content"];
-              this.Modify.form.dataId = Number(r["dataId"]);
+              this.Modify.form.dataId = Number(r["id"]);
               this.Modify.form.audio_path = r['audio_path'];
               this.Modify.form.video_path = r['video_path'];
-              this.Modify.form.level_id = r['level_id'];
             });
+            this.Modify.form.level_id = this.level_id;
             console.log(this.Modify.form.audio_path);
             console.log(this.Modify.form.video_path);
             this.Modify.dialogVisible = true;
