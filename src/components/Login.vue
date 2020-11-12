@@ -1,5 +1,7 @@
 <template>
-  <el-dialog style="text-align: center" title="登录" :visible.sync="dialogVisible" :show-close=false width="80%">
+  <el-dialog style="text-align: center" title="登录"
+             v-on:close="$emit('cancelLogin','')"
+             :visible.sync="dialogVisible" :show-close=false width="80%">
     <el-form label-width="80px">
       <el-form-item label="用户名">
         <el-input placeholder="请输入用户名" v-model="username" @input="changeName()">{{ username }}</el-input>

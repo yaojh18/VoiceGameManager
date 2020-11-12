@@ -1,4 +1,3 @@
-
 <template>
     <div id="stage1">
         <MessageBlock/>

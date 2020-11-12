@@ -181,7 +181,6 @@ export default {
     name: "MessageBoard",
     components: {
         MessageList,
-        PostDialog,
         Register,
         Login,
         Modify,
