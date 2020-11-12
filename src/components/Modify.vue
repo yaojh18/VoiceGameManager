@@ -38,7 +38,7 @@
                width="90%"
                loop="loop"
                style="border-radius:10px;margin:3px;">
-            <source :src="this.form.audio_path"/>
+            <source :src="audio_path"/>
         </audio>
       </el-form-item>
       <el-form-item >
@@ -51,7 +51,7 @@
                loop="loop"
                style="border-radius:10px;margin:3px"
                >
-          <source :src="this.form.video_path"/>
+          <source :src="video_path"/>
         </video>
       </el-form-item>
       <button @click=submittt($event)>OK</button>
@@ -120,6 +120,8 @@ export default({
     console.log("hellow orld");
     console.log(this.form.audio_path);
     console.log(this.form.video_path);
+    console.log(this.audio_path);
+    console.log(this.video_path);
   },
   methods: {
     getFile(e, input_file_name) {

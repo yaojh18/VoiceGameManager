@@ -7,12 +7,9 @@
       <el-button v-on:click="handleregister()" style="display: inline-block;margin-top:10px;margin-right: 15px;">
         <i class="el-icon-edit">注册</i>
       </el-button>
-      <el-button v-on:click="this.$router.push({path:'/'});$emit('updateName','');" style="margin-top:10px;display: inline-block;margin-right: 15px;">
-        <router-link to='/'><i class="el-icon-s-home">回到主页</i></router-link>
-      </el-button>
     </el-header>
     <Login v-bind:dialog-visible="Login.dialogVisible"
-           v-on:cancellogin="Login.dialogVisible=false"
+           v-on:cancelLogin="Login.dialogVisible=false"
            v-on:login="({usernameLogin,password})=>{
                 Login.dialogVisible = false;
                 loginCalled(usernameLogin,password);

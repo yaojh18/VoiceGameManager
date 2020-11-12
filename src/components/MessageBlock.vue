@@ -106,14 +106,15 @@ import {searchBackId2,DataSingleSearch} from "@/utils/communication.js"
               }
               return res.json();
             }).then((r)=> {
-              console.log(r);
-                this.Modify.form.type_id = Number(r["type_id"]);
+                  console.log(r);
+                  this.Modify.form.type_id = Number(r["type_id"]);
                   this.Modify.form.title = r["title"];
                   this.Modify.form.content = r["content"];
                   this.Modify.form.id = Number(r["id"]);
                   this.Modify.form.audio_path = r['audio_path'];
                   this.Modify.form.video_path = r['video_path'];
                   console.log(this.Modify.form.video_path);
+                  console.log(this.Modify.form.audio_path);
               });
             this.Modify.form.level_id = this.level_id;
             console.log(this.Modify.form.audio_path);

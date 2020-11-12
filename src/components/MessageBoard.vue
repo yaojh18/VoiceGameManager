@@ -44,28 +44,16 @@
         <el-main>
             <el-form :inline="true" align="left" class="padding-10-0">
               <el-button style="vertical-align:middle;margin-left:15px;" v-on:click="clickSearch()" inline-block><i class="el-icon-zoom-in">搜索</i></el-button>
-              <span style="vertical-align:middle" inline-block>
-                <el-input style="vertical-align:middle;width:200px;margin-left:15px;" inline-block v-model="searchTmp" placeholder="输入搜索信息"></el-input>
-              </span>
-              <span inline-block>
-                <el-dropdown style="vertical-align:middle;display: inline-block; text-align:right; margin-left:15px; margin-right:15px; " class="avatar-container" trigger="click" >
-                  <div class="avatar-wrapper">
-                    <el-button size="medium" v-model="searchKey">搜索类型:{{searchKey}}<i class="el-icon-caret-bottom" />
-                    </el-button>
-                    <el-dropdown-menu slot="dropdown" class="user-dropdown">
-                      <el-dropdown-item>
-                        <span style="display:block;" @click="searchSelection=1;searchKey='关键词搜索'">关键词搜索</span>
-                      </el-dropdown-item>
-                      <el-dropdown-item divided>
-                        <span style="display:block;" @click="searchSelection=2;searchKey='数据搜索'">数据搜索</span>
-                      </el-dropdown-item>
-                      <el-dropdown-item divided>
-                        <span style="display:block;" @click="searchSelection=3;searchKey='关卡搜索'">关卡搜索</span>
-                      </el-dropdown-item>
-                    </el-dropdown-menu>
-                  </div>
-                </el-dropdown>
-              </span>
+              <el-form-item>
+                  <el-button style="display:block;margin-left:5px" v-on:click="searchSelection=1;searchKey='关键词搜索';this.enabled=true">关键词搜索</el-button>
+                  <el-input style="vertical-align:middle;width:200px;margin-left:15px;" inline-block v-model="searchTmp" placeholder="输入搜索信息"></el-input>
+              </el-form-item><el-form-item>
+                  <el-button style="display:block;" v-on:click="searchSelection=2;searchKey='数据搜索';this.enabled=true">数据搜索</el-button>
+                  <el-input style="vertical-align:middle;width:200px;margin-left:15px;" inline-block v-model="searchTmpId" placeholder="输入搜索信息"></el-input>
+            </el-form-item><el-form-item>
+                  <el-button style="display:block;" v-on:click="searchSelection=3;searchKey='关卡搜索';this.enabled=true">关卡搜索</el-button>
+                  <el-input style="vertical-align:middle;width:200px;margin-left:15px;" inline-block v-model="searchTmpLevelId" placeholder="输入搜索信息"></el-input>
+            </el-form-item>
               <el-button style="align:right" v-on:click="Add.dialogVisible=true"><i class="el-icon-plus">增加</i></el-button>
             </el-form>
           <div class="c-content">
@@ -174,6 +162,12 @@ export default {
     },
     props:{
       searchTmp:{
+        type:String,
+      },
+      searchTmpId:{
+        type:String,
+      },
+      searchTmpLevelId:{
         type:String,
       },
       searchKey:{
@@ -395,8 +389,20 @@ export default {
             this.Login.dialogVisible = true;
         },
         clickSearch(){
-            if(this.searchSelection == 1){
-              searchBack(this.searchTmp).then((res)=>{
+            let r = "?";
+            if(this.searchTmp!=''&&this.searchTmp!=undefined)
+              r += 'title=' + this.searchTmp +"&&";
+            if(this.searchTmpId!=''&&this.searchTmpId!=undefined)
+              r += 'id=' + String(this.searchTmpId) + "&&";
+            if(this.searchTmpLevelId!=''&&this.searchTmpLevelId!=undefined)
+              r += 'level_id=' + String(this.searchTmpLevelId) +"&&";
+            if(r=='?') {
+              this.$message("输入错误");
+            }else {
+              r = r.slice(0,-2);
+              console.log(r);
+              this.$message("输入合法");
+              searchBack(r).then((res)=>{
                 console.log(res);
                 if(res.status==200 || res.status == 201){
                   this.$message("查询成功");
@@ -434,90 +440,6 @@ export default {
                     });
                   }
                 }
-              });
-            }else if(this.searchSelection == 2){
-              searchBackId(Number(this.searchTmp)).then((res)=>{
-                console.log(res);
-                if(res.status==200 || res.status == 201){
-                  this.$message("查询成功");
-                }else{
-                  this.$message("查询失败");
-                }
-                return res.json();
-              }).then((r)=>{
-                if(r.results.length==0){
-                  this.$message("数据为空");
-                }else{
-                  this.$message("数据不为空");
-                  r = r.results;
-                  for ( const item of r){
-                    if(item.type_id == 0){
-                      this.messageListUnknown.push({
-                        'level_id': item.level_id,
-                        'title': item.title,
-                        'id':item.id,
-                        'type_id':item.type_id,
-                        'timestamp':new Date().getTime(),
-                      });
-                    }else if(item.type_id == 1){
-                      this.messageListMale.push({
-                        'level_id': item.level_id,
-                        'title': item.title,
-                        'id':item.id,
-                        'type_id':item.type_id,
-                        'timestamp':new Date().getTime(),
-                      });
-                    }else if(item.type_id == 2){
-                      this.messageListFemale.push({
-                        'level_id': item.level_id,
-                        'title': item.title,
-                        'id':item.id,
-                        'type_id':item.type_id,
-                        'timestamp':new Date().getTime(),
-                      });
-                    }}}}
-                  );
-            }else if(this.searchSelection == 3){
-                searchBackIdLevel(Number(this.searchTmp)).then((res)=>{
-                  console.log(res);
-                  if(res.status==200 || res.status == 201) {
-                    this.$message("查询成功");
-                  }else{
-                    this.$message("查询失败");
-                  }
-                return res.json();
-              }).then((r)=>{
-                  if(r.results.length==0){
-                    this.$message("数据为空");
-                  }else{
-                    this.$message("数据不为空");
-                    r = r.results;
-                    for ( const item of r){
-                      if(item.type_id == 0){
-                        this.messageListUnknown.push({
-                          'level_id': item.level_id,
-                          'title': item.title,
-                          'id':item.id,
-                          'type_id':item.type_id,
-                          'timestamp':new Date().getTime(),
-                        });
-                      }else if(item.type_id == 1){
-                        this.messageListMale.push({
-                          'level_id': item.level_id,
-                          'title': item.title,
-                          'id':item.id,
-                          'type_id':item.type_id,
-                          'timestamp':new Date().getTime(),
-                        });
-                      }else if(item.type_id == 2){
-                        this.messageListFemale.push({
-                          'level_id': item.level_id,
-                          'title': item.title,
-                          'id':item.id,
-                          'type_id':item.type_id,
-                          'timestamp':new Date().getTime(),
-                        });
-                      }}}
               });
             }
         },

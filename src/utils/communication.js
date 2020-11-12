@@ -20,7 +20,7 @@ export const getList = (type_id) => fetch(API.GETLIST.path + String("?type_id=")
     headers: { "Authorization":"JWT "+localStorage.getItem('token')},
 }).then((res)=>res.json());
 
-export const searchBack = (keyword) => fetch(API.SEARCH.path+"?title="+String(keyword),{
+export const searchBack = (keyword) => fetch(API.SEARCH.path+String(keyword),{
     method: API.SEARCH.method,
     headers: {
         "Content-Type":"application/json",
@@ -102,7 +102,7 @@ export const deleteMsg = (data_id) => fetch(API.DELETE.path+String(data_id),{
         "Authorization":"JWT "+localStorage.getItem('token')
     },
 });
-export const EditMsg = (data_id,level_id,title,content,audio_path,video_path) => fetch(API.EDIT.path+String(data_id),{
+export const EditMsg = (data_id,level_id,title,content,audio_path,video_path) => fetch(API.EDIT.path+String(data_id)+"/",{
     method:API.EDIT.method,
     body: JSON.stringify({
         "title":title,
@@ -116,7 +116,7 @@ export const EditMsg = (data_id,level_id,title,content,audio_path,video_path) =>
         "Authorization":"JWT "+localStorage.getItem('token')
     },
 });
-export const ModifyBack = (formdata,dataId) => fetch(API.MODIFYY.path +"/"+String(dataId),{
+export const ModifyBack = (formdata,dataId) => fetch(API.MODIFYY.path +"/"+String(dataId)+"/",{
     method:API.MODIFYY.method,
     body:formdata,
     headers:{
@@ -141,7 +141,7 @@ export const DataAudioSearch = (appendage) => fetch( String(appendage),{
         "Authorization":"JWT "+localStorage.getItem('token')
     }
 });
-export const DataSingleSearch = (appendage) => fetch(API.SINGLEANALYSIS.path + "/?id=" + String(appendage),{
+export const DataSingleSearch = (appendage) => fetch(API.SINGLEANALYSIS.path + "/" + String(appendage),{
     method: API.SINGLEANALYSIS.method,
     headers:{
         "Authorization":"JWT "+localStorage.getItem('token')
