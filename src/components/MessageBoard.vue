@@ -2,25 +2,6 @@
 <div id="message-board">
     <el-container style="height:100%; border: 0px solid #eee">
         <el-header style="font-size: 10px;background-color:#87CEFA">
-              <el-dropdown style="display: inline-block; text-align:right; margin-left:15px; margin-right:15px; " class="avatar-container" trigger="click" >
-                <div class="avatar-wrapper">
-                  <el-button type="default" size="medium"  >
-                    <i class="el-icon-search" />
-                    搜索
-                  </el-button>
-                  <el-dropdown-menu slot="dropdown" class="user-dropdown">
-                    <el-dropdown-item>
-                      <span style="display:block;" v-on:click="changeSearchId()" >根据关卡搜索</span>
-                    </el-dropdown-item>
-                    <el-dropdown-item divided>
-                      <span style="display:block;" v-on:click="changeSearchWord()">根据关键词搜索</span>
-                    </el-dropdown-item>
-                    <el-dropdown-item divided>
-                      <span style="display:block;" v-on:click="changeSearchData()">根据数据搜索</span>
-                    </el-dropdown-item>
-                  </el-dropdown-menu>
-                </div>
-              </el-dropdown>
               <el-button style="display: inline-block;margin-right: 15px;" v-on:click="getListMsg()">
             <i class="el-icon-refresh">刷新</i>
           </el-button>
@@ -419,9 +400,36 @@ export default {
                 console.log(res);
                 if(res.status==200 || res.status == 201){
                   this.$message("查询成功");
-                  console.log(res);
                 }else{
                   this.$message("查询失败");
+                }
+                return res.json();
+              }).then((r)=>{
+                console.log(r);
+                r = r.results;
+                for ( const item of r){
+                  if(item.type_id == 0){
+                    this.messageListUnknown.push({
+                      'level_id': item.level_id,
+                      'title': item.title,
+                      'id':item.id,
+                      'timestamp':new Date().getTime(),
+                    });
+                  }else if(item.type_id == 1){
+                    this.messageListMale.push({
+                      'level_id': item.level_id,
+                      'title': item.title,
+                      'id':item.id,
+                      'timestamp':new Date().getTime(),
+                    });
+                  }else if(item.type_id == 2){
+                    this.messageListFemale.push({
+                      'level_id': item.level_id,
+                      'title': item.title,
+                      'id':item.id,
+                      'timestamp':new Date().getTime(),
+                    });
+                  }
                 }
               });
             }else if(this.searchSelection == 2){
@@ -429,48 +437,78 @@ export default {
                 console.log(res);
                 if(res.status==200 || res.status == 201){
                   this.$message("查询成功");
-                  this.messageList.push({
-                    'level_id': res.data.level_id,
-                    'title': res.data.title,
-                    'id':res.data.id,
-                    'timestamp':new Date().getTime(),
-                  });
                 }else{
                   this.$message("查询失败");
                 }
                 return res.json();
               }).then((r)=>{
-                console.log(r);
-                console.log(typeof(r));
-                this.messageList.push({
-                  'level_id': r['level_id'],
-                  'title': r['title'],
-                  'id':r['id'],
-                  'timestamp':new Date().getTime(),
-                });
-              });
+                if(r.results.length==0){
+                  this.$message("数据为空");
+                }else{
+                  this.$message("数据不为空");
+                  r = r.results;
+                  for ( const item of r){
+                    if(item.type_id == 0){
+                      this.messageListUnknown.push({
+                        'level_id': item.level_id,
+                        'title': item.title,
+                        'id':item.id,
+                        'timestamp':new Date().getTime(),
+                      });
+                    }else if(item.type_id == 1){
+                      this.messageListMale.push({
+                        'level_id': item.level_id,
+                        'title': item.title,
+                        'id':item.id,
+                        'timestamp':new Date().getTime(),
+                      });
+                    }else if(item.type_id == 2){
+                      this.messageListFemale.push({
+                        'level_id': item.level_id,
+                        'title': item.title,
+                        'id':item.id,
+                        'timestamp':new Date().getTime(),
+                      });
+                    }}}}
+                  );
             }else if(this.searchSelection == 3){
                 searchBackIdLevel(Number(this.searchTmp)).then((res)=>{
                   console.log(res);
                   if(res.status==200 || res.status == 201) {
                     this.$message("查询成功");
-                    this.messageList.push({
-                      'level_id': res['level_id'],
-                      'title': res['title'],
-                      'id': res['id'],
-                      'timestamp': new Date().getTime(),
-                    });
                   }else{
                     this.$message("查询失败");
                   }
                 return res.json();
               }).then((r)=>{
-                this.messageList.push({
-                  'level_id': r['level_id'],
-                  'title': r['title'],
-                  'id':r['id'],
-                  'timestamp':new Date().getTime(),
-                });
+                  if(r.results.length==0){
+                    this.$message("数据为空");
+                  }else{
+                    this.$message("数据不为空");
+                    r = r.results;
+                    for ( const item of r){
+                      if(item.type_id == 0){
+                        this.messageListUnknown.push({
+                          'level_id': item.level_id,
+                          'title': item.title,
+                          'id':item.id,
+                          'timestamp':new Date().getTime(),
+                        });
+                      }else if(item.type_id == 1){
+                        this.messageListMale.push({
+                          'level_id': item.level_id,
+                          'title': item.title,
+                          'id':item.id,
+                          'timestamp':new Date().getTime(),
+                        });
+                      }else if(item.type_id == 2){
+                        this.messageListFemale.push({
+                          'level_id': item.level_id,
+                          'title': item.title,
+                          'id':item.id,
+                          'timestamp':new Date().getTime(),
+                        });
+                      }}}
               });
             }
         },

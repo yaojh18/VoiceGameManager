@@ -20,9 +20,8 @@ export const getList = (type_id) => fetch(API.GETLIST.path + String("?type_id=")
     headers: { "Authorization":"JWT "+localStorage.getItem('token')},
 }).then((res)=>res.json());
 
-export const searchBack = (keyword) => fetch(API.SEARCH.path,{
+export const searchBack = (keyword) => fetch(API.SEARCH.path+"?title="+String(keyword),{
     method: API.SEARCH.method,
-    body:JSON.stringify({'keyword':keyword}),
     headers: {
         "Content-Type":"application/json",
         "Authorization":"JWT "+localStorage.getItem('token')
