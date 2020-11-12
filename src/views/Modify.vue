@@ -15,7 +15,7 @@ export default {
   // 请在下方设计自己的数据结构和响应函数
   data(){
     return {
-        modifyvisible: true,
+        dialogVisible: true,
         title: "",
         content: "",
         audiofile: "",

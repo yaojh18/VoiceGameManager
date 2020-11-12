@@ -3,7 +3,11 @@
              title="修改"
              :visible.sync="dialogVisible"
              :show-close=false
+             v-on:close="$emit('closeEmit','')"
              width="90%">
+    <el-button v-on:click="retreat()">
+      回退
+    </el-button>
     <el-form label-width="80px">
       <el-form-item>
         <label>关卡ID </label>
@@ -28,10 +32,27 @@
       <el-form-item>
         <label>上传音频   </label>
         <input type="file" @change="getFile($event,'audio_path')"/>
+        <audio controls="controls"
+               autoplay="autoplay"
+               class="audio"
+               width="90%"
+               loop="loop"
+               style="border-radius:10px;margin:3px;">
+            <source :src="audio_path"/>
+        </audio>
       </el-form-item>
-      <el-form-item>
+      <el-form-item >
         <label>上传视频   </label>
         <input type="file" @change="getFile($event,'video_path')"/>
+        <video controls="controls"
+               autoplay="autoplay"
+               class="video"
+               width="90%"
+               loop="loop"
+               style="border-radius:10px;margin:3px"
+               >
+          <source :src="video_path"/>
+        </video>
       </el-form-item>
       <button @click=submittt($event)>OK</button>
     </el-form>
@@ -42,7 +63,7 @@
   </el-dialog>
 </template>
 <script>
-import {ModifyBack} from "@/utils/communication"
+import {ModifyBack, searchBackIdLevel} from "@/utils/communication"
 export default({
   name: "Modify",
   props:{
@@ -50,7 +71,7 @@ export default({
       type: Boolean,
       default: () => true
     },
-    level:{
+    level_id :{
       type:Number,
       default: ()=>0
     },
@@ -70,6 +91,12 @@ export default({
       type:Number,
       default: ()=> 1
     },
+    audio_path:{
+      type:String,
+    },
+    video_path:{
+      type:String,
+    }
   },
   data(){
     return {
@@ -79,12 +106,20 @@ export default({
         level_id:this.level_id,
         dataId:this.dataId,
         type_id:this.type_id,
+        audio_path:this.audio_path,
+        video_path:this.video_path,
       },
       formData: new FormData(),
     }
   },
   mounted: function () {
-
+    this.$refs.btn.onclick(function() {
+      if (this.$refs.dialogVideo.paused) {
+        this.$refs.dialogVideo.play();
+      } else {
+        this.$refs.dialogVideo.pause();
+      }
+    });
   },
   methods: {
     getFile(e, input_file_name) {
@@ -92,6 +127,25 @@ export default({
       this.formData.append(input_file_name, e.target.files[0]);
       console.log(this.formData);
       console.log(e.target.files[0]);
+    },
+    retreat(){
+      searchBackIdLevel(this.level_id).then((res)=>{
+        if(res.status == 200 || res.status == 201){
+          this.$message("回退成功");
+        }else{
+          this.$message("回退失败");
+        }
+        return res.json();
+      }).then((r)=> {
+        console.log(r);
+        this.level_id =Number(r["level_id"]);
+        this.type_id = Number(r["type_id"]);
+        this.title = r["title"];
+        this.content = r["content"];
+        this.dataId = Number(r["dataId"]);
+        this.audio_path = r['audio_path'];
+        this.video_path = r['video_path'];
+      });
     },
     submittt(e) {
       console.log("helloworld");

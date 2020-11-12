@@ -18,14 +18,15 @@
         </el-submenu>
     </el-menu>
     <Modify v-bind:dialog-visible="Modify.dialogVisible"
+            v-on:closeEmit="Modify.dialogVisible = false;"
           v-on:closeModify="Modify.dialogVisible = false;"
           v-bind:level="Modify.form.level"
           v-bind:title="Modify.form.title"
           v-bind:content="Modify.form.content"
           v-bind:dataId="Modify.form.dataId"
           v-bind:type_id="Modify.form.type_id"
-          v-bind:audio_path="Modify.audio_path"
-          v-bind:video_path="Modify.video_path"
+          v-bind:audio_path="Modify.form.audio_path"
+          v-bind:video_path="Modify.form.video_path"
     />
 </div>
 </template>
@@ -79,6 +80,8 @@ import {searchBackIdLevel,DataSingleSearch} from "@/utils/communication.js"
                 content: this.content,
                 level_id: this.level_id,
                 dataId: this.dataId,
+                audio_path:this.audio_path,
+                video_path:this.video_path,
               },
               formData: new FormData(),
             }
@@ -105,13 +108,16 @@ import {searchBackIdLevel,DataSingleSearch} from "@/utils/communication.js"
               return res.json();
             }).then((r)=> {
               console.log(r);
-              this.Modify.form.type_id = r["type_id"];
+              this.Modify.form.type_id = Number(r["type_id"]);
               this.Modify.form.title = r["title"];
               this.Modify.form.content = r["content"];
-              this.Modify.form.dataId = r["dataId"];
+              this.Modify.form.dataId = Number(r["dataId"]);
+              this.Modify.form.audio_path = r['audio_path'];
+              this.Modify.form.video_path = r['video_path'];
+              this.Modify.form.level_id = r['level_id'];
             });
-            console.log("hello");
-            console.log("hello",typeof(this.Modify.dialogVisible));
+            console.log(this.Modify.form.audio_path);
+            console.log(this.Modify.form.video_path);
             this.Modify.dialogVisible = true;
             console.log(this.Modify.dialogVisible);
           },
