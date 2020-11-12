@@ -42,6 +42,13 @@ export const searchBackId = (data_id) => fetch(API.SEARCH.path + "?level_id=" + 
         "Authorization":"JWT "+localStorage.getItem('token')
     },
 });
+export const searchBackId2 = (data_id) =>fetch(API.SEARCH.path + "{"+String(data_id)+"}",{
+    method: API.SEARCH.method,
+    headers:{
+        "Content-Type":"application/json",
+        "Authorization":"JWT "+localStorage.getItem('token')
+    },
+});
 export const AddBack = (formdata) => fetch(API.ADD.path,{
     method:API.ADD.method,
     body:formdata,

@@ -122,6 +122,7 @@ import {searchBackIdLevel,DataSingleSearch} from "@/utils/communication.js"
             console.log(this.Modify.dialogVisible);
           },
           detailBlock(){
+            console.log("hello world");
             DataSingleSearch(this.level_id).then((res)=>{
               if(res.status == 200 || res.status == 201){
                 this.$message("拉取成功");

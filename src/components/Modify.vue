@@ -63,7 +63,7 @@
   </el-dialog>
 </template>
 <script>
-import {ModifyBack, searchBackId} from "@/utils/communication"
+import {ModifyBack, searchBackId ,searchBackId2} from "@/utils/communication"
 export default({
   name: "Modify",
   props:{
@@ -116,14 +116,7 @@ export default({
       formData: new FormData(),
     }
   },
-  mounted: function () {
-    this.$refs.btn.onclick(function() {
-      if (this.$refs.dialogVideo.paused) {
-        this.$refs.dialogVideo.play();
-      } else {
-        this.$refs.dialogVideo.pause();
-      }
-    });
+  mounted: function(){
   },
   methods: {
     getFile(e, input_file_name) {
@@ -134,18 +127,18 @@ export default({
     },
     retreat(){
       console.log(this.const_level_id);
-      searchBackId(Number(this.dataId)).then((res)=>{
+      searchBackId2(Number(this.dataId)).then((res)=>{
         if(res.status == 200 || res.status == 201){
           this.$message("回退成功");
         }else{
-          this.$message("退失败");
+          this.$message("回退失败");
         }
         return res.json();
       }).then((r)=> {
         console.log(r);
-        this.level_id =Number(r["level_id"]);
-        this.type_id = Number(r["type_id"]);
-        this.title = r["title"];
+        this.form.level_id =Number(r["level_id"]);
+        this.form.type_id = Number(r["type_id"]);
+        this.form.title = r["title"];
         this.form.content = r["content"];
         this.form.dataId = Number(r["dataId"]);
         this.form.audio_path = r['audio_path'];
