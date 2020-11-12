@@ -41,7 +41,7 @@ export const searchBackId = (data_id) => fetch(API.SEARCH.path + "?level_id=" + 
         "Authorization":"JWT "+localStorage.getItem('token')
     },
 });
-export const searchBackId2 = (data_id) =>fetch(API.SEARCH.path + "{"+String(data_id)+"}",{
+export const searchBackId2 = (data_id) =>fetch(API.SEARCH.path + "/" + String(data_id),{
     method: API.SEARCH.method,
     headers:{
         "Content-Type":"application/json",
@@ -141,7 +141,7 @@ export const DataAudioSearch = (appendage) => fetch( String(appendage),{
         "Authorization":"JWT "+localStorage.getItem('token')
     }
 });
-export const DataSingleSearch = (appendage) => fetch(API.SINGLEANALYSIS.path + "/" + String(appendage),{
+export const DataSingleSearch = (appendage) => fetch(API.SINGLEANALYSIS.path + "/?id=" + String(appendage),{
     method: API.SINGLEANALYSIS.method,
     headers:{
         "Authorization":"JWT "+localStorage.getItem('token')

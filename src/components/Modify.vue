@@ -15,7 +15,7 @@
       </el-form-item>
       <el-form-item >
         <label>修改数据ID </label>
-        <input type='text' v-model="dataId"/>
+        <input type='text' v-model="id"/>
       </el-form-item>
       <el-form-item >
         <label>修改数据类型ID </label>
@@ -38,7 +38,7 @@
                width="90%"
                loop="loop"
                style="border-radius:10px;margin:3px;">
-            <source :src="audio_path"/>
+            <source :src="this.form.audio_path"/>
         </audio>
       </el-form-item>
       <el-form-item >
@@ -51,7 +51,7 @@
                loop="loop"
                style="border-radius:10px;margin:3px"
                >
-          <source :src="video_path"/>
+          <source :src="this.form.video_path"/>
         </video>
       </el-form-item>
       <button @click=submittt($event)>OK</button>
@@ -63,7 +63,7 @@
   </el-dialog>
 </template>
 <script>
-import {ModifyBack, searchBackId ,searchBackId2} from "@/utils/communication"
+import {ModifyBack, searchBackId2} from "@/utils/communication"
 export default({
   name: "Modify",
   props:{
@@ -83,7 +83,7 @@ export default({
       type:String,
       default: ()=>""
     },
-    dataId:{
+    id:{
       type:Number,
       default:()=>0
     },
@@ -108,7 +108,7 @@ export default({
         title: this.title,
         content: this.content,
         level_id:this.level_id,
-        dataId:this.dataId,
+        id:this.id,
         type_id:this.type_id,
         audio_path:this.audio_path,
         video_path:this.video_path,
@@ -117,6 +117,9 @@ export default({
     }
   },
   mounted: function(){
+    console.log("hellow orld");
+    console.log(this.form.audio_path);
+    console.log(this.form.video_path);
   },
   methods: {
     getFile(e, input_file_name) {
@@ -127,7 +130,7 @@ export default({
     },
     retreat(){
       console.log(this.const_level_id);
-      searchBackId2(Number(this.dataId)).then((res)=>{
+      searchBackId2(Number(this.id)).then((res)=>{
         if(res.status == 200 || res.status == 201){
           this.$message("回退成功");
         }else{
@@ -140,7 +143,7 @@ export default({
         this.form.type_id = Number(r["type_id"]);
         this.form.title = r["title"];
         this.form.content = r["content"];
-        this.form.dataId = Number(r["dataId"]);
+        this.form.id = Number(r["id"]);
         this.form.audio_path = r['audio_path'];
         this.form.video_path = r['video_path'];
       });
@@ -151,7 +154,7 @@ export default({
       this.formData.append("title",this.title);
       this.formData.append("content",this.content);
       this.formData.append("level_id",this.level);
-      ModifyBack(this.formData,this.dataId).then((res)=>{
+      ModifyBack(this.formData,this.id).then((res)=>{
         if(res.status == 200){
           this.$message('修改成功');
         }else{

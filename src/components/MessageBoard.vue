@@ -413,6 +413,7 @@ export default {
                       'level_id': item.level_id,
                       'title': item.title,
                       'id':item.id,
+                      'type_id':item.type_id,
                       'timestamp':new Date().getTime(),
                     });
                   }else if(item.type_id == 1){
@@ -420,6 +421,7 @@ export default {
                       'level_id': item.level_id,
                       'title': item.title,
                       'id':item.id,
+                      'type_id':item.type_id,
                       'timestamp':new Date().getTime(),
                     });
                   }else if(item.type_id == 2){
@@ -427,6 +429,7 @@ export default {
                       'level_id': item.level_id,
                       'title': item.title,
                       'id':item.id,
+                      'type_id':item.type_id,
                       'timestamp':new Date().getTime(),
                     });
                   }
@@ -453,6 +456,7 @@ export default {
                         'level_id': item.level_id,
                         'title': item.title,
                         'id':item.id,
+                        'type_id':item.type_id,
                         'timestamp':new Date().getTime(),
                       });
                     }else if(item.type_id == 1){
@@ -460,6 +464,7 @@ export default {
                         'level_id': item.level_id,
                         'title': item.title,
                         'id':item.id,
+                        'type_id':item.type_id,
                         'timestamp':new Date().getTime(),
                       });
                     }else if(item.type_id == 2){
@@ -467,6 +472,7 @@ export default {
                         'level_id': item.level_id,
                         'title': item.title,
                         'id':item.id,
+                        'type_id':item.type_id,
                         'timestamp':new Date().getTime(),
                       });
                     }}}}
@@ -492,6 +498,7 @@ export default {
                           'level_id': item.level_id,
                           'title': item.title,
                           'id':item.id,
+                          'type_id':item.type_id,
                           'timestamp':new Date().getTime(),
                         });
                       }else if(item.type_id == 1){
@@ -499,6 +506,7 @@ export default {
                           'level_id': item.level_id,
                           'title': item.title,
                           'id':item.id,
+                          'type_id':item.type_id,
                           'timestamp':new Date().getTime(),
                         });
                       }else if(item.type_id == 2){
@@ -506,6 +514,7 @@ export default {
                           'level_id': item.level_id,
                           'title': item.title,
                           'id':item.id,
+                          'type_id':item.type_id,
                           'timestamp':new Date().getTime(),
                         });
                       }}}
