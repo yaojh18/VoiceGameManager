@@ -28,7 +28,7 @@ export const searchBack = (keyword) => fetch(API.SEARCH.path,{
         "Authorization":"JWT "+localStorage.getItem('token')
     },
 });
-export const searchBackIdLevel = (level_id) => fetch(API.SEARCH.path + "/" + String(level_id),{
+export const searchBackIdLevel = (level_id) => fetch(API.SEARCH.path + "?level_id=" + String(level_id),{
     method: API.SEARCH.method,
     headers: {
         "Content-Type":"application/json",

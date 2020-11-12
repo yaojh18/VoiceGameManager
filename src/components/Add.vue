@@ -3,6 +3,7 @@
         title="添加"
         :visible.sync="dialogVisible"
         :show-close=false
+           v-on:close="$emit('closeAdd','')"
         width="80%">
 <el-form label-width="80px">
   <el-form-item>

@@ -419,8 +419,7 @@ export default {
                 console.log(res);
                 if(res.status==200 || res.status == 201){
                   this.$message("查询成功");
-                  for (var k = 0; k < res.length; k++) {
-                    this.messageList.push(res[k]);}
+                  console.log(res);
                 }else{
                   this.$message("查询失败");
                 }
@@ -492,6 +491,9 @@ export default {
           console.log(tab, event);
         },
         getListMsg(){
+            this.messageListMale = [];
+            this.messageListFemale = [];
+            this.messageListUnknown = [];
             console.log("getListMsg");
             getList(1).then((res)=>{
               if(res != undefined){
@@ -576,6 +578,13 @@ export default {
         },
 
     },
+    created(){
+      let r = localStorage.getItem('name');
+      console.log(r);
+      if(r){
+        this.usernameLogged = localStorage.getItem('name');
+      }
+  }
 }
 </script>
 
