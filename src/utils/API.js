@@ -47,7 +47,7 @@ const API = {
         path:"/api/manager/",
         method: "put"
     },
-    SIGNLEANALYSIS:{
+    SINGLEANALYSIS:{
         path:"/api/manager/data/origin/chart",
         method :"get"
     },

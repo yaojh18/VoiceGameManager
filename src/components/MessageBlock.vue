@@ -4,7 +4,6 @@
        <el-submenu index="view" style="text-align: left">
             <template slot="title" ><i class="el-icon-chat-square"/>
                 <span class="messageblock-title" >title: {{ title }}</span>
-                <el-button style="margin:1px;padding:4px;align:right;background-color: #87CEFA;" @click="closeBlock();$emit('closeclicked','');"><i class="el-icon-close"></i></el-button>
                 <el-button style="margin:1px;padding:4px;align:right;background-color: #87CEFA;" @click="editBlock();$emit('editclicked','');"><i class="el-icon-edit"></i></el-button>
                 <el-button style="margin:1px;padding:4px;align:right;background-color: #87CEFA;" @click="detailBlock();$emit('detailclicked','');"><i class="el-icon-zoom-in"></i></el-button>
             </template>
@@ -123,7 +122,7 @@ import {searchBackIdLevel,DataSingleSearch} from "@/utils/communication.js"
           },
           detailBlock(){
             console.log("hello world");
-            DataSingleSearch(this.level_id).then((res)=>{
+            DataSingleSearch(this.Modify.form.level_id).then((res)=>{
               if(res.status == 200 || res.status == 201){
                 this.$message("拉取成功");
               }else{
