@@ -54,7 +54,9 @@
                   <el-button style="display:block;" v-on:click="searchSelection=3;searchKey='关卡搜索';this.enabled=true">关卡搜索</el-button>
                   <el-input style="vertical-align:middle;width:200px;margin-left:15px;" inline-block v-model="searchTmpLevelId" placeholder="输入搜索信息"></el-input>
             </el-form-item>
-              <el-button style="align:right" v-on:click="Add.dialogVisible=true"><i class="el-icon-plus">增加</i></el-button>
+              <el-radio style="margin-left:1px;" v-model="radioTypeId" label="1" border>全局搜索</el-radio>
+              <el-radio v-model="radioTypeId" label="2" border>非全局搜索</el-radio>
+              <el-button style="margin-left:15px;align:right" v-on:click="Add.dialogVisible=true"><i class="el-icon-plus">增加</i></el-button>
             </el-form>
           <div class="c-content">
             <div class="c-search-table beauty-Scroll">
@@ -173,6 +175,14 @@ export default {
       searchKey:{
         type:String,
         default:()=>"关键词搜索"
+      },
+      radioTypeId:{
+        type:Number,
+        default: ()=>0
+      },
+      choiceTypeId:{
+        type:Number,
+        default :()=>1
       }
     },
     data() {
@@ -390,6 +400,9 @@ export default {
         },
         clickSearch(){
             let r = "?";
+            if(this.radioTypeId==2){
+              r += "type_id=" + String(this.choiceTypeId-1) + "&&";
+            }
             if(this.searchTmp!=''&&this.searchTmp!=undefined)
               r += 'title=' + this.searchTmp +"&&";
             if(this.searchTmpId!=''&&this.searchTmpId!=undefined)
@@ -457,7 +470,13 @@ export default {
           this.dialogVisible = false;
         },
         handleClick(tab, event) {
-          console.log(tab, event);
+          if(tab.name=='first'){
+            this.choiceTypeId=2;
+          }else if(tab.name=='second'){
+            this.choiceTypeId=3;
+          }else if(tab.name=='third'){
+            this.choiceTypeId=1;
+          }
         },
         getListMsg(){
             this.messageListMale = [];
