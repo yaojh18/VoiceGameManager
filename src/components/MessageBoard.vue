@@ -110,12 +110,8 @@
                       </el-tree>
                     </el-tab-pane>
                     <el-tab-pane label="女性角色关卡" name="second">
-                      <draggable @update="datadragEnd" :options = "options" v-model="tableData" style='sort: false' >
-                        <transition-group >
                           <MessageList v-bind:messageList="messageListFemale" v-on:RefreshMsg="this.$forceUpdate()"/>
-                        </transition-group>
-                      </draggable>
-                    </el-tab-pane>
+                     </el-tab-pane>
                     <el-tab-pane label="未知关卡" name="third">
                       <MessageList v-bind:messageList="messageListUnknown" v-on:RefreshMsg="this.$forceUpdate()"/>
                     </el-tab-pane>
@@ -149,12 +145,6 @@
             }" />
     <Add v-bind:dialog-visible="Add.dialogVisible"
          v-on:closeAdd="Add.dialogVisible=false"/>
-    <PostDialog v-on:postmsg="({title,content,audio_path,video_path})=>{
-            postDialog.dialogVisible = false;
-            post(title,content,audio_path,video_path);
-        }"
-                v-bind:dialog-visible="postDialog.dialogVisible"
-                v-on:cancelPostDialog="postDialog.dialogVisible=false" />
     <Logout v-bind:dialog-visible="Logout.dialogVisible"
             v-on:closeLogout="Logout.dialogVisible=false"
             v-on:logoutfunc="Logout.dialogVisible=false;logoutFuncCalled()"
@@ -229,7 +219,7 @@ export default {
         return {
             activeName: 'first',
             Login: {
-                dialogVisible: true,
+                dialogVisible: false,
                 form: {
                     usernameLogin: "",
                     password: ""
@@ -309,6 +299,24 @@ export default {
                 "text": "登录成功",
                 dialogVisible: false
             },
+            alertRegisterDialog:{
+                "text" : "注册成功",
+                dialogVisible: false
+            },
+            alertDeleteDialog:{
+                "text" : "删除成功",
+                dialogVisible: false,
+            },
+            state: {
+                username: "",
+                username_valid: false
+            },
+            messageListMale: [],
+            messageListFemale: [],
+            messageListUnknown: [],
+            infoList: [],
+            usernameLogged: "unknown",
+            searchSelection: 1,
           data:[{
             id: 1,
             label: "1",
@@ -331,25 +339,6 @@ export default {
           defaultProps: {
             label: 'label'
           },
-
-          alertRegisterDialog:{
-                "text" : "注册成功",
-                dialogVisible: false
-            },
-            alertDeleteDialog:{
-                "text" : "删除成功",
-                dialogVisible: false,
-            },
-            state: {
-                username: "",
-                username_valid: false
-            },
-            messageListMale: [],
-            messageListFemale: [],
-            messageListUnknown: [],
-            infoList: [],
-            usernameLogged: "unknown",
-            searchSelection: 1,
         }
     },
     methods: {
@@ -394,6 +383,7 @@ export default {
               this.usernameLogged = usernameLogin;
               localStorage.setItem('name',usernameLogin);
               this.getListMsg();
+              this.Login.dialogVisible = false;
         },
         DeleteFuncCalled : (data_id)=>{
           deleteMsg(data_id).then((res)=>{
@@ -516,20 +506,6 @@ export default {
         handleClick(tab, event) {
           console.log(tab, event);
         },
-      getdata(evt) {
-        console.log(evt.draggedContext.filterKey)
-        //这里evt.draggedContext后续的内容根据具体的定义变量而定
-      },
-      datadragEnd(evt) {
-        evt.preventDefault();
-        console.log('拖动前的索引 :' + evt.oldIndex)
-        console.log('拖动后的索引 :' + evt.newIndex)
-        this.checkMenusList = []
-        this.tableData.map((item,index) =>{
-          this.checkMenusList.push({sortNum: index+1+"", menuId: item.id,rovinceCode:this.page.token})
-          return  this.checkMenusList
-        })
-      },
         getListMsg(){
             console.log("getListMsg");
             getList(1).then((res)=>{

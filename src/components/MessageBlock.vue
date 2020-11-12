@@ -23,7 +23,10 @@
           v-bind:title="Modify.form.title"
           v-bind:content="Modify.form.content"
           v-bind:dataId="Modify.form.dataId"
-          v-bind:type_id="Modify.form.type_id"/>
+          v-bind:type_id="Modify.form.type_id"
+          v-bind:audio_path="Modify.audio_path"
+          v-bind:video_path="Modify.video_path"
+    />
 </div>
 </template>
 
@@ -59,7 +62,13 @@ import {searchBackIdLevel,DataSingleSearch} from "@/utils/communication.js"
             type_id:{
                  type:Number,
                  default: () => 0
-            }
+            },
+            audio_path:{
+                 type:String,
+            },
+            video_path:{
+                 type:String,
+            },
         },
         data() {
           return {
@@ -93,8 +102,18 @@ import {searchBackIdLevel,DataSingleSearch} from "@/utils/communication.js"
               }else{
                 this.$message("拉取失败");
               }
-            })
+              return res.json();
+            }).then((r)=> {
+              console.log(r);
+              this.Modify.form.type_id = r["type_id"];
+              this.Modify.form.title = r["title"];
+              this.Modify.form.content = r["content"];
+              this.Modify.form.dataId = r["dataId"];
+            });
             console.log("hello");
+            console.log("hello",typeof(this.Modify.dialogVisible));
+            this.Modify.dialogVisible = true;
+            console.log(this.Modify.dialogVisible);
           },
           detailBlock(){
             DataSingleSearch(this.level_id).then((res)=>{
@@ -106,12 +125,7 @@ import {searchBackIdLevel,DataSingleSearch} from "@/utils/communication.js"
               return res.json();
             }).then((r)=>{
               console.log(r);
-              this.Modify.form.type_id = r["type_id"];
-              this.Modify.form.title = r["title"];
             })
-            console.log("hello",typeof(this.Modify.dialogVisible));
-            this.Modify.dialogVisible = true;
-            console.log(this.Modify.dialogVisible);
           },
       }
     }
