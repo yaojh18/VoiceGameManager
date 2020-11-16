@@ -27,16 +27,34 @@
           v-bind:audio_path="Modify.form.audio_path"
           v-bind:video_path="Modify.form.video_path"
     />
+    <Chart
+         v-bind:dialog-visible="Chart.dialogVisible"
+         v-on:cancelChart="Chart.dialogVisible=false"
+         v-bind:female_num="Chart.female_num"
+         v-bind:female_scores="Chart.female_scores"
+         v-bind:unknown_num="Chart.unknown_num"
+         v-bind:unknown_scores="Chart.unknown_scores"
+         v-bind:male_num="Chart.male_num"
+         v-bind:male_scores="Chart.male_scores"
+         v-bind:female_score_average="Chart.female_score_average"
+         v-bind:male_score_average="Chart.male_score_average"
+         v-bind:unknown_score_average="Chart.unknown_score_average"
+         v-bind:played_num="Chart.played_num"
+         v-bind:title="Chart.title"
+         v-bind:type_id="Chart.type_id"
+         />
 </div>
 </template>
 
 <script>
 import Modify from "@/components/Modify"
+import Chart from "@/components/Chart"
 import {searchBackId2,DataSingleSearch} from "@/utils/communication.js"
     export default {
         name: "MessageBlock",
         components:{
           Modify,
+          Chart,
         },
         props: {
             dialogVisible:{
@@ -83,6 +101,21 @@ import {searchBackId2,DataSingleSearch} from "@/utils/communication.js"
                 video_path:this.video_path,
               },
               formData: new FormData(),
+            },
+            Chart:{
+              dialogVisible:false,
+              female_num:this.female_num,
+              female_scores:this.female_scores,
+              unknown_num:this.unknown_num,
+              unknown_scores:this.unknown_scores,
+              male_num:this.male_num,
+              male_scores:this.male_scores,
+              female_score_average:this.female_score_average,
+              male_score_average:this.male_score_average,
+              unknown_score_average:this.unknown_score_average,
+              played_num:this.played_num,
+              title:this.title,
+              type_id:this.type_id, 
             }
           }
         },
@@ -132,8 +165,20 @@ import {searchBackId2,DataSingleSearch} from "@/utils/communication.js"
               }
               return res.json();
             }).then((r)=>{
+                  this.Chart.female_num = r["female_num"],
+                  this.Chart.female_scores = r["female_scores"],
+                  this.Chart.unknown_num = r["unknown_num"],
+                  this.Chart.unknown_scores = r["unknown_scores"],
+                  this.Chart.male_num = r["male_num"],
+                      this.Chart.male_scores = r["male_scores"],
+                  this.Chart.female_score_average = r["female_score_average"],
+                  this.Chart.male_score_average = r["male_score_average"],
+                  this.Chart.unknown_score_average = r["unknown_score_average"],
+                  this.Chart.played_num = r["played_num"],
+                  this.Chart.title = r["title"],
+                  this.Chart.type_id = r["type_id"],
+                      this.Chart.dialogVisible=true,
               console.log(r);
-
             })
           },
       }

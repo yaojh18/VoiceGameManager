@@ -141,7 +141,7 @@ export const DataAudioSearch = (appendage) => fetch( String(appendage),{
         "Authorization":"JWT "+localStorage.getItem('token')
     }
 });
-export const DataSingleSearch = (appendage) => fetch(API.SINGLEANALYSIS.path + "/" + String(appendage),{
+export const DataSingleSearch = (appendage) => fetch(API.SINGLEANALYSIS.path + "/" + String(appendage) + "/chart/",{
     method: API.SINGLEANALYSIS.method,
     headers:{
         "Authorization":"JWT "+localStorage.getItem('token')

@@ -48,7 +48,7 @@ const API = {
         method: "put"
     },
     SINGLEANALYSIS:{
-        path:"/api/manager/data/origin/",
+        path:"/api/manager/data/origin",
         method :"get"
     },
     MEDIAANALYSIS:{
