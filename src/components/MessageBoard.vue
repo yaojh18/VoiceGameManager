@@ -48,9 +48,6 @@
                   <el-button size="mini" style="display:block;margin-left:5px" v-on:click="searchSelection=1;searchKey='关键词搜索';this.enabled=true">关键词搜索</el-button>
                   <el-input size="mini" style="vertical-align:middle;width:200px;margin-left:15px;" inline-block v-model="searchTmp" placeholder="输入搜索信息"></el-input>
               </el-form-item><el-form-item>
-                  <el-button size="mini" style="display:block;" v-on:click="searchSelection=2;searchKey='数据搜索';this.enabled=true">数据搜索</el-button>
-                  <el-input size="mini" style="vertical-align:middle;width:200px;margin-left:15px;" inline-block v-model="searchTmpId" placeholder="输入搜索信息"></el-input>
-            </el-form-item><el-form-item>
                   <el-button size="mini" style="display:block;" v-on:click="searchSelection=3;searchKey='关卡搜索';this.enabled=true">关卡搜索</el-button>
                   <el-input size="mini" style="vertical-align:middle;width:200px;margin-left:15px;" inline-block v-model="searchTmpLevelId" placeholder="输入搜索信息"></el-input>
             </el-form-item>
@@ -367,9 +364,17 @@ export default {
             document.cookie = `user=${usernameLogin}`;
             login(usernameLogin, password).then((res)=> {
                   if (res.status == 200) {
-                    this.$message('已登录');
+                    this.$message({
+                        message: '已登录',
+                        type: "info",
+                        duration: 3000,
+                    });
                   } else {
-                    this.$message('登录失败');
+                    this.$message({
+                        message: '登录失败',
+                        type: "warning",
+                        duration: 3000,
+                    });
                   }
                   return res.json();
                 }

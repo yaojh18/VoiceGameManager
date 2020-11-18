@@ -3,18 +3,29 @@
     <el-menu :default-openeds="[]" style="background: #f3f3ff;border-radius: 0px;margin: 0px" :visible.sync="dialogVisible">
        <el-submenu index="view" style="text-align: left">
             <template slot="title" ><i class="el-icon-chat-square"/>
-                <span class="messageblock-title" >title: {{ title }}</span>
+              <span class="messageblock-title" ><span class="messageblock-user" style="padding: 4px;"><strong>{{ level_id }}</strong></span> | {{ title }} </span>
                 <el-button style="margin:1px;padding:4px;align:right;background-color: #f3f3ff;" @click="editBlock();$emit('editclicked','');"><i class="el-icon-edit"></i></el-button>
                 <el-button style="margin:1px;padding:4px;align:right;background-color: #f3f3ff;" @click="detailBlock();$emit('detailclicked','');"><i class="el-icon-zoom-in"></i></el-button>
             </template>
-            <div style="display:flex; margin-top: 2px; font-size: small;color: grey">
-                <span class="messageblock-datetime" style="padding: 4px;">
-                datetime: {{ datetime }}
-                </span>
-                <span class="messageblock-user" style="padding: 4px;">level_id: {{ level_id }}</span>
-            </div>
-            <div class="messageblock-content">id: {{ id }}</div>
-        </el-submenu>
+            <p style="height:60px" >{{ content }}</p>
+            <audio controls="controls"
+                  autoplay="autoplay"
+                  class="audio"
+                  width="90%"
+                  loop="loop"
+                  style="border-radius:10px;margin:3px;">
+             <source :src="audio_path"/>
+           </audio>
+           <video controls="controls"
+                  autoplay="autoplay"
+                  class="video"
+                  width="90%"
+                  loop="loop"
+                  style="border-radius:10px;margin:3px"
+           >
+             <source :src="video_path"/>
+           </video>
+       </el-submenu>
     </el-menu>
     <Modify v-bind:dialog-visible="Modify.dialogVisible"
             v-on:closeEmit="Modify.dialogVisible = false;"
@@ -67,6 +78,9 @@ import {searchBackId2,DataSingleSearch} from "@/utils/communication.js"
                 type:String,
                 default: () => "unknown title"
             },
+          content:{
+              type:String,
+          },
             level_id: {
                 type:Number,
                 default: () => 0
@@ -123,6 +137,31 @@ import {searchBackId2,DataSingleSearch} from "@/utils/communication.js"
             }
           }
         },
+      created: function(){
+        this.searchBackId2(this.id).then((res) => {
+  if (res.status == 200 || res.status == 201) {
+    this.$message("拉取成功");
+  } else {
+    this.$message("拉取失败");
+  }
+  return res.json();
+}).then((r) => {
+  console.log(r);
+  this.Modify.form.type_id = Number(r["type_id"]);
+  this.Modify.form.title = r["title"];
+  this.Modify.form.content = r["content"];
+  this.Modify.form.id = Number(r["id"]);
+  this.Modify.form.audio_path = r['audio_path'];
+  this.Modify.form.video_path = r['video_path'];
+  console.log(this.Modify.form.video_path);
+  console.log(this.Modify.form.audio_path);
+});
+this.Modify.form.level_id = this.level_id;
+console.log(this.Modify.form.audio_path);
+console.log(this.Modify.form.video_path);
+this.Modify.dialogVisible = true;
+console.log(this.Modify.dialogVisible);
+},
         computed:{
             datetime:function () {
                 var d = new Date()
@@ -158,6 +197,7 @@ import {searchBackId2,DataSingleSearch} from "@/utils/communication.js"
             console.log(this.Modify.form.video_path);
             this.Modify.dialogVisible = true;
             console.log(this.Modify.dialogVisible);
+            //this.video.$emit("senddata()",{this.form.video_path,this.form.audio_path});
           },
           detailBlock(){
             console.log("hello world");
