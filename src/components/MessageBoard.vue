@@ -167,9 +167,7 @@ import {
     login,
     registerBack,
     searchBack,
-    searchBackId,
     deleteMsg,
-    searchBackIdLevel,
     getList,
     getUserMsg,
 } from "@/utils/communication"
@@ -501,6 +499,7 @@ export default {
           this.dialogVisible = false;
         },
         handleClick(tab, event) {
+          console.log(event);
           if(tab.name=='first'){
             this.choiceTypeId=2;
           }else if(tab.name=='second'){

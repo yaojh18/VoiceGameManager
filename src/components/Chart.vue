@@ -80,7 +80,7 @@ name: "Chart",
       type_Id:{
         type:String,
       },
-      score_average:{
+      Score_average:{
          type:Number,
       },
       scores:{
@@ -102,8 +102,10 @@ name: "Chart",
       played_num:this.played_Num,
       // eslint-disable-next-line vue/no-dupe-keys
       title:this.Title,
+      // eslint-disable-next-line vue/no-dupe-keys
       type_id:this.type_Id,
-      score_average:this.score_average,
+      score_average:this.Score_average,
+      // eslint-disable-next-line vue/no-dupe-keys
       scores:this.scores,
     }
   },

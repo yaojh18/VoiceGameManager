@@ -283,13 +283,13 @@ export default {
            path+='?';
          if(this.VideoLimit!=''){
            path+='size='+String(this.VideoLimit)+"&";
-         };
+         }
          if(this.VideoTitle!=''){
            path+='title='+String(this.VideoTitle)+"&";
-         };
+         }
          if(this.VideoPage){
            path+='page='+String(this.VideoPage);
-         };
+         }
          DataVideoSearch(path).then((res)=>{
            console.log(res.body);
            return res.json();
@@ -531,13 +531,13 @@ export default {
         path+='?';
       if(this.VideoLimit!=''){
         path+='size='+String(this.VideoLimit)+"&";
-      };
+      }
       if(this.VideoTitle!=''){
         path+='title='+String(this.VideoTitle)+"&";
-      };
+      }
       if(this.VideoPage){
         path+='page='+String(this.VideoPage);
-      };
+      }
       DataVideoSearch(path).then((res)=>{
         console.log(res.body);
         return res.json();
