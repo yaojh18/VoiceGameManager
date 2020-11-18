@@ -1,10 +1,10 @@
 const API = {
     GET_MESSAGE_LIST:{
-        path:"/api/manager/get_list/",
+        path: "/api/manager/get_list/",
         method: "get"
     },
     POST_NEW_MESSAGE:{
-        path:"/api/manager/add/",
+        path: "/api/manager/add/",
         method: "post"
     },
     ADD: {

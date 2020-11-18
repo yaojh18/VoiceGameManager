@@ -1,12 +1,12 @@
 const path = require('path')
-const testMode = process.env.NODE_ENV === 'test'
+const testMode = process.env.NODE_ENV === 'production'
 
 module.exports = {
     devServer: {
         proxy: {
             '/api': {
                 target: 'https://voicetestgame-dijkstra.app.secoder.net', // 修改为你的Django服务器地址
-                changOrigin: true,
+                changeOrigin: true,
             }
         },
         disableHostCheck: true,
