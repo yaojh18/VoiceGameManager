@@ -1,8 +1,8 @@
 <template>
   <div>
     <el-menu :default-openeds="[]" style="background: #f3f3ff;border-radius: 0px;margin: 0px" :visible.sync="dialogVisible">
-       <el-submenu index="view" style="text-align: left">
-            <template slot="title" ><i class="el-icon-chat-square"/>
+       <el-submenu index="view" @click="handleOpen" style="text-align: left">
+            <template slot="title" @click="handleOpen"><i class="el-icon-chat-square" @click="handleOpen"/>
               <span class="messageblock-title" ><span class="messageblock-user" style="padding: 4px;"><strong>{{ level_id }}</strong></span> | {{ title }} </span>
                 <el-button style="margin:1px;padding:4px;align:right;background-color: #f3f3ff;" @click="editBlock();$emit('editclicked','');"><i class="el-icon-edit"></i></el-button>
                 <el-button style="margin:1px;padding:4px;align:right;background-color: #f3f3ff;" @click="detailBlock();$emit('detailclicked','');"><i class="el-icon-zoom-in"></i></el-button>
@@ -107,37 +107,37 @@ import {searchBackId2,DataSingleSearch} from "@/utils/communication.js"
         data() {
           return {
             Modify: {
-              dialogVisible:false,
+              dialogVisible: false,
               form: {
                 title: this.title,
                 content: this.content,
                 level_id: this.level_id,
                 id: this.id,
-                audio_path:this.audio_path,
-                video_path:this.video_path,
+                audio_path: this.audio_path,
+                video_path: this.video_path,
               },
               formData: new FormData(),
             },
-            Chart:{
-              scores:this.scores,
-              score_average:this.score_average,
-              dialogVisible:false,
-              female_num:this.female_num,
-              female_scores:this.female_scores,
-              unknown_num:this.unknown_num,
-              unknown_scores:this.unknown_scores,
-              male_num:this.male_num,
-              male_scores:this.male_scores,
-              female_score_average:this.female_score_average,
-              male_score_average:this.male_score_average,
-              unknown_score_average:this.unknown_score_average,
-              played_num:this.played_num,
-              title:this.title,
-              type_id:this.type_id, 
+            Chart: {
+              scores: this.scores,
+              score_average: this.score_average,
+              dialogVisible: false,
+              female_num: this.female_num,
+              female_scores: this.female_scores,
+              unknown_num: this.unknown_num,
+              unknown_scores: this.unknown_scores,
+              male_num: this.male_num,
+              male_scores: this.male_scores,
+              female_score_average: this.female_score_average,
+              male_score_average: this.male_score_average,
+              unknown_score_average: this.unknown_score_average,
+              played_num: this.played_num,
+              title: this.title,
+              type_id: this.type_id,
             }
           }
         },
-      created: function(){
+         created: function(){
         this.searchBackId2(this.id).then((res) => {
   if (res.status == 200 || res.status == 201) {
     this.$message("拉取成功");
@@ -198,6 +198,11 @@ console.log(this.Modify.dialogVisible);
             this.Modify.dialogVisible = true;
             console.log(this.Modify.dialogVisible);
             //this.video.$emit("senddata()",{this.form.video_path,this.form.audio_path});
+          },
+          handleOpen(){
+             console.log("handleopen");
+             this.detailBlock();
+             this.Chart.DialogVisible = false;
           },
           detailBlock(){
             console.log("hello world");

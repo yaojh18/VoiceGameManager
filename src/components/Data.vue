@@ -139,10 +139,13 @@
                   width="120">
               </el-table-column>
             </el-table>
-            <el-card>玩家等级统计</el-card>
+            <el-card>玩家通关统计</el-card>
             <div style="width:600px !important;height:200px" id="userBarBase" class="userBarBase" ref="userBarBase"></div>
+            <el-card>玩家等级统计</el-card>
             <div style="width:600px !important;height:200px" id="userBarBase2" class="userBarBase2" ref="userBarBase2"></div>
+            <el-card>关卡统计</el-card>
             <div style="width:600px !important;height:200px" id="userBase" class="userBase" ref="userBase"></div>
+            <el-card>各关卡通关玩家统计</el-card>
             <div style="width:600px !important;height:200px" id="scoreBase" class="scoreBase" ref="scoreBase"></div>
           </template>
         </el-main>
@@ -248,6 +251,7 @@ export default {
       mgender:0,
       fgender:0,
       ugender:0,
+      videoCnt: [],
       isCollapse: false,
       labelPosition: '',
       activeName: '1',
@@ -320,6 +324,7 @@ export default {
            this.player=r["level_count"];
            let cnt = 0;
            for(const it in r["level_count"]){
+             console.log(it);
              cnt+=1;
              this.playernum.push("关卡"+cnt);
            }
@@ -348,6 +353,7 @@ export default {
            }
            return r;
          }).then((r)=>{
+           console.log(r);
            that.drawUser();
          });
     },
@@ -428,12 +434,9 @@ export default {
       console.log(this.videoavScores);
       let myChart1 =echarts.init(document.getElementById("user"))
       myChart1.setOption({
-        title: {
-          text: '关卡统计'
-        },
         tooltip: {},
         xAxis: {
-          data: this.videoavScores,
+          data: this.videoCnt,
         },
         yAxis: {},
         series: [
@@ -441,18 +444,30 @@ export default {
             name: '总平均分',
             type: 'line',
             data: this.videoavScores,
+            itemStyle: {
+              color: '#999999'
+            }
           },{
             name: '男性平均分',
             type:'line',
             data: this.videomScores,
+            itemStyle: {
+              color: '#eeeeee'
+            }
           },{
             name: '女性平均分',
             type: 'line',
             data: this.videofScores,
+            itemStyle: {
+              color: '#dddddd'
+            }
           },{
             name: '未知性别平均分',
             type: 'line',
             data: this.videouScores,
+            itemStyle: {
+              color: '#aaaaaa'
+            }
           }
         ]
       });
@@ -488,16 +503,11 @@ export default {
       });
     },
     drawChartBase(){
-      console.log("drawChart");
-      console.log(this.videoavScores);
       let myChart1 =echarts.init(document.getElementById("userBase"))
       myChart1.setOption({
-        title: {
-          text: '关卡统计'
-        },
         tooltip: {},
         xAxis: {
-          data: this.videoavScores,
+          data: this.videoCnt,
         },
         yAxis: {},
         series: [
@@ -505,29 +515,38 @@ export default {
             name: '总平均分',
             type: 'line',
             data: this.videoavScores,
+            itemStyle: {
+              color: '#999999'
+            }
           },{
             name: '男性平均分',
             type:'line',
             data: this.videomScores,
+            itemStyle: {
+              color: '#eeeeee'
+            }
           },{
             name: '女性平均分',
             type: 'line',
             data: this.videofScores,
+            itemStyle: {
+              color: '#dddddd'
+            }
           },{
             name: '未知性别平均分',
             type: 'line',
             data: this.videouScores,
+            itemStyle: {
+              color: '#aaaaaa'
+            }
           }
         ]
       });
-      let myChart2 =echarts.init(document.getElementById("scoreBase"))
+      let myChart2 = echarts.init(document.getElementById("scoreBase"))
       myChart2.setOption({
-        title: {
-          text: '玩家等级统计'
-        },
         tooltip: {},
         xAxis: {
-          data: this.videoNum,
+          data: this.videoCnt,
         },
         yAxis: {},
         series: [
@@ -551,7 +570,7 @@ export default {
         ]
       });
     },
-    drawUserBase(){
+    drawUserBase2(){
       let myChart4 = echarts.init(document.getElementById("userBarBase"))
       myChart4.setOption({
         tooltip: {},
@@ -574,11 +593,10 @@ export default {
           },
         ]
       });
+    },
+    drawUserBase(){
       let myChart2 =echarts.init(document.getElementById("userBarBase2"))
       myChart2.setOption({
-        title: {
-          text: '玩家个数统计'
-        },
         tooltip: {},
         xAxis: {
           data: this.usercnt,
@@ -746,7 +764,27 @@ export default {
       that.mgender = 0;
       that.fgender = 0;
       that.usercnt = [];
-      that.userlevel = [];
+      that.videoCnt = [];
+      that.userlevel = [];this.player = [];
+      this.playernum = [];
+      this.usercnt = [];
+      this.userlevel = [];
+      DataAudioSearch("api/manager/data/user/chart").then((res)=>{
+        return res.json();
+      }).then((r)=>{
+        console.log(r);
+        this.player=r["level_count"];
+        let cnt = 0;
+        for(const it in r["level_count"]){
+          cnt+=1;
+          console.log(it);
+          this.playernum.push("关卡"+cnt);
+        }
+        return r;
+      }).then((r)=>{
+        console.log("unuseful:",r);
+        that.drawUserBase2();
+      });
       var path = "api/manager/data/origin";
       if(this.VideoLimit!=''||this.VideoTitle!=''||this.VideoPage!='')
         path+='?';
@@ -763,17 +801,21 @@ export default {
         console.log(res.body);
         return res.json();
       }).then((r)=>{
+        console.log("this is what I want");
         r=r["results"];
+        let cnt = 0;
         for(const it of r){
           console.log(it);
-          this.videoavScores.push(it["score_average"]);
-          this.videomScores.push(it["male_score_average"]);
-          this.videofScores.push(it["female_score_average"]);
-          this.videouScores.push(it["unknown_score_average"]);
-          this.videoNum.push(it["played_num"]);
-          this.videomNum.push(it["male_num"]);
-          this.videofNum.push(it["female_num"]);
-          this.videouNum.push(it["unknown_num"]);
+          this.videoCnt.push(String(cnt)+"关卡");
+          cnt+=1;
+          this.videoavScores.push(it["score_average"]==null?0:it["score_average"]);
+          this.videomScores.push(it["male_score_average"]==null?0:it["male_score_average"]);
+          this.videofScores.push(it["female_score_average"]==null?0:it["female_score_average"]);
+          this.videouScores.push(it["unknown_score_average"]==null?0:it["unknown_score_average"]);
+          this.videoNum.push(it["played_num"]==null?0:it["played_num"]);
+          this.videomNum.push(it["male_num"]==null?0:it["male_num"]);
+          this.videofNum.push(it["female_num"]==null?0:it["female_num"]);
+          this.videouNum.push(it["unknown_num"]==null?0:it["unknown_num"]);
         }
         return r;
       }).then((r)=>{
@@ -796,7 +838,7 @@ export default {
           }else{
             that.fgender += 1;
           }
-          that.usercnt.push(cnt);
+          that.usercnt.push(String(cnt)+"号玩家");
           cnt = cnt + 1;
           that.userlevel.push(it['level']);
         }

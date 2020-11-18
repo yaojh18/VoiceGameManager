@@ -468,6 +468,7 @@ export default {
                       'title': item.title,
                       'id':item.id,
                       'type_id':item.type_id,
+                      'content':item.content,
                       'timestamp':new Date().getTime(),
                     });
                     this.messageListUnknownPart = this.messageListUnknown.slice(0,4);
@@ -478,6 +479,7 @@ export default {
                       'title': item.title,
                       'id':item.id,
                       'type_id':item.type_id,
+                      'content':item.content,
                       'timestamp':new Date().getTime(),
                     });
                     this.messageListMalePart = this.messageListMale.slice(0,4);
@@ -488,6 +490,7 @@ export default {
                       'title': item.title,
                       'id':item.id,
                       'type_id':item.type_id,
+                      'content':item.content,
                       'timestamp':new Date().getTime(),
                     });
                     this.messageListFemalePart = this.messageListFemale.slice(0,4);
@@ -536,11 +539,13 @@ export default {
               itemList = itemList["results"];
               this.listMaleCnt = 0;
               for (const Item of itemList) {
+                console.log(Item["content"]);
                 this.listMaleCnt += 1;
                 this.messageListMale.push({
                   "title": Item['title'],
                   "id": Item['id'],
                   "level_id": Item["level_id"],
+                  "content":Item["content"],
                   "timestamp": new Date().getTime()
                 });
               }
@@ -556,14 +561,15 @@ export default {
               return res;
             }).then((itemList)=>{
               itemList = itemList["results"];
-              console.log(itemList);
               this.listFemaleCnt = 0;
               for (const Item of itemList) {
+                console.log(Item["content"]);
                 this.listFemaleCnt += 1;
                 this.messageListFemale.push({
                   "title": Item['title'],
                   "id": Item['id'],
                   "level_id": Item["level_id"],
+                  "content":Item["content"],
                   "timestamp": new Date().getTime()
                 });
               }
@@ -578,14 +584,15 @@ export default {
                 return res;
             }).then((itemList)=> {
               itemList = itemList["results"];
-              console.log(itemList);
               this.listUnknownCnt = 0;
               for (const Item of itemList) {
+                console.log(Item["content"]);
                   this.listUnknownCnt += 1;
                   this.messageListUnknown.push({
                     "title": Item['title'],
                     "id": Item['id'],
                     "level_id": Item["level_id"],
+                    "content":Item["content"],
                     "timestamp": new Date().getTime()
                   });
                 }
