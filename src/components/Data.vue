@@ -160,9 +160,9 @@
                   </el-form-item>
                   <el-popover
                       placement="right"
-                      width="400"
+                      width="500"
                       trigger="click">
-                    <div style="width:50%;height:200px;" :id="echarts" class="echarts"  ref="echarts"></div>
+                    <div style="width:150%;height:100%;" :id="echarts" class="echarts"  ref="echarts"></div>
                     <el-table :data="UserData">
                       <el-table-column width="150" property="user" label="用户"></el-table-column>
                       <el-table-column width="100" property="gender" label="性别"></el-table-column>
@@ -472,14 +472,14 @@ export default {
         },
         tooltip: {},
         xAxis: {
-          data: this.chartData
+          data: [1,2,3,4,5,6]
         },
         yAxis: {},
         series: [
           {
             name: '分数',
             type: 'bar',
-            data: this.VideoMsgListPart_played_num,
+            data: [1,2,3,4,5,6],
           }
         ]
       })

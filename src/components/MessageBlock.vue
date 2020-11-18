@@ -42,6 +42,8 @@
          v-bind:played_num="Chart.played_num"
          v-bind:title="Chart.title"
          v-bind:type_id="Chart.type_id"
+         v-bind:scores="Chart.scores"
+         v-bind:score_average="Chart.score_average"
          />
 </div>
 </template>
@@ -103,6 +105,8 @@ import {searchBackId2,DataSingleSearch} from "@/utils/communication.js"
               formData: new FormData(),
             },
             Chart:{
+              scores:this.scores,
+              score_average:this.score_average,
               dialogVisible:false,
               female_num:this.female_num,
               female_scores:this.female_scores,
@@ -177,6 +181,9 @@ import {searchBackId2,DataSingleSearch} from "@/utils/communication.js"
                   this.Chart.played_num = r["played_num"],
                   this.Chart.title = r["title"],
                   this.Chart.type_id = r["type_id"],
+                      this.Chart.scores=r["scores"],
+                      this.Chart.score_average=r["score_average"],
+                      this.Chart.played_num=r["played_num"],
                       this.Chart.dialogVisible=true,
               console.log(r);
             })
