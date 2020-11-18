@@ -2,7 +2,6 @@ FROM node:12.18.3
 
 RUN npm config set registry https://registry.npm.taobao.org
 
-<<<<<<< HEAD
 ENV HOME=/app
 
 WORKDIR $HOME
