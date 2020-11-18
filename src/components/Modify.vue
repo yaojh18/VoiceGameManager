@@ -2,6 +2,7 @@
   <el-dialog style="text-align: center"
              title="修改"
              :visible.sync="dialogVisible"
+             @open="open()"
              :show-close=false
              v-on:close="$emit('closeEmit','')"
              width="90%">
@@ -116,14 +117,14 @@ export default({
       formData: new FormData(),
     }
   },
-  mounted: function(){
+  created: function(){
     console.log("hellow orld");
-    console.log(this.form.audio_path);
-    console.log(this.form.video_path);
-    console.log(this.audio_path);
-    console.log(this.video_path);
   },
   methods: {
+    open(){
+      console.log(this.video_path);
+      console.log(this.audio_path);
+    },
     getFile(e, input_file_name) {
       console.log(input_file_name);
       this.formData.append(input_file_name, e.target.files[0]);
