@@ -118,7 +118,31 @@ export default({
     }
   },
   created: function(){
-    console.log("hellow orld");
+  },
+  mounted: function(){
+    searchBackId2(this.id).then((res)=>{
+      if(res.status == 200 || res.status == 201){
+        this.$message("拉取成功");
+      }else{
+        this.$message("拉取失败");
+      }
+      return res.json();
+    }).then((r)=> {
+      console.log(r);
+      this.form.type_id = Number(r["type_id"]);
+      this.form.title = r["title"];
+      this.form.content = r["content"];
+      this.form.id = Number(r["id"]);
+      this.form.audio_path = r['audio_path'];
+      this.form.video_path = r['video_path'];
+      console.log(this.form.video_path);
+      console.log(this.form.audio_path);
+    });
+    this.form.level_id = this.level_id;
+    console.log(this.form.audio_path);
+    console.log(this.form.video_path);
+    this.dialogVisible = true;
+    console.log(this.dialogVisible);
   },
   methods: {
     open(){
