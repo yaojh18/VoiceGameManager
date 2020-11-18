@@ -1,5 +1,5 @@
 <template>
-<div id="message-board">
+<div id="message-board" style="overflow:-Scroll;overflow-y:hidden">
     <el-container style="height:100%; border: 0px solid #eee">
         <el-header style="font-size: 10px;background-color:#87CEFA">
               <el-button style="display: inline-block;margin-right: 15px;" v-on:click="getListMsg()">
@@ -41,7 +41,7 @@
             </div>
           </el-dropdown>
         </el-header>
-        <el-main>
+        <el-main style="overflow:-Scroll;overflow-y:hidden">
             <el-form :inline="true" align="left" class="padding-10-0">
               <el-button style="vertical-align:middle;margin-left:15px;" v-on:click="clickSearch()" inline-block><i class="el-icon-zoom-in">搜索</i></el-button>
               <el-form-item>
@@ -62,7 +62,7 @@
             <div class="c-search-table beauty-Scroll">
               <el-scrollbar>
                 <template>
-                  <el-tabs style="margin-top:15px;" v-model="activeName" type="card" @tab-click="handleClick">
+                  <el-tabs style="margin-top:3px;" v-model="activeName" type="card" @tab-click="handleClick">
                     <el-tab-pane label="男性角色关卡" name="first">
                       <MessageList v-bind:messageList="messageListMale" v-on:RefreshMsg="this.$forceUpdate()"/>
                     </el-tab-pane>
