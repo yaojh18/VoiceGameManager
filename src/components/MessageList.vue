@@ -1,7 +1,7 @@
 <template>
   <div id="message-list">
     <!--请修改这两行注释中间的代码，达到用多个MessageBlock来展示messageList数据的效果-->
-    <ul v-for="message in messageList" :key="message.id" @posttext="modify($msg)">
+    <ul v-for="message in messageList" :key="message.id" @posttext="modify($msg)" style="margin:0px;border-radius:50px">
       <MessageBlock v-bind:title="message.title" v-bind:level_id="message.level_id"
       v-bind:id="message.id" v-bind:timestamp="message.timestamp" v-on:closeclicked="uploadMsgtoBoard('close')"
       v-on:editclicked="uploadMsgtoBoard('edit')" v-on:detailclicked="uploadMsgtoBoard('detail')" />

@@ -1,16 +1,16 @@
 <template>
 <div id="message-board" style="overflow:-Scroll;overflow-y:hidden">
     <el-container style="height:100%; border: 0px solid #eee">
-        <el-header style="font-size: 10px;background-color:#87CEFA">
-              <el-button style="display: inline-block;margin-right: 15px;" v-on:click="getListMsg()">
+        <el-header style="height:55px;font-size:10px;background-color:#87CEFA">
+              <el-button size="mini" style="display: inline-block;margin-right: 15px;" v-on:click="getListMsg()">
             <i class="el-icon-refresh">刷新</i>
           </el-button>
-          <el-button style="display: inline-block;margin-right: 15px;text-decoration:None" v-on:click="this.$router.push({path:'/data'})">
+          <el-button size="mini" style="display: inline-block;margin-right: 15px;text-decoration:None" v-on:click="this.$router.push({path:'/data'})">
                 <router-link style="text-decoration:None" to='/data' >数据界面</router-link>
             </el-button>
           <el-dropdown style="align:right;display: inline-block; text-align:right; margin-right:3px; " class="avatar-container" trigger="click" >
             <div class="avatar-wrapper">
-              <el-button type="primary" size="medium" v-model="usernameLogged"  v-bind="usernameLogged"
+              <el-button size="mini" type="primary" v-model="usernameLogged"  v-bind="usernameLogged"
                          v-on:updateName="console.log('updateMsg');this.usernameLogged=localStorage.getItem('token');">
                 <i class="el-icon-s-custom"/>
                 {{usernameLogged}}
@@ -42,35 +42,59 @@
           </el-dropdown>
         </el-header>
         <el-main style="overflow:-Scroll;overflow-y:hidden">
-            <el-form :inline="true" align="left" class="padding-10-0">
-              <el-button style="vertical-align:middle;margin-left:15px;" v-on:click="clickSearch()" inline-block><i class="el-icon-zoom-in">搜索</i></el-button>
+            <el-form :inline="true" align="left" style="margin:1px auto;padding:0px">
+              <el-button size="mini" style="vertical-align:middle;margin-left:15px;" v-on:click="clickSearch()" inline-block><i class="el-icon-zoom-in">搜索</i></el-button>
               <el-form-item>
-                  <el-button style="display:block;margin-left:5px" v-on:click="searchSelection=1;searchKey='关键词搜索';this.enabled=true">关键词搜索</el-button>
-                  <el-input style="vertical-align:middle;width:200px;margin-left:15px;" inline-block v-model="searchTmp" placeholder="输入搜索信息"></el-input>
+                  <el-button size="mini" style="display:block;margin-left:5px" v-on:click="searchSelection=1;searchKey='关键词搜索';this.enabled=true">关键词搜索</el-button>
+                  <el-input size="mini" style="vertical-align:middle;width:200px;margin-left:15px;" inline-block v-model="searchTmp" placeholder="输入搜索信息"></el-input>
               </el-form-item><el-form-item>
-                  <el-button style="display:block;" v-on:click="searchSelection=2;searchKey='数据搜索';this.enabled=true">数据搜索</el-button>
-                  <el-input style="vertical-align:middle;width:200px;margin-left:15px;" inline-block v-model="searchTmpId" placeholder="输入搜索信息"></el-input>
+                  <el-button size="mini" style="display:block;" v-on:click="searchSelection=2;searchKey='数据搜索';this.enabled=true">数据搜索</el-button>
+                  <el-input size="mini" style="vertical-align:middle;width:200px;margin-left:15px;" inline-block v-model="searchTmpId" placeholder="输入搜索信息"></el-input>
             </el-form-item><el-form-item>
-                  <el-button style="display:block;" v-on:click="searchSelection=3;searchKey='关卡搜索';this.enabled=true">关卡搜索</el-button>
-                  <el-input style="vertical-align:middle;width:200px;margin-left:15px;" inline-block v-model="searchTmpLevelId" placeholder="输入搜索信息"></el-input>
+                  <el-button size="mini" style="display:block;" v-on:click="searchSelection=3;searchKey='关卡搜索';this.enabled=true">关卡搜索</el-button>
+                  <el-input size="mini" style="vertical-align:middle;width:200px;margin-left:15px;" inline-block v-model="searchTmpLevelId" placeholder="输入搜索信息"></el-input>
             </el-form-item>
-              <el-radio style="margin-left:1px;" v-model="radioTypeId" label="1" border>全局搜索</el-radio>
-              <el-radio v-model="radioTypeId" label="2" border>非全局搜索</el-radio>
-              <el-button style="margin-left:15px;align:right" v-on:click="Add.dialogVisible=true"><i class="el-icon-plus">增加</i></el-button>
+              <el-radio size="mini" style="margin-left:1px;" v-model="radioTypeId" label="1" border>全局搜索</el-radio>
+              <el-radio size="mini" v-model="radioTypeId" label="2" border>非全局搜索</el-radio>
+              <el-button size="mini" style="margin-left:15px;align:right" v-on:click="Add.dialogVisible=true"><i class="el-icon-plus">增加</i></el-button>
             </el-form>
           <div class="c-content">
             <div class="c-search-table beauty-Scroll">
               <el-scrollbar>
                 <template>
-                  <el-tabs style="margin-top:3px;" v-model="activeName" type="card" @tab-click="handleClick">
-                    <el-tab-pane label="男性角色关卡" name="first">
-                      <MessageList v-bind:messageList="messageListMale" v-on:RefreshMsg="this.$forceUpdate()"/>
+                  <el-tabs style="margin-top:3px;font-size:12px" v-model="activeName" type="card" @tab-click="handleClick">
+                    <el-tab-pane size="mini" label="男性角色关卡" name="first">
+                      <MessageList v-bind:messageList="messageListMalePart" v-on:RefreshMsg="this.$forceUpdate()"/>
+                      <el-pagination
+                          id="pag1"
+                          small
+                          layout="prev, pager, next"
+                          :page-size="4"
+                          @current-change="handleCurrentChangepag1"
+                          :total="listMaleCnt">
+                      </el-pagination>
                     </el-tab-pane>
-                    <el-tab-pane label="女性角色关卡" name="second">
-                          <MessageList v-bind:messageList="messageListFemale" v-on:RefreshMsg="this.$forceUpdate()"/>
-                     </el-tab-pane>
-                    <el-tab-pane label="未知关卡" name="third">
-                      <MessageList v-bind:messageList="messageListUnknown" v-on:RefreshMsg="this.$forceUpdate()"/>
+                    <el-tab-pane size="mini" label="女性角色关卡" name="second">
+                          <MessageList v-bind:messageList="messageListFemalePart" v-on:RefreshMsg="this.$forceUpdate()"/>
+                      <el-pagination
+                          id="pag2"
+                          small
+                          layout="prev, pager, next"
+                          :page-size="4"
+                          @current-change="handleCurrentChangepag2"
+                          :total="listFemaleCnt">
+                      </el-pagination>
+                    </el-tab-pane>
+                    <el-tab-pane size="mini" label="未知关卡" name="third">
+                      <MessageList v-bind:messageList="messageListUnknownPart" v-on:RefreshMsg="this.$forceUpdate()"/>
+                      <el-pagination
+                          id="pag3"
+                          small
+                          layout="prev, pager, next"
+                          :page-size="4"
+                          @current-change="handleCurrentChangepag3"
+                          :total="listUnknownCnt">
+                      </el-pagination>
                     </el-tab-pane>
                   </el-tabs>
                 </template>
@@ -78,7 +102,9 @@
             </div>
           </div>
         </el-main>
-        <el-footer style="background-color:#87CEFA">@DIJKSTRA</el-footer>
+        <el-footer style="margin:5px;vertical-align:center;background-color:#87CEFA;height:37px;font-size:12px">
+          <br>@DIJKSTRA
+        </el-footer>
     </el-container>
     <ModifyPerson v-bind:dialog-visible="ModifyPerson.dialogVisible"
                   v-on:cancelModifyPerson="ModifyPerson.dialogVisible=false"
@@ -127,7 +153,6 @@
 </template>
 <script>
 import MessageList from "@/components/MessageList"
-import PostDialog from "@/components/PostDialog"
 import Login from "@/components/Login"
 import Register from "@/components/Register"
 import Modify from "@/components/Modify"
@@ -284,9 +309,15 @@ export default {
             messageListMale: [],
             messageListFemale: [],
             messageListUnknown: [],
+            messageListMalePart: [],
+            messageListFemalePart: [],
+            messageListUnknownPart: [],
             infoList: [],
             usernameLogged: "unknown",
             searchSelection: 1,
+            listMaleCnt:0,
+            listFemaleCnt:0,
+            listUnknownCnt:0,
           data:[{
             id: 1,
             label: "1",
@@ -493,7 +524,9 @@ export default {
               return res;
             }).then((itemList)=>{
               itemList = itemList["results"];
+              this.listMaleCnt = 0;
               for (const Item of itemList) {
+                this.listMaleCnt += 1;
                 this.messageListMale.push({
                   "title": Item['title'],
                   "id": Item['id'],
@@ -501,6 +534,8 @@ export default {
                   "timestamp": new Date().getTime()
                 });
               }
+              console.log(this.listMaleCnt);
+              this.messageListMalePart = this.messageListMale.slice(0,4);
             });
             getList(2).then((res)=>{
               if(res != undefined){
@@ -512,7 +547,9 @@ export default {
             }).then((itemList)=>{
               itemList = itemList["results"];
               console.log(itemList);
+              this.listFemaleCnt = 0;
               for (const Item of itemList) {
+                this.listFemaleCnt += 1;
                 this.messageListFemale.push({
                   "title": Item['title'],
                   "id": Item['id'],
@@ -520,7 +557,8 @@ export default {
                   "timestamp": new Date().getTime()
                 });
               }
-              })
+              this.messageListFemalePart = this.messageListFemale.slice(0,4);
+            })
             getList(0).then((res)=>{
               if(res != undefined){
                 this.$message("拉取数据成功");
@@ -531,7 +569,9 @@ export default {
             }).then((itemList)=> {
               itemList = itemList["results"];
               console.log(itemList);
+              this.listUnknownCnt = 0;
               for (const Item of itemList) {
+                  this.listUnknownCnt += 1;
                   this.messageListUnknown.push({
                     "title": Item['title'],
                     "id": Item['id'],
@@ -539,7 +579,18 @@ export default {
                     "timestamp": new Date().getTime()
                   });
                 }
+              this.messageListUnknownPart = this.messageListUnknown.slice(0,4);
             });
+            console.log(this.messageListMalePart);
+        },
+        handleCurrentChangepag1(val){
+            this.messageListMalePart = this.messageListMale.slice((val-1)*4,val*4);
+        },
+        handleCurrentChangepag2(val){
+            this.messageListFemalePart = this.messageListFemale.slice((val-1)*4,val*4);
+        },
+        handleCurrentChangepag3(val){
+            this.messageListUnknownPart = this.messageListUnknown.slice((val-1)*4,val*4);
         },
         PwdModify(){
             this.ModifyPwd.dialogVisible = true;
@@ -583,7 +634,7 @@ export default {
 
 .message-tab {
     display: block;
-    padding: 10px;
+    padding: 3px;
     text-align: left;
 }
 
@@ -616,7 +667,6 @@ export default {
 .el-footer {
     background-color: #B3C0D1;
     color: #333;
-    line-height: 60px;
 }
 
 .el-aside {
@@ -648,7 +698,7 @@ a {
         color: red;
         font-size: 14px;
         line-height: 20px;
-        margin: 5px auto;
+        margin: 2px auto;
       }
       .el-form-item{
         margin: 0;

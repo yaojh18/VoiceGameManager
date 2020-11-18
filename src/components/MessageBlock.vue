@@ -1,13 +1,13 @@
 <template>
   <div>
-    <el-menu :default-openeds="[]" style="background: #98DFFF;border-radius: 0px;margin: 0px" :visible.sync="dialogVisible">
+    <el-menu :default-openeds="[]" style="background: #f3f3ff;border-radius: 0px;margin: 0px" :visible.sync="dialogVisible">
        <el-submenu index="view" style="text-align: left">
             <template slot="title" ><i class="el-icon-chat-square"/>
                 <span class="messageblock-title" >title: {{ title }}</span>
-                <el-button style="margin:1px;padding:4px;align:right;background-color: #87CEFA;" @click="editBlock();$emit('editclicked','');"><i class="el-icon-edit"></i></el-button>
-                <el-button style="margin:1px;padding:4px;align:right;background-color: #87CEFA;" @click="detailBlock();$emit('detailclicked','');"><i class="el-icon-zoom-in"></i></el-button>
+                <el-button style="margin:1px;padding:4px;align:right;background-color: #f3f3ff;" @click="editBlock();$emit('editclicked','');"><i class="el-icon-edit"></i></el-button>
+                <el-button style="margin:1px;padding:4px;align:right;background-color: #f3f3ff;" @click="detailBlock();$emit('detailclicked','');"><i class="el-icon-zoom-in"></i></el-button>
             </template>
-            <div style="display:flex; margin-top: 3px; font-size: small;color: grey">
+            <div style="display:flex; margin-top: 2px; font-size: small;color: grey">
                 <span class="messageblock-datetime" style="padding: 4px;">
                 datetime: {{ datetime }}
                 </span>
@@ -196,7 +196,7 @@ import {searchBackId2,DataSingleSearch} from "@/utils/communication.js"
     .messageblock-content{
         display: flex;
         color: #090607;
-        padding-bottom: 10px;
+        padding-bottom: 0px;
         font-size: large
     }
 
