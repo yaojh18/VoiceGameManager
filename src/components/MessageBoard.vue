@@ -456,6 +456,7 @@ export default {
                 console.log(r);
                 r = r.results;
                 for ( const item of r){
+                  this.listUnknownCnt += 1;
                   if(item.type_id == 0){
                     this.messageListUnknown.push({
                       'level_id': item.level_id,
@@ -464,7 +465,9 @@ export default {
                       'type_id':item.type_id,
                       'timestamp':new Date().getTime(),
                     });
+                    this.messageListUnknownPart = this.messageListUnknown.slice(0,4);
                   }else if(item.type_id == 1){
+                    this.listMaleCnt += 1;
                     this.messageListMale.push({
                       'level_id': item.level_id,
                       'title': item.title,
@@ -472,7 +475,9 @@ export default {
                       'type_id':item.type_id,
                       'timestamp':new Date().getTime(),
                     });
+                    this.messageListMalePart = this.messageListMale.slice(0,4);
                   }else if(item.type_id == 2){
+                    this.listFemaleCnt += 1;
                     this.messageListFemale.push({
                       'level_id': item.level_id,
                       'title': item.title,
@@ -480,6 +485,7 @@ export default {
                       'type_id':item.type_id,
                       'timestamp':new Date().getTime(),
                     });
+                    this.messageListFemalePart = this.messageListFemale.slice(0,4);
                   }
                 }
               });

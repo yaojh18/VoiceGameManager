@@ -15,4 +15,4 @@ COPY --from=0 /app/dist /app
 ENV SERVER_PORT 80
 EXPOSE 80
 
-CMD ["sh","run.sh"]
+# CMD ["sh","run.sh"]
