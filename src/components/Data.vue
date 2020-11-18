@@ -20,9 +20,8 @@
                 :class="isCollapse ? 'app-side-collapsed' : 'app-side-expanded'">
          <div class="app-side-logo">
             <el-button v-on:click="changehtml()">
-          <el-image src="@/assets/logo.png"
-               :width="isCollapse ? '60' : '60'"
-               height="60" /></el-button>
+              返回主界面
+          </el-button>
         </div>
         <div>
           <el-menu default-active="1-4-1"
@@ -38,30 +37,12 @@
                 <span slot="title">数据处理</span>
                 <el-menu-item index="1-1">增加</el-menu-item>
                 <el-menu-item index="1-2">修改</el-menu-item>
-                <el-menu-item index="1-3">删除</el-menu-item>
-                <el-menu-item index="1-4">查询</el-menu-item>
+                <el-menu-item index="1-3">查询</el-menu-item>
               </el-menu-item-group>
               <el-menu-item-group title="数据展示">
                 <el-menu-item index="1-4">数据展示图表</el-menu-item>
               </el-menu-item-group>
-              <el-submenu index="1-5">
-                <span slot="title">选项4</span>
-                <el-menu-item index="1-5-1">选项1</el-menu-item>
-              </el-submenu>
             </el-submenu>
-            <el-menu-item index="2">
-              <i class="el-icon-menu"></i>
-              <span slot="title">导航二</span>
-            </el-menu-item>
-            <el-menu-item index="3"
-                          disabled>
-              <i class="el-icon-document"></i>
-              <span slot="title">导航三</span>
-            </el-menu-item>
-            <el-menu-item index="4">
-              <i class="el-icon-setting"></i>
-              <span slot="title">导航四</span>
-            </el-menu-item>
           </el-menu>
         </div>
       </el-aside>
@@ -72,49 +53,7 @@
             <i v-show="!isCollapse" class="el-icon-d-arrow-left"></i>
             <i v-show="isCollapse" class="el-icon-d-arrow-right"></i>
           </div>
-          <!-- 我是样例菜单 -->
-          <el-menu default-active="1"
-                   class="el-menu-demo tab-page"
-                   mode="horizontal"
-                   @select="handleSelect"
-                   active-text-color="#409EFF">
-            <el-menu-item index="1">处理中心</el-menu-item>
-            <el-submenu index="2">
-              <template slot="title">我的工作台</template>
-              <el-menu-item index="2-1">选项1</el-menu-item>
-              <el-menu-item index="2-2">选项2</el-menu-item>
-              <el-menu-item index="2-3">选项3</el-menu-item>
-              <el-submenu index="2-4">
-                <template slot="title">选项4</template>
-                <el-menu-item index="2-4-1">选项1</el-menu-item>
-                <el-menu-item index="2-4-2">选项2</el-menu-item>
-                <el-menu-item index="2-4-3">选项3</el-menu-item>
-              </el-submenu>
-            </el-submenu>
-            <el-menu-item index="3"
-                          disabled>消息中心</el-menu-item>
-            <el-menu-item index="4">
-              <a href="#">数据管理</a>
-            </el-menu-item>
-          </el-menu>
-
-          <div class="app-header-userinfo">
-            <el-dropdown trigger="hover"
-                         :hide-on-click="false">
-              <span class="el-dropdown-link">
-                {{ username }}
-                <i class="el-icon-arrow-down el-icon--right"></i>
-              </span>
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item>我的消息</el-dropdown-item>
-                <el-dropdown-item>设置</el-dropdown-item>
-                <el-dropdown-item divided
-                                  @click.native="logout">退出登录</el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown>
-          </div>
         </el-header>
-
         <el-main class="app-body">
           <template>
             <el-tabs type="border-card" style="margin-top:15px">
@@ -131,7 +70,8 @@
                       placement="right"
                       width="400"
                       trigger="click">
-                    <div style="width:50%;height:200px;" :id="echarts" class="echarts"  ref="echarts"></div>
+                    <div style="width:100%;height:200px;" id="user" class="user"  ref="user"></div>
+                    <div style="width:100%;height:200px;" id="score" class="score"  ref="score"></div>
                     <el-table :data="videoData">
                       <el-table-column width="150" property="female_num" label="女性数量"></el-table-column>
                       <el-table-column width="100" property="female_score_average" label="女性平均得分"></el-table-column>
@@ -162,7 +102,7 @@
                       placement="right"
                       width="500"
                       trigger="click">
-                    <div style="width:150%;height:100%;" :id="echarts" class="echarts"  ref="echarts"></div>
+                    <div style="width:100%;height:200px" id="echart2" class="echarts"  ref="echarts"></div>
                     <el-table :data="UserData">
                       <el-table-column width="150" property="user" label="用户"></el-table-column>
                       <el-table-column width="100" property="gender" label="性别"></el-table-column>
@@ -377,7 +317,15 @@ export default {
       username: '',
       isCollapse: false,
       labelPosition: '',
-      activeName: '1'
+      activeName: '1',
+      videoavScores:[],
+      videomScores:[],
+      videofScores:[],
+      videouScores:[],
+      videoNum:[],
+      videofNum:[],
+      videouNum:[],
+      videomNum:[],
     }
   },
   methods: {
@@ -402,12 +350,20 @@ export default {
            console.log(res.body);
            return res.json();
          }).then((r)=>{
-           //console.log(r);
+           r=r["results"];
            for(const it of r){
-             this.videoData.push(it);
+             console.log(it);
+             this.videoavScores.push(it["score_average"]);
+             this.videomScores.push(it["male_score_average"]);
+             this.videofScores.push(it["female_score_average"]);
+             this.videouScores.push(it["unknown_score_average"]);
+             this.videoNum.push(it["played_num"]);
+             this.videomNum.push(it["male_num"]);
+             this.videofNum.push(it["female_num"]);
+             this.videouNum.push(it["unknown_num"]);
            }
-           console.log(this.videoData);
          });
+         this.drawChart();
     },
     dataUserSearch(){
          console.log(this.UserGender);
@@ -463,16 +419,44 @@ export default {
 
     },
     drawChart () {
-      // 基于准备好的dom，初始化echarts实例
-      let myChart =echarts.init(document.getElementById(this.echarts))
-      // 绘制图表
-      myChart.setOption({
+      let myChart1 =echarts.init(document.getElementById("user"))
+      myChart1.setOption({
         title: {
           text: '关卡统计'
         },
         tooltip: {},
         xAxis: {
-          data: [1,2,3,4,5,6]
+          data: this.videoavScores,
+        },
+        yAxis: {},
+        series: [
+          {
+            name: '总平均分',
+            type: 'line',
+            data: this.videoavScores,
+          },{
+            name: '男性平均分',
+            type:'line',
+            data: this.videomScores,
+          },{
+            name: '女性平均分',
+            type: 'line',
+            data: this.videofScores,
+          },{
+            name: '未知性别平均分',
+            type: 'line',
+            data: this.videouScores,
+          }
+        ]
+      });
+      let myChart2 =echarts.init(document.getElementById("scores"))
+      myChart2.setOption({
+        title: {
+          text: '关卡统计'
+        },
+        tooltip: {},
+        xAxis: {
+          data: ["1","2","3","4","5","6"]
         },
         yAxis: {},
         series: [
@@ -482,7 +466,7 @@ export default {
             data: [1,2,3,4,5,6],
           }
         ]
-      })
+      });
     },
     drawMultiple(){
       // 基于准备好的dom，初始化echarts实例
