@@ -1,29 +1,31 @@
 <template>
   <div>
-    <el-menu :default-openeds="[]" style="background: #f3f3ff;border-radius: 0px;margin: 0px" :visible.sync="dialogVisible">
-       <el-submenu index="view" @click="handleOpen" style="text-align: left">
-            <template slot="title" @click="handleOpen"><i class="el-icon-chat-square" @click="handleOpen"/>
+    <el-menu :default-openeds="[]" @open="handleOpen" style="background: #f3f3ff;border-radius: 0px;margin: 0px" :visible.sync="dialogVisible">
+       <el-submenu index="view"  @open="handleOpen" style="text-align: left">
+            <template slot="title" ><i class="el-icon-chat-square" @click="handleOpen"/>
               <span class="messageblock-title" ><span class="messageblock-user" style="padding: 4px;"><strong>{{ level_id }}</strong></span> | {{ title }} </span>
                 <el-button style="margin:1px;padding:4px;align:right;background-color: #f3f3ff;" @click="editBlock();$emit('editclicked','');"><i class="el-icon-edit"></i></el-button>
                 <el-button style="margin:1px;padding:4px;align:right;background-color: #f3f3ff;" @click="detailBlock();$emit('detailclicked','');"><i class="el-icon-zoom-in"></i></el-button>
             </template>
-            <p style="height:60px" >{{ content }}</p>
+            <p style="height:60px" ><strong >"</strong> {{ content }} <strong>"</strong></p>
             <audio controls="controls"
                   autoplay="autoplay"
                   class="audio"
                   width="90%"
                   loop="loop"
+                   ref="audio"
+                   :src="audio_path"
                   style="border-radius:10px;margin:3px;">
-             <source :src="audio_path"/>
            </audio>
            <video controls="controls"
                   autoplay="autoplay"
                   class="video"
                   width="90%"
                   loop="loop"
+                  ref="video"
+                  :src="video_path"
                   style="border-radius:10px;margin:3px"
            >
-             <source :src="video_path"/>
            </video>
        </el-submenu>
     </el-menu>
@@ -137,31 +139,23 @@ import {searchBackId2,DataSingleSearch} from "@/utils/communication.js"
             }
           }
         },
-         created: function(){
-        this.searchBackId2(this.id).then((res) => {
-  if (res.status == 200 || res.status == 201) {
-    this.$message("拉取成功");
-  } else {
-    this.$message("拉取失败");
-  }
-  return res.json();
-}).then((r) => {
-  console.log(r);
-  this.Modify.form.type_id = Number(r["type_id"]);
-  this.Modify.form.title = r["title"];
-  this.Modify.form.content = r["content"];
-  this.Modify.form.id = Number(r["id"]);
-  this.Modify.form.audio_path = r['audio_path'];
-  this.Modify.form.video_path = r['video_path'];
-  console.log(this.Modify.form.video_path);
-  console.log(this.Modify.form.audio_path);
-});
-this.Modify.form.level_id = this.level_id;
-console.log(this.Modify.form.audio_path);
-console.log(this.Modify.form.video_path);
-this.Modify.dialogVisible = true;
-console.log(this.Modify.dialogVisible);
-},
+      mounted: function(){
+          let that = this;
+          searchBackId2(that.id).then((res) => {
+            return res.json();
+          }).then((r) => {
+            console.log("mounted");
+            console.log(r);
+            that.type_id = Number(r["type_id"]);
+            that.title = r["title"];
+            that.content = r["content"];
+            that.form.content = r["content"];
+            that.audio_path = r.audio_path;
+            that.video_path = r.video_path;
+            that.form.audio_path = r.audio_path;
+            that.form.video_path = r.video_path;
+        });
+         },
         computed:{
             datetime:function () {
                 var d = new Date()
@@ -183,26 +177,22 @@ console.log(this.Modify.dialogVisible);
               return res.json();
             }).then((r)=> {
                   console.log(r);
-                  this.Modify.form.type_id = Number(r["type_id"]);
-                  this.Modify.form.title = r["title"];
-                  this.Modify.form.content = r["content"];
-                  this.Modify.form.id = Number(r["id"]);
-                  this.Modify.form.audio_path = r['audio_path'];
-                  this.Modify.form.video_path = r['video_path'];
-                  console.log(this.Modify.form.video_path);
-                  console.log(this.Modify.form.audio_path);
               });
-            this.Modify.form.level_id = this.level_id;
-            console.log(this.Modify.form.audio_path);
-            console.log(this.Modify.form.video_path);
             this.Modify.dialogVisible = true;
-            console.log(this.Modify.dialogVisible);
-            //this.video.$emit("senddata()",{this.form.video_path,this.form.audio_path});
           },
           handleOpen(){
-             console.log("handleopen");
-             this.detailBlock();
-             this.Chart.DialogVisible = false;
+            let that = this;
+            searchBackId2(that.id).then((res) => {
+              return res.json();
+            }).then((r) => {
+              that.type_id = Number(r["type_id"]);
+              that.title = r["title"];
+              that.content = r["content"];
+              that.audio_path = r.audio_path;
+              that.video_path = r.video_path;
+              that.$refs.audio.play();
+              that.$refs.video.play();
+            });
           },
           detailBlock(){
             console.log("hello world");

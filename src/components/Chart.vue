@@ -28,7 +28,7 @@ name: "Chart",
       },
       female_Scores:{
         type:Array,
-        default:()=>0
+        default:()=>[]
       },
       unknown_Num:{
         type:Number,
@@ -36,7 +36,7 @@ name: "Chart",
       },
       unknown_Scores:{
         type:Array,
-        default:()=>0
+        default:()=>[]
       },
       male_Num:{
         type:Number,
@@ -44,7 +44,7 @@ name: "Chart",
       },
       male_Scores:{
         type:Array,
-        default:()=>0
+        default:()=>[]
       },
       female_Score_Average:{
         type:Number,

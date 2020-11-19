@@ -41,7 +41,7 @@
             </div>
           </el-dropdown>
         </el-header>
-        <el-main style="overflow:-Scroll;overflow-y:hidden">
+        <el-main >
             <el-form :inline="true" align="left" style="margin:1px auto;padding:0px">
               <el-button size="mini" style="vertical-align:middle;margin-left:15px;" v-on:click="clickSearch()" inline-block><i class="el-icon-zoom-in">搜索</i></el-button>
               <el-form-item>
@@ -129,8 +129,6 @@
             v-on:closeLogout="Logout.dialogVisible=false"
             v-on:logoutfunc="Logout.dialogVisible=false;logoutFuncCalled()"
             />
-    <Modify v-bind:dialog-visible="Modify.dialogVisible"
-            v-on:closeModify="Modify.dialogVisible = false;"/>
     <Delete v-bind:dialog-visible="Delete.dialogVisible"
             v-on:DeleteCalledAgain="({data_id})=>DeleteFuncCalled(data_id)"
             v-on:closeDelete="Delete.dialogVisible=false"/>
@@ -152,7 +150,6 @@
 import MessageList from "@/components/MessageList"
 import Login from "@/components/Login"
 import Register from "@/components/Register"
-import Modify from "@/components/Modify"
 import Delete from "@/components/Delete"
 import Logout from "@/components/Logout"
 import ModifyPwd from "@/components/ModifyPwd"
@@ -174,7 +171,6 @@ export default {
         MessageList,
         Register,
         Login,
-        Modify,
         infoPerson,
         Delete,
         Logout,
@@ -259,15 +255,6 @@ export default {
                     usernameRegister: "",
                     password: "",
                     password2: ""
-                }
-            },
-            Modify: {
-                dialogVisible:false,
-                form:{
-                    title: "",
-                    content: "",
-                    ID: 0,
-                    dataId:0,
                 }
             },
             Delete:{
@@ -498,9 +485,6 @@ export default {
                 }
               });
             }
-        },
-        changeModify(){
-          this.Modify.dialogVisible = true;
         },
         changeDelete(){
           this.Delete.dialogVisible = true;

@@ -33,26 +33,29 @@
       <el-form-item>
         <label>上传音频   </label>
         <input type="file" @change="getFile($event,'audio_path')"/>
+        <br>
         <audio controls="controls"
                autoplay="autoplay"
                class="audio"
                width="90%"
                loop="loop"
+               id="playaudio"
                style="border-radius:10px;margin:3px;">
-            <source :src="audio_path"/>
+            <source id="srcaudio" :src="audio_path"/>
         </audio>
       </el-form-item>
-      <el-form-item >
-        <label>上传视频   </label>
+      <el-form-item label="上传视频">
         <input type="file" @change="getFile($event,'video_path')"/>
+        <br>
         <video controls="controls"
                autoplay="autoplay"
                class="video"
                width="90%"
                loop="loop"
+               id="playvideo"
                style="border-radius:10px;margin:3px"
                >
-          <source :src="video_path"/>
+          <source id="srcvideo" :src="video_path"/>
         </video>
       </el-form-item>
       <button @click=submittt($event)>OK</button>
@@ -120,34 +123,49 @@ export default({
   created: function(){
   },
   mounted: function(){
+    let that = this;
     searchBackId2(this.id).then((res)=>{
-      if(res.status == 200 || res.status == 201){
-        this.$message("拉取成功");
-      }else{
-        this.$message("拉取失败");
-      }
       return res.json();
     }).then((r)=> {
       console.log(r);
-      this.form.type_id = Number(r["type_id"]);
-      this.form.title = r["title"];
-      this.form.content = r["content"];
-      this.form.id = Number(r["id"]);
-      this.form.audio_path = r['audio_path'];
-      this.form.video_path = r['video_path'];
-      console.log(this.form.video_path);
-      console.log(this.form.audio_path);
+      that.form.type_id = Number(r["type_id"]);
+      that.form.title = r["title"];
+      that.form.content = r["content"];
+      that.form.id = Number(r["id"]);
+      that.form.audio_path = r['audio_path'];
+      that.form.video_path = r['video_path'];
+      that.audio_path = r['audio_path'];
+      that.video_path = r['video_path'];
     });
     this.form.level_id = this.level_id;
+    console.log("created");
     console.log(this.form.audio_path);
     console.log(this.form.video_path);
-    this.dialogVisible = true;
-    console.log(this.dialogVisible);
+    this.video_path = this.form.video_path;
+    this.audio_path = this.form.audio_path;
   },
   methods: {
     open(){
-      console.log(this.video_path);
-      console.log(this.audio_path);
+      let that = this;
+      searchBackId2(this.id).then((res)=>{
+        return res.json();
+      }).then((r)=> {
+        console.log(r);
+        that.form.type_id = Number(r["type_id"]);
+        that.form.title = r["title"];
+        that.form.content = r["content"];
+        that.form.id = Number(r["id"]);
+        that.form.audio_path = r['audio_path'];
+        that.form.video_path = r['video_path'];
+        that.audio_path = r['audio_path'];
+        that.video_path = r['video_path'];
+      });
+      this.form.level_id = this.level_id;
+      console.log("created");
+      console.log(this.form.audio_path);
+      console.log(this.form.video_path);
+      this.video_path = this.form.video_path;
+      this.audio_path = this.form.audio_path;
     },
     getFile(e, input_file_name) {
       console.log(input_file_name);
