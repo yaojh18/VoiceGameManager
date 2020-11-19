@@ -85,10 +85,17 @@ export default {
       document.cookie = `user=${usernameLogin}`;
       login(usernameLogin, password).then((res)=> {
             if (res.status == 200 || res.status == 201) {
-              this.$message('已登录');
+              this.$message({
+                message:'已登录',
+                duration:2000,
+              });
               this.$router.push({path:'home'});
             } else {
-              this.$message('登录失败');
+              this.$message(
+                  {
+                    message: '登录失败',
+                    duration: 2000,
+                  });
             }
             return res.json();
           }

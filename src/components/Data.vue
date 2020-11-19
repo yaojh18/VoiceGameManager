@@ -118,13 +118,6 @@
            </div>
       </el-aside>
       <el-container>
-        <el-header class="app-header">
-          <div style="width: 60px; cursor: pointer;"
-               @click.prevent="toggleSideBar">
-            <i v-show="!isCollapse" class="el-icon-d-arrow-left"></i>
-            <i v-show="isCollapse" class="el-icon-d-arrow-right"></i>
-          </div>
-        </el-header>
         <el-main class="app-body">
           <template>
             <div id="data_origin" ref="data_origin" class="data_origin"></div>

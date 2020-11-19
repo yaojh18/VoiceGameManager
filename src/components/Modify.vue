@@ -35,7 +35,6 @@
         <input type="file" @change="getFile($event,'audio_path')"/>
         <br>
         <audio controls="controls"
-               autoplay="autoplay"
                class="audio"
                width="90%"
                loop="loop"
@@ -48,7 +47,6 @@
         <input type="file" @change="getFile($event,'video_path')"/>
         <br>
         <video controls="controls"
-               autoplay="autoplay"
                class="video"
                width="90%"
                loop="loop"

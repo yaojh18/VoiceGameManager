@@ -1,15 +1,15 @@
 <template>
   <div>
-    <el-menu :default-openeds="[]" @open="handleOpen" style="background: #f3f3ff;border-radius: 0px;margin: 0px" :visible.sync="dialogVisible">
-       <el-submenu index="view"  @open="handleOpen" style="text-align: left">
-            <template slot="title" ><i class="el-icon-chat-square" @click="handleOpen"/>
+    <el-menu :default-openeds="[]" @open="handleOpen" @close="handleClose"
+             style="background: #f3f3ff;border-radius: 0px;margin: 0px" :visible.sync="dialogVisible">
+       <el-submenu index="view" style="text-align: left">
+            <template slot="title" ><i class="el-icon-chat-square"/>
               <span class="messageblock-title" ><span class="messageblock-user" style="padding: 4px;"><strong>{{ level_id }}</strong></span> | {{ title }} </span>
                 <el-button style="margin:1px;padding:4px;align:right;background-color: #f3f3ff;" @click="editBlock();$emit('editclicked','');"><i class="el-icon-edit"></i></el-button>
                 <el-button style="margin:1px;padding:4px;align:right;background-color: #f3f3ff;" @click="detailBlock();$emit('detailclicked','');"><i class="el-icon-zoom-in"></i></el-button>
             </template>
-            <p style="height:60px" ><strong >"</strong> {{ content }} <strong>"</strong></p>
+            <p style="height:60px;font-size:15px" ><strong >"</strong> {{ content }} <strong>"</strong></p>
             <audio controls="controls"
-                  autoplay="autoplay"
                   class="audio"
                   width="90%"
                   loop="loop"
@@ -18,7 +18,6 @@
                   style="border-radius:10px;margin:3px;">
            </audio>
            <video controls="controls"
-                  autoplay="autoplay"
                   class="video"
                   width="90%"
                   loop="loop"
@@ -190,9 +189,13 @@ import {searchBackId2,DataSingleSearch} from "@/utils/communication.js"
               that.content = r["content"];
               that.audio_path = r.audio_path;
               that.video_path = r.video_path;
-              that.$refs.audio.play();
-              that.$refs.video.play();
+              //that.$refs.audio.play();
+              //that.$refs.video.play();
             });
+          },
+          handleClose(){
+            this.$refs.audio.stop();
+            this.$refs.video.stop();
           },
           detailBlock(){
             console.log("hello world");

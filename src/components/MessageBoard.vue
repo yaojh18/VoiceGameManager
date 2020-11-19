@@ -513,10 +513,18 @@ export default {
             console.log("getListMsg");
             getList(1).then((res)=>{
               if(res != undefined){
-                this.$message("拉取数据成功");
+                this.$message(
+                    {
+                      message: "拉取数据成功",
+                      duration: 2000,
+                    }
+               );
               }else{
-                this.$message("拉取数据失败");
-              }
+                this.$message({
+                  message: "拉取数据失败",
+                  duration: 2000,
+
+              });}
               console.log(res);
               return res;
             }).then((itemList)=>{
@@ -537,11 +545,6 @@ export default {
               this.messageListMalePart = this.messageListMale.slice(0,4);
             });
             getList(2).then((res)=>{
-              if(res != undefined){
-                this.$message("拉取数据成功");
-              }else{
-                this.$message("拉取数据失败");
-              }
               return res;
             }).then((itemList)=>{
               itemList = itemList["results"];
@@ -560,11 +563,6 @@ export default {
               this.messageListFemalePart = this.messageListFemale.slice(0,4);
             })
             getList(0).then((res)=>{
-              if(res != undefined){
-                this.$message("拉取数据成功");
-              }else{
-                this.$message("拉取数据失败");
-              }
                 return res;
             }).then((itemList)=> {
               itemList = itemList["results"];
@@ -600,6 +598,11 @@ export default {
             this.ModifyPerson.dialogVisible = true;
         },
 
+    },
+    mounted(){
+      this.$nextTick(() => {
+        this.getListMsg();
+      });
     },
     created(){
       let r = localStorage.getItem('name');
