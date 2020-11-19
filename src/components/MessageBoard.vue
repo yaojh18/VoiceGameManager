@@ -507,11 +507,11 @@ export default {
         handleClick(tab, event) {
           console.log(event);
           if(tab.name=='first'){
-            this.choiceTypeId=2;
-          }else if(tab.name=='second'){
-            this.choiceTypeId=3;
-          }else if(tab.name=='third'){
             this.choiceTypeId=1;
+          }else if(tab.name=='second'){
+            this.choiceTypeId=2;
+          }else if(tab.name=='third'){
+            this.choiceTypeId=3;
           }
         },
         getListMsg(){
