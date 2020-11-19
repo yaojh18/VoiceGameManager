@@ -17,9 +17,10 @@
                    :src="audio_path"
                   style="border-radius:10px;margin:3px;">
            </audio>
+         <br>
            <video controls="controls"
                   class="video"
-                  width="90%"
+                  width="50%"
                   loop="loop"
                   ref="video"
                   :src="video_path"

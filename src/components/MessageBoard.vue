@@ -1,11 +1,11 @@
 <template>
 <div id="message-board" style="overflow:-Scroll;overflow-y:hidden">
     <el-container style="height:100%; border: 0px solid #eee">
-        <el-header style="height:55px;font-size:10px;background-color:#87CEFA">
-              <el-button size="mini" style="display: inline-block;margin-right: 15px;" v-on:click="getListMsg()">
-            <i class="el-icon-refresh">刷新</i>
+        <el-header style="align:right;text-align:right;height:55px;font-size:10px;background-color:#87CEFA">
+              <el-button size="mini" style="color:black;display:inline-block;margin-right: 15px;" v-on:click="getListMsg()">
+            <i class="el-icon-refresh">拉取所有数据</i>
           </el-button>
-          <el-button size="mini" style="display: inline-block;margin-right: 15px;text-decoration:None" v-on:click="this.$router.push({path:'/data'})">
+          <el-button size="mini" style="color:black;display: inline-block;margin-right: 15px;text-decoration:None" v-on:click="this.$router.push({path:'/data'})">
                 <router-link style="text-decoration:None" to='/data' >数据界面</router-link>
             </el-button>
           <el-dropdown style="align:right;display: inline-block; text-align:right; margin-right:3px; " class="avatar-container" trigger="click" >
@@ -45,14 +45,14 @@
             <el-form :inline="true" align="left" style="margin:1px auto;padding:0px">
               <el-button size="mini" style="vertical-align:middle;margin-left:15px;" v-on:click="clickSearch()" inline-block><i class="el-icon-zoom-in">搜索</i></el-button>
               <el-form-item>
-                  <el-button size="mini" style="display:block;margin-left:5px" v-on:click="searchSelection=1;searchKey='关键词搜索';this.enabled=true">关键词搜索</el-button>
+                  <el-button style="vertical-align:top;height:40px;display:block;margin-left:5px" disabled >关键词搜索</el-button>
                   <el-input size="mini" style="vertical-align:middle;width:200px;margin-left:15px;" inline-block v-model="searchTmp" placeholder="输入搜索信息"></el-input>
               </el-form-item><el-form-item>
-                  <el-button size="mini" style="display:block;" v-on:click="searchSelection=3;searchKey='关卡搜索';this.enabled=true">关卡搜索</el-button>
+                  <el-button style="vertical-align:top;height:40px;display:block;" disabled>关卡搜索</el-button>
                   <el-input size="mini" style="vertical-align:middle;width:200px;margin-left:15px;" inline-block v-model="searchTmpLevelId" placeholder="输入搜索信息"></el-input>
             </el-form-item>
-              <el-radio size="mini" style="margin-left:1px;" v-model="radioTypeId" label="1" border>全局搜索</el-radio>
-              <el-radio size="mini" v-model="radioTypeId" label="2" border>非全局搜索</el-radio>
+              <el-radio size="mini" style="margin-left:1px;" v-model="radioTypeId" label="1" border>在全部类型中搜索</el-radio>
+              <el-radio size="mini" v-model="radioTypeId" label="2" border>选定类型中搜索</el-radio>
               <el-button size="mini" style="margin-left:15px;align:right" v-on:click="Add.dialogVisible=true"><i class="el-icon-plus">增加</i></el-button>
             </el-form>
           <div class="c-content">
@@ -191,10 +191,6 @@ export default {
         type:String,
         default:()=>"关键词搜索"
       },
-      radioTypeId:{
-        type:Number,
-        default: ()=>0
-      },
       choiceTypeId:{
         type:Number,
         default :()=>1
@@ -299,6 +295,7 @@ export default {
             listMaleCnt:0,
             listFemaleCnt:0,
             listUnknownCnt:0,
+            radioTypeId:'1',
           data:[{
             id: 1,
             label: "1",
@@ -375,6 +372,17 @@ export default {
               this.getListMsg();
               this.Login.dialogVisible = false;
         },
+        initData(){
+              this.messageListMalePart = [],
+              this.messageListFemalePart = [],
+                  this.messageListUnknownPart = [],
+                  this.messageListMale = [],
+                  this.messageListFemale = [],
+                  this.messageListUnknown = [],
+                  this.listMaleCnt = 0;
+                  this.listFemaleCnt = 0;
+                  this.listUnknownCnt = 0;
+        },
         DeleteFuncCalled : (data_id)=>{
           deleteMsg(data_id).then((res)=>{
               console.log(res);
@@ -419,9 +427,10 @@ export default {
             this.Login.dialogVisible = true;
         },
         clickSearch(){
+            this.initData();
             let r = "?";
             if(this.radioTypeId==2){
-              r += "type_id=" + String(this.choiceTypeId-1) + "&&";
+              r += "type_id=" + String(this.choiceTypeId%3) + "&&";
             }
             if(this.searchTmp!=''&&this.searchTmp!=undefined)
               r += 'title=' + this.searchTmp +"&&";
