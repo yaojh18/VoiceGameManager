@@ -163,7 +163,6 @@ import {
     searchBack,
     deleteMsg,
     getList,
-    getUserMsg,
 } from "@/utils/communication"
 export default {
     name: "MessageBoard",

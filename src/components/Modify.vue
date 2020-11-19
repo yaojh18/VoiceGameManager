@@ -149,14 +149,10 @@ export default({
         return res.json();
       }).then((r)=> {
         console.log(r);
-        that.form.type_id = Number(r["type_id"]);
-        that.form.title = r["title"];
-        that.form.content = r["content"];
+        that.type_id = Number(r["type_id"]);
+        that.title = r["title"];
+        that.content = r["content"];
         that.form.id = Number(r["id"]);
-        that.form.audio_path = r['audio_path'];
-        that.form.video_path = r['video_path'];
-        that.audio_path = r['audio_path'];
-        that.video_path = r['video_path'];
       });
       this.form.level_id = this.level_id;
       console.log("created");
@@ -172,7 +168,6 @@ export default({
       console.log(e.target.files[0]);
     },
     retreat(){
-      console.log(this.const_level_id);
       searchBackId2(Number(this.id)).then((res)=>{
         if(res.status == 200 || res.status == 201){
           this.$message("回退成功");
@@ -181,14 +176,10 @@ export default({
         }
         return res.json();
       }).then((r)=> {
-        console.log(r);
-        this.form.level_id =Number(r["level_id"]);
-        this.form.type_id = Number(r["type_id"]);
-        this.form.title = r["title"];
-        this.form.content = r["content"];
+        this.type_id = Number(r["type_id"]);
+        this.title = r["title"];
+        this.content = r["content"];
         this.form.id = Number(r["id"]);
-        this.form.audio_path = r['audio_path'];
-        this.form.video_path = r['video_path'];
       });
     },
     submittt(e) {
