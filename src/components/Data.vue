@@ -34,9 +34,6 @@
                 <el-form-item label="标题">
                   <el-input placeholder="请输入搜素关键词" v-model="VideoTitle" >{{ VideoTitle }}</el-input>
                 </el-form-item>
-                <el-form-item label="每页显示">
-                  <el-input placeholder="请输入每页显示个数" v-model="VideoLimit" >{{ VideoLimit }}</el-input>
-                </el-form-item>
                 <el-popover
                     placement="right"
                     width="400"
@@ -55,12 +52,6 @@
                 </el-form-item>
                 <el-form-item label="性别">
                   <el-input placeholder="请输入性别筛选条件" v-model="UserGender" >{{ UserGender }}</el-input>
-                </el-form-item>
-                <el-form-item label="每页显示">
-                  <el-input placeholder="请输入每页显示个数" v-model="UserSize" >{{ UserSize }}</el-input>
-                </el-form-item>
-                <el-form-item label="展示页码为">
-                  <el-input placeholder="请输入展示页码" v-model="UserPage" >{{ UserPage }}</el-input>
                 </el-form-item>
                 <el-popover
                     placement="right"
@@ -93,7 +84,32 @@
                     placement="right"
                     width="400"
                     trigger="click">
-                  <div style="width:100%;height:200px" id="audio" class="audio" ref="audio"></div>
+                  <el-table
+                      :data="mediaData"
+                      style="width: 100%"
+                      height="250">
+                    <el-table-column
+                        fixed
+                        prop="user"
+                        label="姓名"
+                        width="120">
+                    </el-table-column>
+                    <el-table-column
+                        prop="level_id"
+                        label="等级"
+                        width="150">
+                    </el-table-column>
+                    <el-table-column
+                        prop="timestamp"
+                        label="时间"
+                        width="120">
+                    </el-table-column>
+                    <el-table-column
+                        prop="score"
+                        label="分数"
+                        width="120">
+                    </el-table-column>
+                  </el-table>
                   <el-button slot="reference" v-on:click="dataAudioSearch()">展 示</el-button>
                 </el-popover>
               </el-form>
@@ -388,9 +404,7 @@ export default {
         r = r["results"];
         console.log(r);
         for (const it of r) {
-          this.mediaDataScore.push(it['score']);
-          this.mediaDataLevel.push(it['level_id']);
-          this.mediaDataUser.push(it['user']);
+          this.mediaData.push(it);
         }
         console.log(this.mediaData);
       }).then((r) => {
@@ -723,9 +737,7 @@ export default {
         r = r["results"];
         console.log(r);
         for (const it of r) {
-          this.mediaData.push(it['score']);
-          this.mediaDataLevel.push(it['level_id']);
-          this.mediaDataUser.push(it['user']);
+          this.mediaData.push(it);
         }
         console.log(this.mediaData);
       }).then((r) => {

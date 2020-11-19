@@ -69,14 +69,12 @@ export const getUserMsg = () => fetch(API.USER.path,{
         "Authorization":"JWT "+localStorage.getItem('token'),
     }
 });
-export const editUserMsg = (username,password,password_old,email,name) =>fetch(API.MODIFYUSER.path,{
+export const editUserMsg = (username,password,password_old) =>fetch(API.MODIFYUSER.path,{
     method:API.MODIFYUSER.method,
     body: JSON.stringify({
         "username":username,
         "password":password,
         "password_old":password_old,
-        "email":email,
-        "name":name
     }),
     headers:{
         "Content-Type":"application/json",

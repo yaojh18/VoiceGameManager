@@ -1,6 +1,10 @@
 <template>
   <div id="message-board">
-    <el-dialog style="text-align: center" title="修改密码" :visible.sync="dialogVisible" :show-close=false width="80%">
+    <el-dialog style="text-align: center" title="修改个人信息"
+               :visible.sync="dialogVisible"
+               :show-close=false width="80%"
+               @close="$emit('cancelModifyPerson','')"
+               @change="editMessage()">
       <el-form label-width="100px">
         <el-form-item label="用户名">
           <el-input placeholder="请输入用户名" v-model="username" >{{ username }}</el-input>
@@ -23,13 +27,13 @@
 </template>
 
 <script>
-import { editUserMsgWithoutPwd } from "@/utils/communication";
+import {editUserMsgWithoutPwd, getUserMsg} from "@/utils/communication";
 export default {
   name: "ModifyPerson",
   props: {
     dialogVisible: {
       type: Boolean,
-      default: () => true
+      default: () => false
     },
     username: {
       type: String,
@@ -61,6 +65,20 @@ export default {
     }
   },
   methods: {
+    editMessage(){
+      getUserMsg().then((res)=>{
+        if(res.status==200 || res.status == 201){
+          this.$message("拉取信息成功");
+        }else{
+          this.$message("拉取信息失败");
+        }
+        return res.json();
+      }).then((r)=>{
+        this.name=r[0].name;
+        this.email=r[0].email;
+        this.username=r[0].username;
+      })
+    },
     changeName(e) {
       this.$forceUpdate(e);
     },
@@ -89,6 +107,27 @@ export default {
     }
   },
   watch: { // 用于实时检测username是否合法
+    dialogVisible: {
+      handler(newval, oldval) {
+        console.log(newval, oldval);
+        this.$nextTick(() => {
+          console.log("ready");
+          getUserMsg().then((res)=>{
+            console.log("200");
+            if(res.status==200 || res.status == 201){
+              this.$message("拉取信息成功");
+            }else{
+              this.$message("拉取信息失败");
+            }
+            return res.json();
+          }).then((r)=>{
+            this.name=r[0].name;
+            this.email=r[0].email;
+            this.username=r[0].username;
+          })
+        });
+      }
+    }
   },
 }
 </script>

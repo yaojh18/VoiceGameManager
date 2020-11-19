@@ -1,6 +1,10 @@
 <template>
 <div id="message-board">
-  <el-dialog style="text-align: center" title="修改密码" :visible.sync="dialogVisible" :show-close=false width="80%">
+  <el-dialog style="text-align: center" title="修改密码"
+             :visible.sync="dialogVisible"
+             :show-close=false
+             @close="$emit('cancelModifyPwd','')"
+             width="80%">
     <el-form label-width="100px">
       <el-form-item label="用户名">
         <el-input placeholder="请输入用户名" v-model="username" @input="changeName()">{{ username }}</el-input>
@@ -110,17 +114,11 @@ export default {
       console.log(this.password2);
       console.log(this.password3);
       if(this.password2==this.password3){
-        if(!this.email)
-          this.email = "Unknown";
-        if(!this.name)
-          this.name = "Unknown";
         this.alertDialog.dialogVisible = false;
         console.log(this.username);
         console.log(this.password2);
         console.log(this.password);
-        console.log(this.email);
-        console.log(this.name);
-        editUserMsg(this.username,this.password2,this.password,this.email,this.name);
+        editUserMsg(this.username,this.password2,this.password);
       }else{
         this.alertDialog.dialogVisible = true;
       }

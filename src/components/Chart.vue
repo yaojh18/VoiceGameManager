@@ -210,7 +210,7 @@ name: "Chart",
     }
   },
   watch: {
-    dialogVisible:{
+    dialogVisible: {
       handler(newval, oldval)
       {
         console.log(newval,oldval);
@@ -224,6 +224,7 @@ name: "Chart",
       }
     }
   }
+
 }
 
 </script>

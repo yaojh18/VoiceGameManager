@@ -598,23 +598,6 @@ export default {
         },
         PersonModify(){
             this.ModifyPerson.dialogVisible = true;
-            getUserMsg().then((res)=>{
-            if(res.status==200 || res.status == 201){
-              this.$message("拉取信息成功");
-            }else{
-              this.$message("拉取信息失败");
-            }
-            return res.json();
-          }).then((r)=>{
-            console.log(r[0]);
-            console.log(typeof(this.ModifyPerson.form.name));
-            this.ModifyPerson.name=r[0].name;
-            this.$emit("changePersonModify",{
-              name:r[0].name,
-              email:r[0].email,
-              username:r[0].username,
-            });
-            })
         },
 
     },
