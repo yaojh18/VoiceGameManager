@@ -15,10 +15,6 @@
         <input type="text" v-model="level_id"/>
       </el-form-item>
       <el-form-item >
-        <label>修改数据ID </label>
-        <input type='text' v-model="id"/>
-      </el-form-item>
-      <el-form-item >
         <label>修改数据类型ID </label>
         <input type='text' v-model="type_id"/>
       </el-form-item>
