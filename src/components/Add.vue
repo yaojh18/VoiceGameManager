@@ -81,13 +81,6 @@ export default({
     methods: {
         getFile(e, input_file_name) {
             this.formData.append(input_file_name, e.target.files[0]);
-            /*var current = e.target.files[0]
-            var fileReader = new FileReader()
-            fileReader .readAsDataURL(current)
-            var that = this
-            fileReader .onload = function (e) {
-            that.videoSrc = e.currentTarget.result
-          }*/
         },
         submitForm(e) {
             e.preventDefault();

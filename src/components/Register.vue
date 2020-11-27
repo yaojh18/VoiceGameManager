@@ -64,12 +64,6 @@
             }
     },
     methods: {
-      post(){
-        var msg=this;
-        this.dialogVisible = false;
-				//获取密码
-        return msg;
-      },
       changeRegisterName(e){
         this.$forceUpdate(e);
         this.state.username_valid = true;

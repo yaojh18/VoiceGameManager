@@ -20,4 +20,9 @@ describe("Add.vue",()=>{
         const dialog = wrapper.findComponent(Dialog)
         expect(dialog.exists()).toBe(true)
     })
+    it('test functions',()=>{
+        const r = {"target":{"files":[0,0,0]}};
+        //wrapper.vm.getFile("inputFileName",r);
+        //wrapper.vm.submitForm();
+    })
 })

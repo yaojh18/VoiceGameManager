@@ -16,4 +16,9 @@ describe("MessageBlock.vue",()=>{
         const menu = wrapper.findComponent(Menu)
         expect(menu.exists()).toBe(true)
     })
+    it('test functions',()=>{
+        wrapper.vm.editBlock();
+        wrapper.vm.handleOpen();
+
+    })
 })

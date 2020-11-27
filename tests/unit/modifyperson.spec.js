@@ -10,10 +10,21 @@ describe("ModifyPerson.vue",()=>{
     localVue.use(ElementUI)
     const wrapper = mount(ModifyPerson,{localVue,router})
     it('has a form',()=>{
-        const form = wrapper.findComponent(Dialog)
-        expect(form.exists()).toBe(true)
+        const form = wrapper.findComponent(Form)
+        expect(form.exists()).toBe(false)
+    })
+    it('has a dialog',()=>{
+        const dialog = wrapper.findComponent(Dialog)
+        expect(dialog.exists()).toBe(true)
     })
     it('functions test',()=>{
-        console.log("there are no functions");
+        wrapper.vm.editMessage();
+        wrapper.vm.changeName();
+        wrapper.vm.changeemail();
+        wrapper.vm.changename();
+        wrapper.vm.changePersonModify("a","b","c");
+        expect(wrapper.vm.name).toBe("a");
+        expect(wrapper.vm.email).toBe("b");
+        expect(wrapper.vm.username).toBe("c");
     })
 })

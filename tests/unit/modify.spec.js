@@ -14,6 +14,9 @@ describe("Modify.vue",()=>{
         expect(form.exists()).toBe(true)
     })
     it('functions test',()=>{
-        console.log("there are no functions");
+        wrapper.vm.open();
+        //wrapper.vm.getFile();
+        //wrapper.vm.submittt();
+        wrapper.vm.retreat();
     })
 })
