@@ -35,7 +35,6 @@ axios.interceptors.response.use(res=>{
     if(res.data.token){
         console.log(res.data.token);
         console.log(res.data["token"]);
-        localStorage.set("token",res.data.token);
         localStorage.set("token",res.data["token"]);
     }else if(res.token){
         console.log(res.token)

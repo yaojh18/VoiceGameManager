@@ -371,16 +371,16 @@ export default {
             }else {
                 r = r.slice(0,-2);
                 console.log(r)
-                searchBack(r).then((res)=>{
-                    if(res.status === 200 || res.status === 201){
+                searchBack(r).then((response)=>{
+                    if(response.status === 200 || response.status === 201){
                         this.$message("查询成功");
                     }else{
                         this.$message("查询失败");
                     }
-                    return res.json();
-                }).then((r)=>{
-                    r = r.results;
-                    for ( const item of r){
+                    return response.json();
+                }).then((res)=>{
+                    res = res.results;
+                    for ( const item of res){
                         this.listUnknownCnt += 1;
                         if(item.type_id === 0){
                             this.messageListUnknown.push({

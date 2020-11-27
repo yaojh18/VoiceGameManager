@@ -90,8 +90,8 @@ export default {
               let that = this
           if (newval === true && oldval === false)
               this.$nextTick(() => {
-                  getUserMsg().then((res)=>{
-                      res.json().then((res)=>{
+                  getUserMsg().then((message)=>{
+                      message.json().then((res)=>{
                           if (res instanceof Array){
                               let idx = res.findIndex(function (item) {
                                   return item.usernam = that.username
