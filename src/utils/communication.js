@@ -55,6 +55,19 @@ export const AddBack = (formdata) => fetch(API.ADD.path,{
         "Authorization":(localStorage.getItem('token') !== '')?("JWT "+localStorage.getItem('token')):''
     },
 });
+// export const AddBack = (title, content, audio, video, typeId) => fetch(API.ADD.path,{
+//     method:API.ADD.method,
+//     body: {
+//         'title': title,
+//         'content': content,
+//         'audio_path': audio,
+//         'video_path': video,
+//         'type_id': typeId
+//     },
+//     headers:{
+//         "Authorization":(localStorage.getItem('token') !== '')?("JWT "+localStorage.getItem('token')):''
+//     },
+// });
 export const addmsg = (title, content, audio_path, video_path ) => fetch(API.ADD.path, {
     method: API.ADD.method,
     body: {title:title,content:content,audio_path:audio_path,video_path:video_path},

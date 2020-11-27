@@ -1,16 +1,13 @@
 <template>
 <div id="message-board" style="overflow:scroll;overflow-y:hidden">
     <el-container style="height:100%; border: 0 solid #eee">
-        <el-header style="align:right;text-align:right;height:55px;font-size:10px;background-color:#87CEFA">
-            <el-button size="mini" style="color:black;display:inline-block;margin-right: 15px;" v-on:click="getListMsg()">
-                <i class="el-icon-refresh">拉取所有数据</i>
+        <el-header style="text-align:right;background-color:#87CEFA">
+            <el-button style="margin-right: 15px" v-on:click="this.$router.push({path:'/data'})">
+                <router-link style="text-decoration:None" to='/data' >数据统计</router-link>
             </el-button>
-            <el-button size="mini" style="color:black;display: inline-block;margin-right: 15px;text-decoration:None" v-on:click="this.$router.push({path:'/data'})">
-                <router-link style="text-decoration:None" to='/data' >数据界面</router-link>
-            </el-button>
-            <el-dropdown style="align:right;display: inline-block; text-align:right; margin-right:3px; " class="avatar-container" trigger="click" >
+            <el-dropdown style="text-align:right; margin-right:3px" class="avatar-container" trigger="click" >
                 <div class="avatar-wrapper">
-                    <el-button size="mini" type="primary" v-model="usernameLogged"  v-bind="usernameLogged"
+                    <el-button type="primary" v-model="usernameLogged"
                          v-on:updateName="console.log('updateMsg');this.usernameLogged=localStorage.getItem('token');">
                         <i class="el-icon-s-custom"/>
                             {{usernameLogged}}
@@ -19,11 +16,11 @@
                     <el-dropdown-menu slot="dropdown" class="user-dropdown">
                         <el-dropdown-item :disabled="usernameLogged==='unknown'"
                                           :enabled="usernameLogged!=='unknown'">
-                            <span style="display:block;" @click="PersonModify()" ><i class="el-icon-edit"/>个人信息修改</span>
+                            <span style="display:block;" @click="PersonModify" ><i class="el-icon-edit"/>个人信息修改</span>
                         </el-dropdown-item>
                         <el-dropdown-item divided :disabled="usernameLogged==='unknown'"
                                           :enabled="usernameLogged!=='unknown'">
-                            <span style="display:block;" @click="PwdModify()" ><i class="el-icon-s-data"/>个人密码修改</span>
+                            <span style="display:block;" @click="PwdModify" ><i class="el-icon-s-data"/>个人密码修改</span>
                         </el-dropdown-item>
                         <el-dropdown-item divided :disabled="usernameLogged!=='unknown'"
                                                 :enabled="usernameLogged==='unknown'">
@@ -42,54 +39,70 @@
             </el-dropdown>
         </el-header>
         <el-main >
-            <el-form :inline="true" style=";margin:1px auto;padding:0">
-                <el-button size="mini" style="vertical-align:middle;margin-left:15px;" v-on:click="clickSearch()" inline-block><i class="el-icon-zoom-in">搜索</i></el-button>
-                <el-form-item>
-                    <el-button style="vertical-align:top;height:40px;display:block;margin-left:5px" disabled >关键词搜索</el-button>
-                    <el-input size="mini" style="vertical-align:middle;width:200px;margin-left:15px;" inline-block v-model="searchTmp" placeholder="输入搜索信息"></el-input>
+            <el-form :inline="true" style="text-align:left;">
+                <el-form-item style="float:right;margin: 0 0 10px 0">
+                    <el-button style="margin-right: 15px;" v-on:click="getListMsg()">
+                        <i class="el-icon-refresh">拉取所有数据</i>
+                    </el-button>
+                    <el-button v-on:click="Add.dialogVisible=true">
+                        <i class="el-icon-plus">增加</i>
+                    </el-button>
                 </el-form-item>
-                <el-form-item>
-                    <el-button style="vertical-align:top;height:40px;display:block;" disabled>关卡搜索</el-button>
-                    <el-input size="mini" style="vertical-align:middle;width:200px;margin-left:15px;" inline-block v-model="searchTmpLevelId" placeholder="输入搜索信息"></el-input>
+                <el-form-item style="display: block;margin: 0 0 10px 0">
+                    <el-input style="vertical-align:middle;width:318px;margin-right:15px" v-model="searchTmp" placeholder="输入搜索信息">
+                        <template slot="prepend">标题关键词</template>
+                    </el-input>
+                    <el-input style="vertical-align:middle;width:318px;margin-right:15px" v-model="searchTmpLevelId" placeholder="输入搜索信息">
+                        <template slot="prepend">关卡号</template>
+                    </el-input>
                 </el-form-item>
-                <el-radio size="mini" style="margin-left:1px;" v-model="radioTypeId" label="1" border>在全部类型中搜索</el-radio>
-                <el-radio size="mini" v-model="radioTypeId" label="2" border>选定类型中搜索</el-radio>
-                <el-button size="mini" style="margin-left:15px" v-on:click="Add.dialogVisible=true"><i class="el-icon-plus">增加</i></el-button>
+                <el-form-item style="display: block;margin: 0 0 10px 0">
+                    <div class="el-input-group__prepend" style="display:inline-table">搜索类型</div>
+                    <el-select v-model="selectValue" placeholder="请选择" style="margin-right: 15px;">
+                        <el-option label="所有类型关卡" value=-1></el-option>
+                        <el-option label="男性角色关卡" value=1></el-option>
+                        <el-option label="女性角色关卡" value=2></el-option>
+                        <el-option label="其他关卡" value=0></el-option>
+                    </el-select>
+                    <el-button style="vertical-align:middle;margin-right:15px;color:white;background-color:#87CEFA" v-on:click="clickSearch()">
+                        <i class="el-icon-zoom-in">搜索</i>
+                    </el-button>
+                </el-form-item>
             </el-form>
             <div class="c-content">
                 <div class="c-search-table beauty-Scroll">
                     <el-scrollbar>
                         <template>
-                            <el-tabs style="margin-top:3px;font-size:12px" v-model="activeName" type="card" @tab-click="handleClick">
-                            <el-tab-pane size="mini" label="男性角色关卡" name="first">
+                            <el-tabs style="margin-top:30px;font-size:12px" v-model="choiceTypeId" type="card">
+                            <el-tab-pane size="mini" label="男性角色关卡" name='1'>
                                 <MessageList v-bind:messageList="messageListMalePart" v-on:RefreshMsg="this.$forceUpdate()"/>
                                 <el-pagination
                                     id="pag1"
-                                    small
+                                    background
                                     layout="prev, pager, next"
-                                    :page-size="4"
+                                    :page-size="8"
                                     @current-change="handleCurrentChangepag1"
                                     :total="listMaleCnt">
                                 </el-pagination>
                             </el-tab-pane>
-                            <el-tab-pane size="mini" label="女性角色关卡" name="second">
+                            <el-tab-pane size="mini" label="女性角色关卡" name='2'>
                                 <MessageList v-bind:messageList="messageListFemalePart" v-on:RefreshMsg="this.$forceUpdate()"/>
                                 <el-pagination
                                     id="pag2"
-                                    small
+                                    background
                                     layout="prev, pager, next"
-                                    :page-size="4"
+                                    :page-size="8"
                                     @current-change="handleCurrentChangepag2"
                                     :total="listFemaleCnt">
                                 </el-pagination>
                             </el-tab-pane>
-                            <el-tab-pane size="mini" label="未知关卡" name="third">
+                            <el-tab-pane size="mini" label="其他关卡" name='0'>
                                 <MessageList v-bind:messageList="messageListUnknownPart" v-on:RefreshMsg="this.$forceUpdate()"/>
                                 <el-pagination
                                     id="pag3"
-                                    small
+                                    background
                                     layout="prev, pager, next"
-                                    :page-size="4"
+                                    :page-size="8"
                                     @current-change="handleCurrentChangepag3"
                                     :total="listUnknownCnt">
                                 </el-pagination>
@@ -123,7 +136,9 @@
                 registerCalled(usernameRegister,password,password2);
             }" />
     <Add v-bind:dialog-visible="Add.dialogVisible"
-         v-on:closeAdd="Add.dialogVisible=false"/>
+         v-on:closeAdd="Add.dialogVisible=false"
+         @addSucceed="getListMsg"
+    />
     <Logout v-bind:dialog-visible="Logout.dialogVisible"
             v-on:closeLogout="Logout.dialogVisible=false"
             v-on:logoutfunc="Logout.dialogVisible=false;logoutFuncCalled()"
@@ -159,9 +174,6 @@ export default {
         searchTmp:{
             type:String,
         },
-        searchTmpId:{
-            type:String,
-        },
         searchTmpLevelId:{
             type:String,
         },
@@ -170,13 +182,12 @@ export default {
             default:()=>"关键词搜索"
         },
         choiceTypeId:{
-            type:Number,
-            default :()=>1
+            type:String,
+            default :()=>'1'
       }
     },
     data() {
         return {
-            activeName: 'first',
             Login: {
                 dialogVisible: false,
                 form: {
@@ -232,7 +243,7 @@ export default {
             listMaleCnt:0,
             listFemaleCnt:0,
             listUnknownCnt:0,
-            radioTypeId:'1',
+            selectValue: '所有类型关卡',
             data:[{
                 id: 1,
                 label: "1",
@@ -255,7 +266,7 @@ export default {
                 defaultProps: {
                 label: 'label'
             },
-            }
+        }
     },
     methods: {
         loginCalled: function(usernameLogin, password) {
@@ -337,22 +348,20 @@ export default {
         },
         clickSearch(){
             this.initData();
+            let that = this
             let r = "?";
-            console.log(this.radioTypeId)
-            if(this.radioTypeId===2){
-                r += "type_id=" + String(this.choiceTypeId%3) + "&&";
+            if(this.selectValue >= 0){
+                r += "type_id=" + String(this.selectValue) + "&&";
             }
-            if(this.searchTmp!==''&&this.searchTmp!==undefined)
+            if(this.searchTmp !== ''&&this.searchTmp!==undefined)
                 r += 'title=' + this.searchTmp +"&&";
-            if(this.searchTmpId!==''&&this.searchTmpId!==undefined)
-                r += 'id=' + String(this.searchTmpId) + "&&";
             if(this.searchTmpLevelId!==''&&this.searchTmpLevelId!==undefined)
-                r += 'level_id=' + String(this.searchTmpLevelId) +"&&";
+                r += 'level_id=' + String(this.searchTmpLevelId - 1) +"&&";
             if(r==='?') {
                 this.$message("输入错误");
             }else {
                 r = r.slice(0,-2);
-                this.$message("输入合法");
+                console.log(r)
                 searchBack(r).then((res)=>{
                     if(res.status === 200 || res.status === 201){
                         this.$message("查询成功");
@@ -398,6 +407,8 @@ export default {
                         this.messageListFemalePart = this.messageListFemale.slice(0,4);
                         }
                     }
+                    if (that.selectValue >= 0)
+                        that.choiceTypeId = String(that.selectValue)
                 });
             }
         },
@@ -407,15 +418,6 @@ export default {
             localStorage.setItem('name','unknown');
             this.initData()
             this.$message('登出成功')
-        },
-        handleClick(tab) {
-              if(tab.name==='first'){
-                this.choiceTypeId=1;
-              }else if(tab.name === 'second'){
-                this.choiceTypeId=2;
-              }else if(tab.name === 'third'){
-                this.choiceTypeId=3;
-              }
         },
         getListMsg(){
             this.messageListMale = [];
@@ -448,7 +450,7 @@ export default {
                         "timestamp": new Date().getTime()
                 });
               }
-              this.messageListMalePart = this.messageListMale.slice(0,4);
+              this.messageListMalePart = this.messageListMale.slice(0,8);
             });
             getList(2).then((res)=>{
                 return res;
@@ -465,7 +467,7 @@ export default {
                         "timestamp": new Date().getTime()
                 });
               }
-              this.messageListFemalePart = this.messageListFemale.slice(0,4);
+              this.messageListFemalePart = this.messageListFemale.slice(0,8);
             })
             getList(0).then((res)=>{
                 return res;
@@ -482,17 +484,17 @@ export default {
                         "timestamp": new Date().getTime()
                     });
                 }
-                this.messageListUnknownPart = this.messageListUnknown.slice(0,4);
+                this.messageListUnknownPart = this.messageListUnknown.slice(0,8);
             });
         },
         handleCurrentChangepag1(val){
-            this.messageListMalePart = this.messageListMale.slice((val-1)*4,val*4);
+            this.messageListMalePart = this.messageListMale.slice((val-1)*8,val*8);
         },
         handleCurrentChangepag2(val){
-            this.messageListFemalePart = this.messageListFemale.slice((val-1)*4,val*4);
+            this.messageListFemalePart = this.messageListFemale.slice((val-1)*8,val*8);
         },
         handleCurrentChangepag3(val){
-            this.messageListUnknownPart = this.messageListUnknown.slice((val-1)*4,val*4);
+            this.messageListUnknownPart = this.messageListUnknown.slice((val-1)*8,val*8);
         },
         PwdModify(){
             this.ModifyPwd.dialogVisible = true;
@@ -525,8 +527,6 @@ export default {
     padding: 3px;
     text-align: left;
 }
-
-
 .scroll {
   height: 100px;
   overflow-y: hidden;
@@ -534,11 +534,6 @@ export default {
 .el-scrollbar{
   height: 100%;
 }
-/*.el-scrollbar__bar{
-  &.is-vertical{
-    width:100px;//滚动条宽度
-  }
-}*/
 .el-scrollbar__wrap{
   overflow-y: auto;
   overflow-x:hidden;
@@ -551,57 +546,23 @@ export default {
     color: #333;
     line-height: 60px;
 }
-
 .el-footer {
     background-color: #B3C0D1;
     color: #333;
 }
-
 .el-aside {
     color: #333;
 }
-
 a {
     text-decoration: none;
 }
-
 .router-link-active {
     text-decoration: none;
 }
 .c-search-table{
   width: 100%;
 }
-.beauty-Scroll{
-  .el-scrollbar{
-    height: 100%; /*此处一定要设置高度，不然内层的计算属性不生效*/
-  }
-  .el-scrollbar__wrap {
-  }
-}
-.el-dialog__wrapper{
-  .el-dialog__body{
-    padding: 20px 20px 10px;
-    .deleteForm{
-      .errorTip{
-        color: red;
-        font-size: 14px;
-        line-height: 20px;
-        margin: 2px auto;
-      }
-      .el-form-item{
-        margin: 0;
-        .el-form-item__label{
-          width: 90px;
-        }
-        .el-select,.el-input{
-          width: 250px;
-        }
-      }
-    }
-  }
-  .el-dialog__footer{
-    padding-bottom: 15px;
-    padding-top: 5px;
-  }
+.el-pagination{
+    margin-top: 20px;
 }
 </style>

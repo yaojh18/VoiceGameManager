@@ -5,18 +5,18 @@
              :show-close=false
              @close="$emit('cancelModifyPwd','')"
              width="80%">
-        <el-form label-width="100px">
+        <el-form label-width="120px">
             <el-form-item label="用户名">
-                <el-input placeholder="请输入用户名" v-model="username" @input="changeName()" readonly="true">{{ username }}</el-input>
+                <el-input placeholder="请输入用户名" v-model="username" @input="changeName()" readonly="true" style="width:80%"></el-input>
             </el-form-item>
             <el-form-item label="原密码">
-                <el-input placeholder="请输入密码" v-model="password" @input="changePwd()" show-password>{{ password }}</el-input>
+                <el-input placeholder="请输入密码" v-model="password" @input="changePwd()" show-password style="width:80%"></el-input>
             </el-form-item>
             <el-form-item label="新密码">
-                <el-input placeholder="请输入新密码" v-model="password2" @input="changePwd2()" show-password>{{ password2 }}</el-input>
+                <el-input placeholder="请输入新密码" v-model="password2" @input="changePwd2()" show-password style="width:80%"></el-input>
             </el-form-item>
                 <el-form-item label="确认新密码">
-            <el-input placeholder="请再次输入新密码" v-model="password3" @input="changePwd3()" show-password>{{ password3 }}</el-input>
+            <el-input placeholder="请再次输入新密码" v-model="password3" @input="changePwd3()" show-password style="width:80%"></el-input>
             </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
@@ -80,13 +80,13 @@ export default {
             this.$forceUpdate(e);
         },
         editUser(){
+            let that = this
             if(this.password2===this.password3){
-                this.alertDialog.dialogVisible = false;
                 editUserMsg(this.username,this.password2,this.password).then(function (res) {
                     if (res.status === 200)
-                        this.$message('修改成功')
+                        that.$message('修改成功')
                     else
-                        this.$message('修改失败')
+                        that.$message('修改失败')
             })}
             else{
                 this.$message('两次输入的密码不一致')

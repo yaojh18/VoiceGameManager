@@ -4,20 +4,20 @@
                :visible.sync="dialogVisible"
                :show-close=false width="80%"
                @close="$emit('cancelModifyPerson','')">
-            <el-form label-width="100px">
+            <el-form label-width="120px">
                 <el-form-item label="用户名">
-                <el-input placeholder="请输入用户名" v-model="username" readonly="true">{{ username }}</el-input>
+                <el-input placeholder="请输入用户名" v-model="username" readonly="true" style="width:80%"></el-input>
             </el-form-item>
             <el-form-item label="电子邮箱">
-                <el-input placeholder="请输入电子邮箱" v-model="email">{{ email }}</el-input>
+                <el-input placeholder="请输入电子邮箱" v-model="email" style="width:80%"></el-input>
             </el-form-item>
             <el-form-item label="姓名">
-                <el-input placeholder="请输入姓名" v-model="name" >{{ name }}</el-input>
+                <el-input placeholder="请输入姓名" v-model="name" style="width:80%"></el-input>
             </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
-                <el-button v-on:click="$emit('cancelModifyPerson',''),dialogVisible=false">取 消</el-button>
-                <el-button v-on:click="editUser();dialogVisible=false" type="primary" enabled>确 定</el-button>
+                <el-button v-on:click="$emit('cancelModifyPerson','');dialogVisible=false">取 消</el-button>
+                <el-button v-on:click="editUser();dialogVisible=false" type="primary">确 定</el-button>
             </span>
         </el-dialog>
     </div>
@@ -74,12 +74,13 @@ export default {
       },
       editUser(){
           if(!this.username)
-            this.$message('输入信息有误')
-          editUserMsgWithoutPwd(this.username,this.password2,this.password).then(function (res) {
+              this.$message('输入信息有误')
+          let that = this
+          editUserMsgWithoutPwd(this.username,this.email,this.name).then(function (res) {
               if (res.status === 200)
-                  this.$message('修改成功')
+                  that.$message('修改成功')
               else
-                  this.$message('修改失败')
+                  that.$message('修改失败')
           })
     }
   },

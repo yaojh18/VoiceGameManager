@@ -5,106 +5,110 @@
         :show-close=false
            v-on:close="$emit('closeAdd','')"
         width="80%">
-<el-form label-width="80px">
-  <el-form-item>
-    <label>关卡ID  </label>
-    <input type="text" v-model="level"/>
-  </el-form-item>
-  <el-form-item>
-    <label>类别ID  </label>
-    <input type="text" v-model="type_id"/>
-  </el-form-item>
-  <el-form-item>
-    <label>题目  </label>
-    <input type="text" v-model="title"/>
-  </el-form-item>
-  <el-form-item>
-    <label>文案  </label>
-    <input type="text" v-model="content"/>
-  </el-form-item>
-  <el-form-item id="audiobox">
-    <label>上传音频   </label>
-    <input type="file" @change="getFile($event,'audio_path')"/>
-  </el-form-item>
-  <el-form-item id="videoBox">
-    <label>上传视频   </label>
-    <input type="file" id="filepicker" @change="getFile($event,'video_path')"/>
-    <!--<video id="video" :src="video_url" controls="controls" preload="auto"></video>-->
-  </el-form-item>
-<el-button v-on:click="submitForm($event)">OK</el-button>
-</el-form>
-<span slot="footer" class="dialog-footer">
-  <el-button  v-on:click="$emit('closeAdd',''),dialogVisible=false">关 闭</el-button>
-  </span>
+    <el-form label-width="120px">
+        <el-form-item label="类别">
+            <el-select v-model="type_id" style="width:80%" placeholder="请选择">
+                <el-option label="男性角色关卡" value=1></el-option>
+                <el-option label="女性角色关卡" value=2></el-option>
+                <el-option label="其他关卡" value=0></el-option>
+            </el-select>
+        </el-form-item>
+        <el-form-item label="标题">
+            <el-input placeholder="请输入标题" v-model="title" style="width:80%"></el-input>
+        </el-form-item>
+        <el-form-item label="文案">
+            <el-input placeholder="请输入文案" v-model="content" style="width:80%"></el-input>
+        </el-form-item>
+        <el-form-item id="audiobox" label="音频">
+            <el-upload action=""
+                       accept="audio/wav"
+                       limit="1"
+                       :on-change="handleAudio"
+                       :auto-upload="false">
+                <el-button slot="trigger" type="primary">选取文件</el-button>
+                <div slot="tip" class="el-upload__tip">
+                    只能上传wav文件
+                </div>
+            </el-upload>
+        </el-form-item>
+        <el-form-item id="videoBox" label="视频">
+            <el-upload action=""
+                       accept="video/*"
+                       limit="1"
+                       :on-change="handleVideo"
+                       :auto-upload="false">
+                <el-button slot="trigger" type="primary">选取文件</el-button>
+            </el-upload>
+        </el-form-item>
+    </el-form>
+    <span slot="footer" class="dialog-footer">
+        <el-button v-on:click="submitForm();" type="primary" >确 认</el-button>
+        <el-button v-on:click="$emit('closeAdd','');dialogVisible=false">关 闭</el-button>
+    </span>
 </el-dialog>
 </template>
 <script>
-import {AddBack} from "@/utils/communication"
+import { AddBack } from "@/utils/communication"
+import { Loading } from 'element-ui';
 export default({
     name: "Add",
     props:{
-      dialogVisible: {
-        type: Boolean,
-        default: () => true
-      },
-      level:{
-        type:Number,
-        default: ()=>0
-      },
-      type_id:{
-        type:Number,
-        default: ()=>1
-      },
-      title:{
-         type:String,
-         default: ()=>""
-      },
-      content:{
-         type:String,
-        default: ()=>""
-      },
+        dialogVisible: {
+            type: Boolean,
+            default: () => true
+        },
+        type_id:{
+            type:Number,
+            default: () => '请选择'
+        },
+        title:{
+            type:String,
+            default: ()=>""
+        },
+        content:{
+            type:String,
+            default: ()=>""
+        },
     },
     data(){
         return {
-        form: {
-            title: this.title,
-            content: this.content,
-            level_id:this.level_id,
-            type_id:this.type_id,
-        },
-        formData: new FormData(),
+            form: {
+                title: this.title,
+                content: this.content,
+                type_id:this.type_id,
+            },
+            formData: new FormData(),
         }
     },
-    mounted: function () {
-
-    },
     methods: {
-        getFile(e, input_file_name) {
-            this.formData.append(input_file_name, e.target.files[0]);
-            /*var current = e.target.files[0]
-            var fileReader = new FileReader()
-            fileReader .readAsDataURL(current)
-            var that = this
-            fileReader .onload = function (e) {
-            that.videoSrc = e.currentTarget.result
-          }*/
+        handleAudio(file) {
+            this.formData.append('audio_path', file.raw);
         },
-        submitForm(e) {
-            e.preventDefault();
+        handleVideo(file) {
+            this.formData.append('video_path', file.raw);
+        },
+        submitForm() {
+            let loading = Loading.service({
+                lock: true,
+                text: '上传中……',
+                background: 'rgba(0, 0, 0, 0.5)'
+            });
+            let that = this
             this.formData.append("title",this.title);
             this.formData.append("content",this.content);
-            this.formData.append("level_id",this.level);
             this.formData.append("type_id",this.type_id);
             AddBack(this.formData).then((res)=>{
-              if(res.status==201){
-                this.$message('添加成功');
-              }else{
-                this.$message('添加失败'+"\n"+"失败原因为"+String(res.body));
-              }
+                if(res.status === 201){
+                    that.$message('添加成功');
+                    that.$emit('addSucceed')
+                }else{
+                    that.$message('添加失败，请填写全部信息');
+                }
+                loading.close()
+                that.dialogVisible = false
             });
         }
     },
-
 });
 </script>
 
