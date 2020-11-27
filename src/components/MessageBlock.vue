@@ -147,7 +147,7 @@ import {searchBackId2,DataSingleSearch} from "@/utils/communication.js"
             }
         },
         methods:{
-            modifySucess(){
+            modifySuccess(){
                 this.$emit('modifySucceed')
             },
             closeBlock(){
