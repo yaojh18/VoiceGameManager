@@ -1,29 +1,20 @@
+import {shallowMount,createLocalVue,mount} from '@vue/test-utils'
+import ElementUI, {Form, Button, Container} from 'element-ui'
+import VueRouter from 'vue-router'
 
 
-import getWrapper from "./utils"
 
-import App from '@/App.vue'
-import Data from '@/components/Data.vue'
-import Login from '@/components/Login.vue'
+import Home from '@/views/Home.vue'
 
 
-describe('App.vue', () => {
 
-  const wrapper = getWrapper(App,{})
-  it('simple coverage', () => {
-    console.log(wrapper.findAll("MessageBlock").length)
-  })
+describe('Home.vue', () => {
+    const localVue = createLocalVue()
+    localVue.use(VueRouter)
+    const router = new VueRouter()
+    localVue.use(ElementUI)
+    const wrapper = mount(Home,{localVue,router})
+    it("home renders",()=>{
+       console.log("home already renders")
+    })
 })
-describe('Login.vue',()=>{
-  const wrapper = getWrapper(Login,{})
-  it('Login coverage',()=>{
-    console.log(wrapper.findAll('el-form').length);
-  })
-})
-describe('Data.vue',()=>{
-  const wrapper = getWrapper(Data,{})
-  it('data coverage',()=>{
-    console.log(wrapper.findAll("div").length);
-  })
-})
-

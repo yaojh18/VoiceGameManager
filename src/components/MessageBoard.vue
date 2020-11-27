@@ -132,12 +132,6 @@
     <Delete v-bind:dialog-visible="Delete.dialogVisible"
             v-on:DeleteCalledAgain="({data_id})=>DeleteFuncCalled(data_id)"
             v-on:closeDelete="Delete.dialogVisible=false"/>
-  <infoPerson   v-bind:dialog-visible="infoPerson.dialogVisible"
-                v-on:closeinfoPerson="infoPerson.dialogVisible=false"
-                v-bind:name="infoPerson.name"
-                v-bind:last_login="infoPerson.last_login"
-                v-bind:date_joined="infoPerson.date_joined"
-                v-on:editinfoPerson="infoPerson.dialogVisible=false;this.$router.push({path:'/person'});"></infoPerson>
     <el-dialog style="text-align: center" :title="alertDialog.text" :visible.sync="alertDialog.dialogVisible" width="40%">
     </el-dialog>
     <el-dialog style="text-align: center" :title="alertRegisterDialog.text" :visible.sync="alertRegisterDialog.dialogVisible" width="40%">
@@ -155,7 +149,6 @@ import Logout from "@/components/Logout"
 import ModifyPwd from "@/components/ModifyPwd"
 import ModifyPerson from "@/components/ModifyPerson"
 import Add from "@/components/Add"
-import infoPerson from "@/components/infoPerson"
 import {
     addmsg,
     login,
@@ -170,7 +163,6 @@ export default {
         MessageList,
         Register,
         Login,
-        infoPerson,
         Delete,
         Logout,
         ModifyPwd,
@@ -235,14 +227,6 @@ export default {
                  type_id:this.type_id,
               },
               formData: new FormData(),
-            },
-            infoPerson:{
-                dialogVisible: false,
-                form:{
-                  name:this.name,
-                  date_joined:this.date_joined,
-                  last_login:this.last_login,
-                }
             },
             Register: {
                 dialogVisible: false,

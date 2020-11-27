@@ -3,6 +3,7 @@ module.exports = {
   collectCoverageFrom: [
     'src/**/*.{js,vue}',
     '!src/main.js',
+    '!src/utils/*',
     '!src/mock/**',
     '!**/node_modules/**'
   ],

@@ -1,7 +1,5 @@
-/**
- * 如果需要修改为正常上线模式，请注释下面mock的import代码
- * **/
-//import "@/mock/index"
+
+const fetch = require('node-fetch')
 import API from '@/utils/API'
 
 

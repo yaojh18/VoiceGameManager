@@ -1,20 +1,5 @@
 <template>
   <div class="app">
-    <el-backtop target=".page-component__scroll .el-scrollbar__wrap" :bottom="100">
-      <div
-          style="{
-        height: 100%;
-        width: 100%;
-        background-color: #f2f5f6;
-        box-shadow: 0 0 6px rgba(0,0,0, .12);
-        text-align: center;
-        line-height: 40px;
-        color: #1989fa;
-      }"
-      >
-        回到顶部
-      </div>
-    </el-backtop>
     <el-container>
       <el-aside class="app-side app-side-left"
                 :class="isCollapse ? 'app-side-collapsed' : 'app-side-expanded'">
@@ -28,7 +13,7 @@
             <i class="el-icon-edit"></i>
             <span slot="title">数据处理</span>
           </template>
-          <el-collapse v-model="activeNames" @change="handleChange">
+          <el-collapse v-model="activeNames">
             <el-collapse-item title="音视频" name="1">
               <el-form>
                 <el-form-item label="标题">
@@ -124,7 +109,7 @@
             <el-card>玩家音频统计</el-card>
             <el-table
                 :data="mediaData"
-                style="width: 100%"
+                style="width:100%;margin-bottom:20px"
                 height="250">
               <el-table-column
                 fixed
@@ -989,76 +974,13 @@ export default {
     },
   },
   mounted: function () {
-    //let this_ = this;
-    this.getPie();
-    this.drawChart();
-    this.drawMultiple();
-
-    // 基于准备好的dom，初始化echarts实例
-    let myChart2 = echarts.init(document.getElementById(this.myChartPie));
-    // 绘制图表，this.echarts1_option是数据
-    let Option1 = ({
-      series: [{
-        name: '访问来源',
-        type: 'pie',
-        radius: '55%',
-        hoverAnimation:false, // 是否开启 hover 在扇区上的放大动画效果
-        data: [400, 234, 456]
-      }],
-      tooltip: {
-        formatter: '{b} : {c}',// 默认值null，内容格式器
-      },
-      legend: {
-        y: 'bottom',
-        x: 'center',
-        data: ['陌生人','在住人','工作人员']
-      },
-    });
-    myChart2.setOption(Option1);
-
-    let myChart = echarts.init(document.getElementById(this.echarts));
-    let option = {
-      color: ['#333'],
-      tooltip : {
-        trigger: 'axis',
-        axisPointer : {
-          type : 'shadow'
-        }
-      },
-      xAxis : [
-        {
-          type : 'category',
-          data : ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月',],
-          axisTick: {
-            alignWithLabel: true
-          }
-        }
-      ],
-      yAxis : [
-        {
-          type : 'value'
-        }
-      ],
-      series : [
-        {
-          name:'每月花费',
-          type:'bar',
-          barWidth: '60%',
-          data:[995,666,444,858,654,236,645,546,846,225,547,356]
-        }
-      ]
-    };
-    myChart.setOption(option);
-    //建议加上以下这一行代码，不加的效果图如下（当浏览器窗口缩小的时候）。超过了div的界限（红色边框）
-    window.addEventListener('resize',function() {myChart.resize()});
-  let user = sessionStorage.getItem('user');
+    let user = sessionStorage.getItem('user');
     if (user) {
       this.username = user;
     }
   },
   created: function() {
     this.$nextTick(() => {
-      console.log("ready");
       this.dataOrigin();
     });
   },
