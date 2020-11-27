@@ -60,7 +60,6 @@ export default {
       this.Register.dialogVisible = true;
     },
     registerCalled: function(usernameRegister, password, password2)  {
-      console.log(usernameRegister);
       document.cookie = `user=${usernameRegister}`;
       registerBack(usernameRegister, password, password2).then((res) => {
         console.log(res.status);

@@ -146,11 +146,9 @@ import ModifyPwd from "@/components/ModifyPwd"
 import ModifyPerson from "@/components/ModifyPerson"
 import Add from "@/components/Add"
 import {
-    addmsg,
     login,
     registerBack,
     searchBack,
-    deleteMsg,
     getList,
 } from "@/utils/communication"
 export default {
@@ -285,29 +283,12 @@ export default {
         }
     },
     methods: {
-        post: function(title, content, audio_path, video_path) {
-            console.log(title);
-            console.log(content);
-            //document.cookie = `user=${title}`;
-            addmsg(title, content, audio_path, video_path).then((res) => {
-                if (res.status == 201)
-                    this.alertDialog.dialogVisible = true;
-                else
-                    this.alertDialog.dialogVisible = false;
-            });
-        },
         refreshList:()=> {
            getList().then((res)=>{
                console.log(res);
            });
         },
-        postModify:(title,content,audio_path,video_path) => {
-          console.log(title);
-          console.log(content);
-          console.log(audio_path);
-          console.log(video_path);
-        },
-      loginCalled: function(usernameLogin, password) {
+        loginCalled: function(usernameLogin, password) {
             document.cookie = `user=${usernameLogin}`;
             login(usernameLogin, password).then((res)=> {
                   if (res.status == 200) {
@@ -330,7 +311,6 @@ export default {
                localStorage.setItem('token',r.token);
             });
               let Token = localStorage.getItem('token');
-              console.log(Token);
               this.usernameLogged = usernameLogin;
               localStorage.setItem('name',usernameLogin);
               this.getListMsg();
@@ -346,16 +326,6 @@ export default {
                   this.listMaleCnt = 0;
                   this.listFemaleCnt = 0;
                   this.listUnknownCnt = 0;
-        },
-        DeleteFuncCalled : (data_id)=>{
-          deleteMsg(data_id).then((res)=>{
-              console.log(res);
-              if(res.status == 200){
-                this.alertDeleteDialog.dialogVisible= true;
-              }else{
-                this.alertDeleteDialog.dialogVisible= false;
-              }
-          });
         },
         registerCalled: function(usernameRegister, password, password2)  {
             console.log(usernameRegister);
@@ -381,7 +351,6 @@ export default {
         changeAdd(){
             this.Add.dialogVisible=true;
         },
-
         changeRegister(){
             this.Register.dialogVisible = true;
         },
@@ -456,11 +425,7 @@ export default {
               });
             }
         },
-        changeDelete(){
-          this.Delete.dialogVisible = true;
-        },
         logoutFuncCalled(){
-          console.log(this.usernameLogged);
           this.usernameLogged="unknown";
           localStorage.setItem('token','');
           localStorage.setItem('name','unknown');
@@ -567,7 +532,6 @@ export default {
         PersonModify(){
             this.ModifyPerson.dialogVisible = true;
         },
-
     },
     mounted(){
       this.$nextTick(() => {

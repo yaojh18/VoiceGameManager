@@ -187,8 +187,6 @@ import {searchBackId2,DataSingleSearch} from "@/utils/communication.js"
               that.content = r["content"];
               that.audio_path = r.audio_path;
               that.video_path = r.video_path;
-              //that.$refs.audio.play();
-              //that.$refs.video.play();
             });
           },
           handleClose(){
@@ -196,7 +194,6 @@ import {searchBackId2,DataSingleSearch} from "@/utils/communication.js"
             this.$refs.video.stop();
           },
           detailBlock(){
-            console.log("hello world");
             DataSingleSearch(this.Modify.form.level_id).then((res)=>{
               if(res.status == 200 || res.status == 201){
                 this.$message("拉取成功");
@@ -220,9 +217,8 @@ import {searchBackId2,DataSingleSearch} from "@/utils/communication.js"
                       this.Chart.scores=r["scores"],
                       this.Chart.score_average=r["score_average"],
                       this.Chart.played_num=r["played_num"],
-                      this.Chart.dialogVisible=true,
-              console.log(r);
-            })
+                      this.Chart.dialogVisible=true
+            });
           },
       }
     }

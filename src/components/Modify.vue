@@ -114,8 +114,6 @@ export default({
       formData: new FormData(),
     }
   },
-  created: function(){
-  },
   mounted: function(){
     let that = this;
     searchBackId2(this.id).then((res)=>{
@@ -132,9 +130,6 @@ export default({
       that.video_path = r['video_path'];
     });
     this.form.level_id = this.level_id;
-    console.log("created");
-    console.log(this.form.audio_path);
-    console.log(this.form.video_path);
     this.video_path = this.form.video_path;
     this.audio_path = this.form.audio_path;
   },
@@ -144,24 +139,17 @@ export default({
       searchBackId2(this.id).then((res)=>{
         return res.json();
       }).then((r)=> {
-        console.log(r);
         that.type_id = Number(r["type_id"]);
         that.title = r["title"];
         that.content = r["content"];
         that.form.id = Number(r["id"]);
       });
       this.form.level_id = this.level_id;
-      console.log("created");
-      console.log(this.form.audio_path);
-      console.log(this.form.video_path);
       this.video_path = this.form.video_path;
       this.audio_path = this.form.audio_path;
     },
     getFile(e, input_file_name) {
-      console.log(input_file_name);
       this.formData.append(input_file_name, e.target.files[0]);
-      console.log(this.formData);
-      console.log(e.target.files[0]);
     },
     retreat(){
       searchBackId2(Number(this.id)).then((res)=>{
@@ -179,7 +167,6 @@ export default({
       });
     },
     submittt(e) {
-      console.log("helloworld");
       e.preventDefault();
       this.formData.append("title",this.title);
       this.formData.append("content",this.content);

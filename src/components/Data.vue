@@ -266,9 +266,6 @@ export default {
   },
   methods: {
     dataVideoSearch(){
-         console.log(this.VideoTitle);
-         console.log(this.VideoLimit);
-         console.log(this.VideoPage);
          let that = this;
          console.log(API.MEDIAANALYSIS.path);
          var path = "api/manager/data/origin";
@@ -353,7 +350,6 @@ export default {
     },
     userData(){
       let myChart3 = echarts.init(document.getElementById('userbar2'));
-      // 绘制图表，this.echarts1_option是数据
       myChart3.setOption({
         title: {
           text: '对应关卡等级统计'
@@ -374,7 +370,6 @@ export default {
     },
     dataAudioSearch() {
       let that = this;
-      console.log(this.MediaGender, this.MediaStartTime, this.MediaEndTime, this.MediaLevel, this.MediaSort);
       DataAudioSearch("/api/manager/data/user/chart/").then((res) => {
         console.log(res.body);
         return res.json();
@@ -391,9 +386,7 @@ export default {
       });
     },
     getPie () {
-      // 基于准备好的dom，初始化echarts实例
       let myChart2 = echarts.init(document.getElementById('myChartPie'));
-      // 绘制图表，this.echarts1_option是数据
       myChart2.setOption({
         series: [{
           name: '访问来源',
@@ -454,7 +447,7 @@ export default {
           }
         ]
       });
-      let myChart2 =echarts.init(document.getElementById("score"))
+      let myChart2 = echarts.init(document.getElementById("score"))
       myChart2.setOption({
         title: {
           text: '玩家等级统计'
