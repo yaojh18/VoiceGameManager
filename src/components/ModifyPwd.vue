@@ -1,131 +1,119 @@
 <template>
 <div id="message-board">
-  <el-dialog style="text-align: center" title="修改密码"
+    <el-dialog style="text-align: center" title="修改密码"
              :visible.sync="dialogVisible"
              :show-close=false
              @close="$emit('cancelModifyPwd','')"
              width="80%">
-    <el-form label-width="100px">
-      <el-form-item label="用户名">
-        <el-input placeholder="请输入用户名" v-model="username" @input="changeName()">{{ username }}</el-input>
-      </el-form-item>
-      <el-form-item label="原密码">
-        <el-input placeholder="请输入密码" v-model="password" @input="changePwd()">{{ password }}</el-input>
-      </el-form-item>
-      <el-form-item label="新密码">
-        <el-input placeholder="请输入新密码" v-model="password2" @input="changePwd2()">{{ password2 }}</el-input>
-      </el-form-item>
-      <el-form-item label="确认新密码">
-        <el-input placeholder="请再次输入新密码" v-model="password3" @input="changePwd3()">{{ password3 }}</el-input>
-      </el-form-item>
-    </el-form>
-    <span slot="footer" class="dialog-footer">
-        <el-button v-on:click="$emit('cancelModifyPwd',''),dialogVisible=false">取 消</el-button>
-        <el-button v-on:click="editUser();dialogVisible=false" type="primary" :disabled="state.username_valid===false||state.pwd_valid===false||state.pwd2_valid===false||state.pwd3_valid===false" :enabled="state.username_valid===true&&state.pwd_valid===true&&state.pwd2_valid===true&&state.pwd3_valid===true">确 定</el-button>
-    </span>
-  </el-dialog>
-  <el-dialog style="text-align: center" :title="alertDialog.text" :visible.sync="alertDialog.dialogVisible" width="40%">
-  </el-dialog>
+        <el-form label-width="120px">
+            <el-form-item label="用户名">
+                <el-input placeholder="请输入用户名" v-model="username" @input="changeName()" readonly="true" style="width:80%"></el-input>
+            </el-form-item>
+            <el-form-item label="原密码">
+                <el-input placeholder="请输入密码" v-model="password" @input="changePwd()" show-password style="width:80%"></el-input>
+            </el-form-item>
+            <el-form-item label="新密码">
+                <el-input placeholder="请输入新密码" v-model="password2" @input="changePwd2()" show-password style="width:80%"></el-input>
+            </el-form-item>
+                <el-form-item label="确认新密码">
+            <el-input placeholder="请再次输入新密码" v-model="password3" @input="changePwd3()" show-password style="width:80%"></el-input>
+            </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+            <el-button v-on:click="editUser();dialogVisible=false" type="primary" :disabled="username===''||password===''||password2===''||password3===''" :enabled="username!==''&&password!==''&&password2!==''&&password3!==''">确 定</el-button>
+            <el-button v-on:click="$emit('cancelModifyPwd','');dialogVisible=false">取 消</el-button>
+        </span>
+    </el-dialog>
 </div>
 </template>
 
 <script>
-import {editUserMsg} from "@/utils/communication";
+import {editUserMsg, getUserMsg} from "@/utils/communication";
 export default {
-  name: "ModifyPwd",
-  props: {
-    dialogVisible: {
-      type: Boolean,
-      default: () => true
-    },
-    state: {
-      type: Object,
-      default: () => {
-        return {
-          username_valid: false,
-          pwd_valid: false,
-          pwd2_valid: false,
-          pwd3_valid: false
-        }
-      }
-    },
+    name: "ModifyPwd",
+    props: {
+        dialogVisible: {
+            type: Boolean,
+            default: () => true
+        },
     username: {
-      type: String,
-      default: () => ""
+        type: String,
+        default: () => ""
     },
     password: {
-      type: String,
-      default: () => ""
+        type: String,
+        default: () => ""
     },
     password2: {
-      type: String,
-      default: () => ""
+        type: String,
+        default: () => ""
     },
     password3: {
-      type: String,
-      default: () => ""
+        type: String,
+        default: () => ""
     },
-    email:{
-      type:String,
-      default: () => ""
     },
-    name:{
-      type:String,
-      default: () => ""
-    }
-  },
-  data(){
-    return {
-      ModifyPwd:{
-        dialogVisible:true,
-        form:{
-          username:this.username,
-          password:this.password,
-          password2:this.password2,
-          password3:this.password3,
-          email:this.email,
-          name:this.name,
+    data(){
+        return {
+            ModifyPwd:{
+                dialogVisible:true,
+                form:{
+                    username:this.username,
+                    password:this.password,
+                    password2:this.password2,
+                    password3:this.password3,
+                }
+            }
         }
-      },
-      alertDialog:{
-         dialogVisible:false,
-         text:"输入信息有误",
-      }
+    },
+    methods: {
+        changeName(e) {
+            this.$forceUpdate(e);
+        },
+        changePwd(e) {
+            this.$forceUpdate(e);
+        },
+        changePwd2(e) {
+            this.$forceUpdate(e);
+        },
+        changePwd3(e) {
+            this.$forceUpdate(e);
+        },
+        editUser(){
+            let that = this
+            if(this.password2===this.password3){
+                editUserMsg(this.username,this.password2,this.password).then(function (res) {
+                    if (res.status === 200)
+                        that.$message('修改成功')
+                    else
+                        that.$message('修改失败')
+            })}
+            else{
+                this.$message('两次输入的密码不一致')
+            }
+        }
+    },
+    watch: { // 用于实时检测username是否合法
+        dialogVisible: {
+            handler(newval, oldval) {
+            let that = this
+            if (newval === true && oldval === false)
+                this.$nextTick(() => {
+                getUserMsg().then((res)=>{
+                    res.json().then((res)=>{
+                        if (res instanceof Array){
+                            let idx = res.findIndex(function (item) {
+                            return item.usernam = that.username
+                        })
+                        res = res[idx]
+                        }
+                        this.username=res.username;
+                    })
+                })
+            })
+        }
     }
   },
-  methods: {
-    changeName(e) {
-      this.$forceUpdate(e);
-      this.state.username_valid = true;
-    },
-    changePwd(e) {
-      this.$forceUpdate(e);
-      this.state.pwd_valid = true;
-    },
-    changePwd2(e) {
-      this.$forceUpdate(e);
-      this.state.pwd2_valid = true;
-    },
-    changePwd3(e) {
-      this.$forceUpdate(e);
-      this.state.pwd3_valid = true;
-    },
-    editUser(){
-      console.log(this.password2);
-      console.log(this.password3);
-      if(this.password2==this.password3){
-        this.alertDialog.dialogVisible = false;
-        console.log(this.username);
-        console.log(this.password2);
-        console.log(this.password);
-        editUserMsg(this.username,this.password2,this.password);
-      }else{
-        this.alertDialog.dialogVisible = true;
-      }
-    }
-  },
-  watch: { // 用于实时检测username是否合法
-  }
 }
 </script>
 <style scoped>

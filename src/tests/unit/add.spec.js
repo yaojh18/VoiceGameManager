@@ -27,7 +27,7 @@ describe("Add.vue",()=>{
     it('test functions',async ()=>{
             expect(wrapper.vm.dialogVisible).toBe(true)
             const button = wrapper.findAll('button')
-            expect(button.length).toBe(2);
+            expect(button.length).toBe(4);
             for(var r=1;r<button.length;r++){
                 button.at(r).trigger('click');
             }
@@ -41,8 +41,7 @@ describe("Add.vue",()=>{
              expect(wrapper.emitted().closeAdd).toBeTruthy()
     })
     it('test passing props',async()=>{
-           await wrapper.setData({ level: 'level' ,type_id:"type_id",title:'title',content:'content'})
-           expect(wrapper.vm.level).toBe('level')
+           await wrapper.setData({type_id:"type_id",title:'title',content:'content'})
            expect(wrapper.vm.type_id).toBe('type_id')
            expect(wrapper.vm.title).toBe('title')
            expect(wrapper.vm.content).toBe('content')

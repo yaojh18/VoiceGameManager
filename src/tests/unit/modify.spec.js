@@ -23,15 +23,12 @@ describe("Modify.vue",()=>{
         expect(dialog.exists()).toBe(true)
     })
     it('functions test',()=>{
-        wrapper.vm.open();
         wrapper.vm.retreat();
     })
 })
 describe("Modify.vue",()=> {
     const wrapper = getWrapper(Modify,{
         dialogVisible: true,
-        const_level_id:1,
-        level_id:1,
         title: "title",
         content: "content",
         id:1,
@@ -39,8 +36,6 @@ describe("Modify.vue",()=> {
     })
     it("test passing props",()=>{
         expect(wrapper.vm.dialogVisible).toBe(true);
-        expect(wrapper.vm.const_level_id).toBe(1);
-        expect(wrapper.vm.level_id).toBe(1);
         expect(wrapper.vm.title).toBe('title');
         expect(wrapper.vm.content).toBe('content');
         expect(wrapper.vm.id).toBe(1);

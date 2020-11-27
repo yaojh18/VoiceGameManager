@@ -5,6 +5,7 @@ module.exports = {
     '!src/main.js',
     '!src/utils/*',
     '!src/mock/**',
+    '!src/tests/**',
     '!**/node_modules/**'
   ],
   snapshotSerializers: ['<rootDir>/node_modules/jest-serializer-vue'],

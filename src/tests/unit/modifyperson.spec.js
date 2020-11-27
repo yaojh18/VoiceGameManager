@@ -18,7 +18,6 @@ describe("ModifyPerson.vue",()=>{
         expect(dialog.exists()).toBe(true)
     })
     it('functions test',()=>{
-        wrapper.vm.editMessage();
         wrapper.vm.changeName();
         wrapper.vm.changeemail();
         wrapper.vm.changename();
@@ -26,5 +25,6 @@ describe("ModifyPerson.vue",()=>{
         expect(wrapper.vm.name).toBe("a");
         expect(wrapper.vm.email).toBe("b");
         expect(wrapper.vm.username).toBe("c");
+        wrapper.vm.editUser();
     })
 })

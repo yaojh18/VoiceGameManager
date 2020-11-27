@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '@/views/Home.vue'
+// import Register from '@/views/Register.vue'
 import StartView from '@/views/StartView.vue'
 import DataView from '@/views/DataView.vue'
 
@@ -16,6 +17,16 @@ const routes = [{
         name: 'DataView',
         component: DataView,
     },
+    // {
+    //     path: '/register',
+    //     name: 'Register',
+    //     component: Register,
+    // },
+    // {
+    //     path: '/person',
+    //     name: 'PersonView',
+    //     component: PersonView,
+    // },
     {
         path: '/',
         name: 'StartView',
