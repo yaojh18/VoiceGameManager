@@ -22,9 +22,6 @@ describe("Modify.vue",()=>{
         const dialog = wrapper.findComponent(Dialog)
         expect(dialog.exists()).toBe(true)
     })
-    it('functions test',()=>{
-        wrapper.vm.retreat();
-    })
 })
 describe("Modify.vue",()=> {
     const wrapper = getWrapper(Modify,{
@@ -46,8 +43,11 @@ describe("Modify.vue",()=> {
         expect(form.length).toBe(1)
         const formitem = wrapper.findAll('FormItem')
         expect(formitem.length).toBe(0)
-
     })
-
+    it('functions test',()=>{
+        wrapper.vm.retreat();
+        wrapper.vm.submittt();
+        wrapper.vm.setTypeId(0);
+    })
 }
 )

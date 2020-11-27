@@ -10,7 +10,8 @@ describe("MessageList.vue",()=>{
     const router = new VueRouter()
     localVue.use(ElementUI)
     const wrapper = mount(MessageList, { localVue, router })
-    it('test function uploadMsgtoBoard', ()=>{
-        wrapper.vm.uploadMsgtoBoard('close')
+    it('test function', ()=>{
+        wrapper.vm.uploadMsgtoBoard('close');
+        wrapper.vm.modifySuccess();
     })
 })
