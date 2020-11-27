@@ -43,7 +43,7 @@ export default {
       uploadMsgtoBoard(choice){
           this.$emit('uploadMsgTB',{'content':this.content,'choice':choice,'title':this.title,'level_id':this.level_id,'id':this.id});
       },
-      modifySucess(){
+      modifySuccess(){
           this.$emit('modifySucceed')
       },
   }
