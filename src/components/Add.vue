@@ -42,8 +42,8 @@
         </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
-        <el-button v-on:click="submitForm();" type="primary" >确 认</el-button>
-        <el-button v-on:click="$emit('closeAdd','');dialogVisible=false">关 闭</el-button>
+        <el-button v-on:click="submitForm();" type="primary" >确 定</el-button>
+        <el-button v-on:click="$emit('closeAdd','');dialogVisible=false">取 消</el-button>
     </span>
 </el-dialog>
 </template>

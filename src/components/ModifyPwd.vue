@@ -20,8 +20,8 @@
             </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
-            <el-button v-on:click="$emit('cancelModifyPwd','');dialogVisible=false">取 消</el-button>
             <el-button v-on:click="editUser();dialogVisible=false" type="primary" :disabled="username===''||password===''||password2===''||password3===''" :enabled="username!==''&&password!==''&&password2!==''&&password3!==''">确 定</el-button>
+            <el-button v-on:click="$emit('cancelModifyPwd','');dialogVisible=false">取 消</el-button>
         </span>
     </el-dialog>
 </div>

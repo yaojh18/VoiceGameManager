@@ -75,7 +75,11 @@
                         <template>
                             <el-tabs style="margin-top:30px;font-size:12px" v-model="choiceTypeId" type="card">
                             <el-tab-pane size="mini" label="男性角色关卡" name='1'>
-                                <MessageList v-bind:messageList="messageListMalePart" v-on:RefreshMsg="this.$forceUpdate()"/>
+                                <MessageList
+                                        v-bind:messageList="messageListMalePart"
+                                        v-on:RefreshMsg="this.$forceUpdate()"
+                                        @modifySucceed="getListMsg"
+                                />
                                 <el-pagination
                                     id="pag1"
                                     background
@@ -86,7 +90,11 @@
                                 </el-pagination>
                             </el-tab-pane>
                             <el-tab-pane size="mini" label="女性角色关卡" name='2'>
-                                <MessageList v-bind:messageList="messageListFemalePart" v-on:RefreshMsg="this.$forceUpdate()"/>
+                                <MessageList
+                                        v-bind:messageList="messageListFemalePart"
+                                        v-on:RefreshMsg="this.$forceUpdate()"
+                                        @modifySucceed="getListMsg"
+                                />
                                 <el-pagination
                                     id="pag2"
                                     background
@@ -97,7 +105,11 @@
                                 </el-pagination>
                             </el-tab-pane>
                             <el-tab-pane size="mini" label="其他关卡" name='0'>
-                                <MessageList v-bind:messageList="messageListUnknownPart" v-on:RefreshMsg="this.$forceUpdate()"/>
+                                <MessageList
+                                        v-bind:messageList="messageListUnknownPart"
+                                        v-on:RefreshMsg="this.$forceUpdate()"
+                                        @modifySucceed="getListMsg"
+                                />
                                 <el-pagination
                                     id="pag3"
                                     background

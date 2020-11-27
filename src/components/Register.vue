@@ -13,11 +13,12 @@
         </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
-        <el-button  v-on:click="$emit('closeRegister',''),dialogVisible=false">取 消</el-button>
-        <el-button  v-on:click="$emit('register',{usernameRegister:username,password:password,password2:password2}),dialogVisible=false" type="primary"
+        <el-button  v-on:click="$emit('register',{usernameRegister:username,password:password,password2:password2});dialogVisible=false"
+                            type="primary"
                             :disabled="state.username_valid===false"
                             :enabled="state.username_valid===true"
                             >确 定</el-button>
+        <el-button  v-on:click="$emit('closeRegister','');dialogVisible=false">取 消</el-button>
     </span>
 </el-dialog>
 

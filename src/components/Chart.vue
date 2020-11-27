@@ -9,7 +9,7 @@
         <div style="width:100%;height:200px" id="chartplay" class="chartplay" ref="chartplay"/>
         <div style="width:100%;height:200px" id="uscore" class="uscore" ref="uscore"/>
       </div>
-    <el-button v-on:click="$emit('cancelChart','')">取 消</el-button>
+    <el-button v-on:click="$emit('cancelChart','')">确 认</el-button>
   </el-dialog>
 </template>
 

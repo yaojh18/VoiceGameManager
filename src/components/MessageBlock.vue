@@ -30,14 +30,14 @@
     </el-menu>
     <Modify v-bind:dialog-visible="Modify.dialogVisible"
             v-on:closeEmit="Modify.dialogVisible = false;"
-          v-on:closeModify="Modify.dialogVisible = false;"
-          v-bind:level_id="Modify.form.level_id"
-          v-bind:title="Modify.form.title"
-          v-bind:content="Modify.form.content"
-          v-bind:id="Modify.form.id"
-          v-bind:type_id="Modify.form.type_id"
-          v-bind:audio_path="Modify.form.audio_path"
-          v-bind:video_path="Modify.form.video_path"
+            v-on:closeModify="Modify.dialogVisible = false;"
+            v-bind:title="title"
+            v-bind:content="content"
+            v-bind:id="id"
+            v-bind:type_id="type_id"
+            v-bind:audio_path="audio_path"
+            v-bind:video_path="video_path"
+            @modifySucceed="modifySucess"
     />
     <Chart
          v-bind:dialog-visible="Chart.dialogVisible"
@@ -81,16 +81,13 @@ import {searchBackId2,DataSingleSearch} from "@/utils/communication.js"
             },
             content:{
                 type:String,
+                default: () => ""
             },
             level_id: {
                 type:Number,
                 default: () => 0
             },
             id: {
-                type:Number,
-                default: () => 0
-            },
-            timestamp: {
                 type:Number,
                 default: () => 0
             },
@@ -109,16 +106,8 @@ import {searchBackId2,DataSingleSearch} from "@/utils/communication.js"
             return {
                 Modify: {
                     dialogVisible: false,
-                    form: {
-                        title: this.title,
-                        content: this.content,
-                        level_id: this.level_id,
-                        id: this.id,
-                        audio_path: this.audio_path,
-                        video_path: this.video_path,
+                    formData: new FormData(),
                 },
-                formData: new FormData(),
-            },
             Chart: {
                 scores: this.scores,
                 score_average: this.score_average,
@@ -158,20 +147,13 @@ import {searchBackId2,DataSingleSearch} from "@/utils/communication.js"
             }
         },
         methods:{
+            modifySucess(){
+                this.$emit('modifySucceed')
+            },
             closeBlock(){
                 this.dialogVisible = false;
             },
             editBlock(){
-                searchBackId2(this.id).then((res)=>{
-                    if(res.status === 200 || res.status === 201){
-                        this.$message("拉取成功");
-                    }else{
-                        this.$message("拉取失败");
-                    }
-                    return res.json();
-                }).then((r)=> {
-                    console.log(r);
-                });
                 this.Modify.dialogVisible = true;
             },
             handleOpen(){
@@ -191,7 +173,7 @@ import {searchBackId2,DataSingleSearch} from "@/utils/communication.js"
                 this.$refs.video.stop();
             },
             detailBlock(){
-                DataSingleSearch(this.Modify.form.level_id).then((res)=>{
+                DataSingleSearch(this.level_id).then((res)=>{
                     if(res.status === 200 || res.status === 201){
                         this.$message("拉取成功");
                     }else{
@@ -215,7 +197,6 @@ import {searchBackId2,DataSingleSearch} from "@/utils/communication.js"
                 this.Chart.score_average=r["score_average"]
                 this.Chart.played_num=r["played_num"]
                 this.Chart.dialogVisible=true
-                console.log(r)
             })},
         }
     }

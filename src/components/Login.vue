@@ -11,8 +11,8 @@
             </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
-            <el-button v-on:click="$emit('cancelLogin','');dialogVisible=false">取 消</el-button>
             <el-button v-on:click="$emit('login',{usernameLogin:username,password:password});dialogVisible=false" type="primary" :disabled="username===''||password===''" :enabled="username!==''&&password!==''">确 定</el-button>
+            <el-button v-on:click="$emit('cancelLogin','');dialogVisible=false">取 消</el-button>
         </span>
     </el-dialog>
 </template>
