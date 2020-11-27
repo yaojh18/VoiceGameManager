@@ -129,9 +129,6 @@
             v-on:closeLogout="Logout.dialogVisible=false"
             v-on:logoutfunc="Logout.dialogVisible=false;logoutFuncCalled()"
             />
-    <Delete v-bind:dialog-visible="Delete.dialogVisible"
-            v-on:DeleteCalledAgain="({data_id})=>DeleteFuncCalled(data_id)"
-            v-on:closeDelete="Delete.dialogVisible=false"/>
     <el-dialog style="text-align: center" :title="alertDialog.text" :visible.sync="alertDialog.dialogVisible" width="40%">
     </el-dialog>
     <el-dialog style="text-align: center" :title="alertRegisterDialog.text" :visible.sync="alertRegisterDialog.dialogVisible" width="40%">
@@ -144,7 +141,6 @@
 import MessageList from "@/components/MessageList"
 import Login from "@/components/Login"
 import Register from "@/components/Register"
-import Delete from "@/components/Delete"
 import Logout from "@/components/Logout"
 import ModifyPwd from "@/components/ModifyPwd"
 import ModifyPerson from "@/components/ModifyPerson"
@@ -163,7 +159,6 @@ export default {
         MessageList,
         Register,
         Login,
-        Delete,
         Logout,
         ModifyPwd,
         ModifyPerson,
@@ -234,21 +229,6 @@ export default {
                     usernameRegister: "",
                     password: "",
                     password2: ""
-                }
-            },
-            Delete:{
-                dialogVisible:false,
-                form:{
-                    data_id:"",
-                }
-            },
-            postDialog: {
-                dialogVisible: false,
-                form: {
-                    title: "",
-                    content: "",
-                    audio_path: "",
-                    video_path: "",
                 }
             },
             alertDialog: {
@@ -401,9 +381,7 @@ export default {
         changeAdd(){
             this.Add.dialogVisible=true;
         },
-        changeDialog() {
-            this.postDialog.dialogVisible = true;
-        },
+
         changeRegister(){
             this.Register.dialogVisible = true;
         },

@@ -1,5 +1,5 @@
 import {shallowMount,createLocalVue,mount} from '@vue/test-utils'
-import ElementUI, {Container, Form} from 'element-ui'
+import ElementUI, {Container, Header} from 'element-ui'
 import VueRouter from 'vue-router'
 
 import Start from "@/components/Start";
@@ -12,5 +12,17 @@ describe("Register.vue",()=>{
     it('has a container',()=>{
         const form = wrapper.findComponent(Container)
         expect(form.exists()).toBe(true)
+    })
+    it('has a header',()=>{
+        const form = wrapper.findComponent(Header)
+        expect(form.exists()).toBe(true)
+    })
+    it('test function',()=>{
+        wrapper.vm.handlelogin();
+        expect(wrapper.vm.Login.dialogVisible).toBe(true)
+        wrapper.vm.handleregister();
+        expect(wrapper.vm.Register.dialogVisible).toBe(true)
+        wrapper.vm.registerCalled();
+        wrapper.vm.loginCalled();
     })
 })

@@ -107,7 +107,6 @@ export default {
       console.log(Token);
       this.usernameLogged = usernameLogin;
       localStorage.setItem('name',usernameLogin);
-      this.getListMsg();
       this.Login.dialogVisible = false;
     },
   }

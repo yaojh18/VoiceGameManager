@@ -412,15 +412,6 @@ export default {
         },
       });
     },
-    changeradiohandler(value){
-      if(value=="left"){
-        this.activetabName="first";
-      }else if(value=="right"){
-        this.activetabName="second";
-      }else if(value=="top"){
-        this.activetabName="third";
-      }
-    },
     drawChart () {
       console.log("drawChart");
       console.log(this.videoavScores);
@@ -850,83 +841,6 @@ export default {
          console.log(r);
       });
     },
-    drawMultiple(){
-      // 基于准备好的dom，初始化echarts实例
-      let myChartMultiple =echarts.init(document.getElementById('chartMultiple'))
-      let dd = {
-        title: [
-          {
-            text: '后台统计图表1',
-            subtext: '性别',
-            left: '30%'
-          },
-          {
-            text: '后台统计图表2',
-            subtext: '年龄',
-            left: '80%'
-          }
-        ],
-        top: "80%",
-        series: [
-          {
-            name: '访问来源',
-            type: 'pie',
-            radius: ['10%', '20%',],
-            center : [ '20%', '50%' ],//位置确定：左下角
-            avoidLabelOverlap: true,
-            label: {
-              show: false,
-              position: 'center'
-            },
-            emphasis: {
-              label: {
-                show: true,
-                fontSize: '30',
-                fontWeight: 'bold'
-              }
-            },
-            labelLine: {
-              show: false
-            },
-            data: [
-              {name: 'A', value: 1212},
-              {name: 'B', value: 2323},
-              {name: 'C', value: 1919}
-            ]
-          },
-          {
-            // name: '访问来源',
-            type: 'pie',
-            radius: ['50%', '80%'],
-            center : [ '70%', '50%' ],//位置确定：左下角
-            avoidLabelOverlap: true,
-            label: {
-              show: false,
-              position: 'center'
-            },
-            emphasis: {
-              label: {
-                show: true,
-                fontSize: '30',
-                fontWeight: 'bold'
-              }
-            },
-            labelLine: {
-              show: false
-            },
-
-            data: [
-              {name: 'l', value: 1212},
-              {name: 'g', value: 2323},
-              {name: 'h', value: 1919}
-            ]
-          },
-        ]};
-      myChartMultiple.setOption(dd);
-    },
-    toggleSideBar() {
-      this.isCollapse = !this.isCollapse
-    },
     changehtml:function(){
       this.$router.go(-2);
     },
@@ -947,26 +861,6 @@ export default {
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
     },
-    changeradiofirst(){
-      console.log(this.activetabName);
-      this.activetabName="first";
-    },
-    changeradiosecond(){
-      console.log(this.activetabName);
-      this.activetabName="second";
-    },
-    changeradiothird(){
-      this.activetabName="third";
-    },
-    changefirst(){
-      this.labelPosition="left";
-    },
-    changesecond(){
-      this.labelPosition="right";
-    },
-    changethird(){
-      this.labelPosition="top";
-    }
   },
   computed: {
     echarts() {

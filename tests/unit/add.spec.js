@@ -1,4 +1,4 @@
-import  ElementUI, { Form } from 'element-ui'
+import  ElementUI, { Form,Dialog } from 'element-ui'
 import { shallowMount, createLocalVue, mount } from '@vue/test-utils'
 import VueRouter from 'vue-router'
 import Add from "@/components/Add"
@@ -13,7 +13,11 @@ describe("Add.vue",()=>{
 
     const wrapper = mount(Add,{localVue, router})
     it('has a form', () => {
-        const table = wrapper.findComponent(Form)
-        expect(table.exists()).toBe(true)
+        const form = wrapper.findComponent(Form)
+        expect(form.exists()).toBe(true)
+    })
+    it('has a dialog',()=>{
+        const dialog = wrapper.findComponent(Dialog)
+        expect(dialog.exists()).toBe(true)
     })
 })
