@@ -1,3 +1,6 @@
+import mockAxios from "../__mocks__/axios";
+
+require("../__mocks__/console")
 import  ElementUI, { Form,Dialog,Button } from 'element-ui'
 import { shallowMount, createLocalVue, mount } from '@vue/test-utils'
 import VueRouter from 'vue-router'
@@ -26,12 +29,22 @@ describe("Add.vue",()=>{
     })
     it('test functions',async ()=>{
             expect(wrapper.vm.dialogVisible).toBe(true)
+            mockAxios.post.mockImplementationOnce(()=>Promise.resolve({data:{status:201}}))
             const button = wrapper.findAll('button')
             expect(button.length).toBe(2);
-            for(var r=1;r<button.length;r++){
+            for(var r=0;r<button.length;r++){
                 button.at(r).trigger('click');
             }
             expect(wrapper.vm.dialogVisible).toBe(false)
+    })
+    it('test functions',async ()=>{
+        mockAxios.post.mockImplementationOnce(()=>Promise.resolve({data:{status:400}}))
+        const button = wrapper.findAll('button')
+        expect(button.length).toBe(2);
+        for(var r=0;r<button.length;r++){
+            button.at(r).trigger('click');
+        }
+        expect(wrapper.vm.dialogVisible).toBe(false)
     })
     it('test button triggered',async()=>{
              const button = wrapper.findAll('button')
@@ -39,6 +52,12 @@ describe("Add.vue",()=>{
                  button.at(i).trigger('click');
              }
              expect(wrapper.emitted().closeAdd).toBeTruthy()
+    })
+    it('renders',()=>{
+        expect(wrapper.vm.dialogVisible).toBe(false);
+        expect(wrapper.vm.level).toBe(0)
+        expect(wrapper.vm.type_id).toBe(1)
+        expect(wrapper.vm.title).toBe('')
     })
     it('test passing props',async()=>{
            await wrapper.setData({ level: 'level' ,type_id:"type_id",title:'title',content:'content'})

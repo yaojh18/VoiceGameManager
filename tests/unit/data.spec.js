@@ -1,6 +1,7 @@
+require("../__mocks__/console")
 import { getWrapper } from './utils'
 import {shallowMount,createLocalVue,mount} from '@vue/test-utils'
-import ElementUI, {Form, Container, Table, Card, Collapse, Popover, Button, Menu} from 'element-ui'
+import ElementUI, {Form, Container, Table, Card, Collapse, Popover, Button, Menu,Aside,FormItem,TableColumn,Input} from 'element-ui'
 import VueRouter from 'vue-router'
 
 import Data from "@/components/Data";
@@ -14,6 +15,10 @@ describe("Data.vue",()=>{
         const form = wrapper.findComponent(Form)
         expect(form.exists()).toBe(true)
     })
+    it('has an aside',()=>{
+        const aside = wrapper.findComponent(Aside)
+        expect(aside.exists()).toBe(true)
+    })
     it('has a Container',()=>{
         const container = wrapper.findComponent(Container)
         expect(container.exists()).toBe(true)
@@ -21,6 +26,8 @@ describe("Data.vue",()=>{
     it('has a Table',()=>{
         const table = wrapper.findComponent(Table)
         expect(table.exists()).toBe(true)
+        const tableColumn = wrapper.findComponent(TableColumn)
+        //expect(tableColumn.length).toBeGreaterThan(1)
     })
     it('has a Card',()=>{
         const card = wrapper.findComponent(Card)
@@ -30,13 +37,34 @@ describe("Data.vue",()=>{
         const collapse = wrapper.findComponent(Collapse)
         expect(collapse.exists()).toBe(true)
     })
+    it('has inputs',()=>{
+        const inputs = wrapper.findComponent(Input)
+        //expect(inputs.length).toBeGreaterThan(1)
+    })
     it('has a Popover',()=>{
         const popover = wrapper.findComponent(Popover)
         expect(popover.exists()).toBe(true)
+        //expect(popover.length).toBeGreaterThan(1)
     })
     it('has a Button',()=>{
         const button = wrapper.findComponent(Button)
         expect(button.exists()).toBe(true)
+        //expect(button.length).toBeGreaterThan(1)
+    })
+    it('has subcontrols',()=>{
+        var r = wrapper.findAll(Form);
+        expect(r.exists()).toBe(true);
+        for(var i=0;i<r.length;++i){
+            var u = r.at(i).findAll(FormItem)
+            expect(u.exists()).toBe(true);
+        }
+    })
+    it('test goback',()=>{
+        var buttons = wrapper.findAll(Button);
+        for(var i=0;i<buttons.length;++i){
+            buttons.at(i).trigger('click');
+        }
+        wrapper.vm.changehtml();
     })
     it('test functions',()=>{
         wrapper.vm.dataAudioSearch();

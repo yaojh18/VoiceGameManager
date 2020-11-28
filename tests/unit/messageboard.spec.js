@@ -1,7 +1,8 @@
 import {shallowMount,createLocalVue,mount} from '@vue/test-utils'
 import ElementUI,{Form,Container,Main,Footer,Dialog,Button,TabPane} from 'element-ui'
 import VueRouter from 'vue-router'
-
+require("../__mocks__/console")
+import mockAxios from '../__mocks__/axios.js';
 import MessageBoard from "@/components/MessageBoard";
 import MessageBlock from "@/components/MessageBlock";
 import MessageList from "@/components/MessageList";
@@ -23,6 +24,22 @@ describe("MessageBoard.vue",()=>{
     it('has a container',()=>{
         const container = wrapper.findComponent(Container)
         expect(container.exists()).toBe(true)
+    })
+    it('test function loginCalled',()=>{
+        mockAxios.post.mockImplementationOnce(()=>Promise.resolve({data:{status:200,token:"token"}}))
+        wrapper.vm.loginCalled();
+        mockAxios.post.mockImplementationOnce(()=>Promise.resolve({data:{status:201,token:"token"}}))
+        wrapper.vm.loginCalled();
+        mockAxios.post.mockImplementationOnce(()=>Promise.resolve({data:{status:404}}))
+        wrapper.vm.loginCalled();
+    })
+    it('test function registerCalled',()=>{
+        mockAxios.post.mockImplementationOnce(()=>Promise.resolve({data:{status:200,token:"token"}}))
+        wrapper.vm.registerCalled();
+        mockAxios.post.mockImplementationOnce(()=>Promise.resolve({data:{status:201,token:"token"}}))
+        wrapper.vm.registerCalled();
+        mockAxios.post.mockImplementationOnce(()=>Promise.resolve({data:{status:404}}))
+        wrapper.vm.registerCalled();
     })
     it('has main',()=>{
         const main = wrapper.findComponent(Main)
@@ -64,6 +81,10 @@ describe("MessageBoard.vue",()=>{
         wrapper.vm.loginCalled();
         wrapper.vm.refreshList();
         wrapper.vm.registerCalled();
+    })
+    it('test function refreshList',()=>{
+        mockAxios.get.mockImplementationOnce(()=>Promise.resolve({data:{status:201,data:"data"}}))
+        wrapper.vm.refreshList();
     })
     it('test function logout',()=>{
         wrapper.vm.logoutFuncCalled();

@@ -5,7 +5,7 @@ import ElementUI,{Menu,Button} from 'element-ui'
 import VueRouter from 'vue-router'
 import Chart from '@/components/Chart'
 import Modify from '@/components/Modify'
-
+require("../__mocks__/console")
 import MessageBlock from "@/components/MessageBlock";
 describe("MessageBlock.vue",()=>{
     const localVue = createLocalVue()
@@ -65,9 +65,48 @@ describe("MessageBlock.vue",()=>{
         expect(wrapper.findAll('messageblock-content').length).toBe(0)
        // expect(wrapper.findAll('messageblock-content').at(0).text()).toBe('content')
     })
+    it('test function editblock others',()=>{
+        mockAxios.post.mockImplementationOnce(()=>Promise.resolve({data:{status:200}}))
+        wrapper.vm.editBlock();
+        mockAxios.post.mockImplementationOnce(()=>Promise.resolve({data:{status:201}}))
+        wrapper.vm.editBlock();
+        mockAxios.post.mockImplementationOnce(()=>Promise.resolve({data:{status:404}}))
+        wrapper.vm.editBlock();
+    })
     it('contains other kits',()=>{
         const wrapper = mount(MessageBlock);
         expect(wrapper.contains(Modify)).toBe(true);
         expect(wrapper.contains(Chart)).toBe(true);
+        wrapper.setData({
+            Chart:{
+                scores: [1,2,3,4],
+                score_average: 0,
+                dialogVisible: false,
+                female_num: 3,
+                female_scores: [1,2,3,4],
+                unknown_num: 2,
+                unknown_scores: [1,2,3,4],
+                male_num: 2,
+                male_scores: [1,2,3,4],
+                female_score_average: 85,
+                male_score_average: 95,
+                unknown_score_average: 0,
+                played_num: 10,
+                title: "title",
+                type_id: 1,
+            },
+            Modify:{
+                dialogVisible: false,
+                form: {
+                    title: "title",
+                    content: "content",
+                    level_id: 1,
+                    id: 1,
+                    audio_path: "audio",
+                    video_path: "video",
+                },
+                formData: new FormData(),
+            },
+        })
     })
 })

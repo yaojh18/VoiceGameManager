@@ -75,9 +75,6 @@ export default({
         formData: new FormData(),
         }
     },
-    mounted: function () {
-
-    },
     methods: {
         getFile(e, input_file_name) {
             this.formData.append(input_file_name, e.target.files[0]);
@@ -97,7 +94,6 @@ export default({
             });
         }
     },
-
 });
 </script>
 

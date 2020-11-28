@@ -15,17 +15,13 @@ export default{
       type: Boolean,
       default: () => true
     },
-
   },
   data(){
     return {
-      Login:{
+      Logout:{
         dialogVisible:true,
       },
     }
-  },
-  methods: {
-
   },
 }
 </script>

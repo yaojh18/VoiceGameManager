@@ -14,9 +14,12 @@ describe("Modify.vue",()=>{
         const form = wrapper.findComponent(Form)
         expect(form.exists()).toBe(true)
     })
-    it('has a button',()=>{
+    it('has a button and click',()=>{
         const button = wrapper.findComponent(Button)
         expect(button.exists()).toBe(true)
+        for(var i=0;i<button.length;++i){
+            button.at(i).trigger('click');
+        }
     })
     it('has a dialog',()=>{
         const dialog = wrapper.findComponent(Dialog)
@@ -25,6 +28,12 @@ describe("Modify.vue",()=>{
     it('functions test',()=>{
         wrapper.vm.open();
         wrapper.vm.retreat();
+    })
+    it('test default',()=>{
+        expect(wrapper.vm.level_id).toBe(0);
+        expect(wrapper.vm.const_level_id).toBe(1);
+        expect(wrapper.vm.id).toBe(0);
+        expect(wrapper.vm.dialogVisible).toBe(true);
     })
 })
 describe("Modify.vue",()=> {
@@ -51,8 +60,18 @@ describe("Modify.vue",()=> {
         expect(form.length).toBe(1)
         const formitem = wrapper.findAll('FormItem')
         expect(formitem.length).toBe(0)
-
     })
-
+    it('test communication',()=>{
+        wrapper.setData({
+            "title":"title",
+            "content":"content",
+            "level":1,
+            "id":1,
+            formData:1
+        })
+        const button = wrapper.findAll('button')
+        expect(button.length).toBe(4)
+        button.at(0).trigger('click')
+    })
 }
 )

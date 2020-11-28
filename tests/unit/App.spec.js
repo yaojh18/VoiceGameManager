@@ -1,7 +1,7 @@
 import {shallowMount,createLocalVue,mount} from '@vue/test-utils'
 import ElementUI, {Form, Button, Container} from 'element-ui'
 import VueRouter from 'vue-router'
-
+require("../__mocks__/console")
 
 
 import Home from '@/views/Home.vue'

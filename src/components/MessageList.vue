@@ -11,13 +11,11 @@
                     v-on:editclicked="uploadMsgtoBoard('edit')"
                     v-on:detailclicked="uploadMsgtoBoard('detail')" />
     </ul>
-    <!--请修改这两行注释中间的代码，达到用多个MessageBlock来展示messageList数据的效果-->
   </div>
 </template>
 
 <script>
 import MessageBlock from "@/components/MessageBlock"
-
 export default {
   name: "MessageList",
   components: {

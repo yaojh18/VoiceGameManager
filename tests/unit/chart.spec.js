@@ -1,6 +1,7 @@
+require("../__mocks__/console")
 import { getWrapper } from './utils'
 import { shallowMount, createLocalVue, mount } from '@vue/test-utils'
-import  ElementUI, { Table,Collapse } from 'element-ui'
+import  ElementUI, { Table,Collapse,Button,Dialog } from 'element-ui'
 import VueRouter from 'vue-router'
 import Chart from "@/components/Chart";
 
@@ -19,7 +20,14 @@ describe('Chart.vue', () => {
         const collapse = wrapper.findComponent(Collapse)
         expect(collapse.exists()).toBe(false)
     })
-
+    it('has a button',()=>{
+        const button = wrapper.findComponent(Button)
+        expect(button.exists()).toBe(false)
+    })
+    it('has a dialog',()=>{
+        const dialog = wrapper.findComponent(Dialog)
+        expect(dialog.exists()).toBe(false)
+    })
 })
 const passedprop = {
     'chartData': [1,2,3],
@@ -56,5 +64,10 @@ describe('Chart.vue',()=>{
             expect(wrapper.vm.type_id).toBe(1),
             expect(wrapper.vm.dialogVisible).toBe(true),
             expect(wrapper.vm.Title).toBe('Title')
+    })
+    it('el-dialog close',()=>{
+        const r = wrapper.find(Button)
+        r.trigger('click')
+        expect(wrapper.emitted().cancelChart).toStrictEqual([[""]])
     })
 })

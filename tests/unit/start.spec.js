@@ -5,6 +5,7 @@ import VueRouter from 'vue-router'
 import Start from "@/components/Start";
 import Register from "@/components/Register";
 import Login from "@/components/Login";
+import mockAxios from "../__mocks__/axios";
 describe("Start.vue",()=>{
     const localVue = createLocalVue()
     localVue.use(VueRouter)
@@ -49,6 +50,28 @@ describe("Start.vue",()=>{
         wrapper.vm.loginCalled('12345','1234567');
         expect(wrapper.vm.usernameLogin).toBe(undefined);
         expect(wrapper.vm.password).toBe(undefined);
+    })
+    it('test function registerCalled',()=>{
+        mockAxios.post.mockImplementationOnce(()=>Promise.resolve({data:{status:200,token:"token"}}))
+        wrapper.vm.registerCalled();
+        expect(localStorage.getItem("token")).toBe(null);
+        mockAxios.post.mockImplementationOnce(()=>Promise.resolve({data:{status:201,token:"token"}}))
+        wrapper.vm.registerCalled();
+        expect(localStorage.getItem("token")).toBe(null);
+        mockAxios.post.mockImplementationOnce(()=>Promise.resolve({data:{status:404}}))
+        wrapper.vm.registerCalled();
+        expect(localStorage.getItem("token")).toBe(null);
+    })
+    it('test function loginCalled',()=>{
+        mockAxios.post.mockImplementationOnce(()=>Promise.resolve({data:{status:200,token:"token"}}))
+        wrapper.vm.loginCalled();
+        expect(localStorage.getItem("token")).toBe(null);
+        mockAxios.post.mockImplementationOnce(()=>Promise.resolve({data:{status:201,token:"token"}}))
+        wrapper.vm.loginCalled();
+        expect(localStorage.getItem("token")).toBe(null);
+        mockAxios.post.mockImplementationOnce(()=>Promise.resolve({data:{status:404}}))
+        wrapper.vm.loginCalled();
+        expect(localStorage.getItem("token")).toBe(null);
     })
     it('contains other kits',()=>{
         const wrapper = mount(Start);

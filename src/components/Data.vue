@@ -4,7 +4,7 @@
       <el-aside class="app-side app-side-left"
                 :class="isCollapse ? 'app-side-collapsed' : 'app-side-expanded'">
          <div class="app-side-logo">
-            <el-button v-on:click="changehtml()">
+            <el-button class='return' v-on:click="changehtml()">
               返回主界面
           </el-button>
         </div>
