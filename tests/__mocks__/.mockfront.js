@@ -1,12 +1,13 @@
 import {
-    BIND_DOOR_ADMIN_URL,
-    GET_DOOR_DEVICES_URL,
-    GET_DOOR_USERS_URL,
-    GET_HISTORY_URL,
-    LOGIN_URL,
-    POST_FILE_URL, UNBIND_DOOR_ADMIN_URL,
-    USER_PHOTO_URL
-} from "@/utils/communication.js";
+    GET_MESSAGE_LIST,
+    POST_NEW_MESSAGE,
+    ADD,
+    USER,
+    MODIFYUSER,
+    EDIT, SEARCH,LOGIN,
+    REGISTER,GETLIST,MODIFYY,SINGLEANALYSIS,
+    MEDIAANALYSIS,USERANALYSIS,AUDIOANALYSIS,
+} from "@/utils/API.js";
 import {enableFetchMocks} from 'jest-fetch-mock'
 
 enableFetchMocks()
@@ -19,14 +20,21 @@ const devices = [{id: 1, description: "p"}, {id: 2, description: "q"}];
 
 fetchMock.mockIf(/^.*$/, (req) => {
     switch (req.url) {
-        case LOGIN_URL:
+        case LOGIN:
             const {username, password} = JSON.parse(String(req.body));
             return Promise.resolve({
-                status: (username === "super" && password === "123456") ? 200 : 400,
+                status: (username === "admin" && password === "123456") ? 200 : 400,
                 body: JSON.stringify({access_token: "access_token"}),
                 headers: {"Content-Type": "application/json"},
             });
-        case GET_DOOR_USERS_URL:
+        case REGISTER:
+            const {username,password,password2} = JSON.parse(String(req.body));
+            return Promise.resolve({
+                status: (username === "admin" && password === "123456") ? 200 : 400,
+                body: JSON.stringfy({access_token: "access_token"}),
+                headers: {"Content-Type":"application/json"}
+            })
+        case ADD:
             if (req.method === "POST" && JSON.parse(String(req.body)).name.length) {
                 const {name, notes, gender, images, useDevices} = JSON.parse(String(req.body));
                 const id = users.length ? users[users.length - 1].id + 1 : 0;
@@ -38,7 +46,7 @@ fetchMock.mockIf(/^.*$/, (req) => {
                     : {error_code: JSON.parse(String(req.body)).name === "" ? -1 : 0, msg: ""}),
                 headers: {"Content-Type": "application/json"},
             });
-        case GET_DOOR_DEVICES_URL:
+        case REGISTER:
             return Promise.resolve({
                 body: JSON.stringify(devices),
                 headers: {"Content-Type": "application/json"},
