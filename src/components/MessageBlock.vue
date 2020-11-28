@@ -46,6 +46,7 @@
             v-bind:type_id="type_id"
             v-bind:audio_path="audio_path"
             v-bind:video_path="video_path"
+            @modifySucceed="modifySucess"
     />
     <Chart
          v-bind:dialog-visible="Chart.dialogVisible"
@@ -60,8 +61,6 @@
          v-bind:male_score_average="Chart.male_score_average"
          v-bind:unknown_score_average="Chart.unknown_score_average"
          v-bind:played_num="Chart.played_num"
-         v-bind:title="Chart.title"
-         v-bind:type_id="Chart.type_id"
          v-bind:scores="Chart.scores"
          v-bind:score_average="Chart.score_average"
          />
@@ -75,8 +74,8 @@ import {searchBackId2,DataSingleSearch} from "@/utils/communication.js"
     export default {
         name: "MessageBlock",
         components:{
-          Modify,
-          Chart,
+            Modify,
+            Chart,
         },
         props: {
             dialogVisible:{
@@ -155,6 +154,9 @@ import {searchBackId2,DataSingleSearch} from "@/utils/communication.js"
             }
         },
         methods:{
+            modifySuccess(){
+                this.$emit('modifySucceed')
+            },
             closeBlock(){
                 this.dialogVisible = false;
             },
@@ -164,44 +166,45 @@ import {searchBackId2,DataSingleSearch} from "@/utils/communication.js"
             handleOpen(){
                 let that = this;
                 searchBackId2(that.id).then((res) => {
-                return res.json();
-            }).then((r) => {
-                that.type_id = Number(r["type_id"]);
-                that.title = r["title"];
-                that.content = r["content"];
-                that.audio_path = r.audio_path;
-                that.video_path = r.video_path;
-            });
+                    return res.json();
+                }).then((r) => {
+                    that.type_id = Number(r["type_id"]);
+                    that.title = r["title"];
+                    that.content = r["content"];
+                    that.audio_path = r.audio_path;
+                    that.video_path = r.video_path;
+                });
             },
             handleClose(){
                 this.$refs.audio.stop();
                 this.$refs.video.stop();
             },
-            detailBlock(){
-                DataSingleSearch(this.level_id).then((res)=>{
-                    if(res.status === 200 || res.status === 201){
-                        this.$message("拉取成功");
-                    }else{
-                        this.$message("拉取失败");
-                    }
-                return res.json();
-            }).then((r)=>{
-                this.Chart.female_num = r["female_num"]
-                this.Chart.female_scores = r["female_scores"]
-                this.Chart.unknown_num = r["unknown_num"]
-                this.Chart.unknown_scores = r["unknown_scores"]
-                this.Chart.male_num = r["male_num"]
-                this.Chart.male_scores = r["male_scores"]
-                this.Chart.female_score_average = r["female_score_average"]
-                this.Chart.male_score_average = r["male_score_average"]
-                this.Chart.unknown_score_average = r["unknown_score_average"]
-                this.Chart.played_num = r["played_num"]
-                this.Chart.title = r["title"]
-                this.Chart.type_id = r["type_id"]
-                this.Chart.scores=r["scores"]
-                this.Chart.score_average=r["score_average"]
-                this.Chart.dialogVisible=true
-            })},
+            detailBlock() {
+                let that = this
+                DataSingleSearch(this.id).then((res) => {
+                    if (res.status !== 200 && res.status !== 201) {
+                        that.$message("拉取图表数据失败");
+                    } else
+                        res.json().then(function (r) {
+                            that.Chart.female_num = r["female_num"]
+                            that.Chart.female_scores = r["female_scores"]
+                            that.Chart.unknown_num = r["unknown_num"]
+                            that.Chart.unknown_scores = r["unknown_scores"]
+                            that.Chart.male_num = r["male_num"]
+                            that.Chart.male_scores = r["male_scores"]
+                            that.Chart.female_score_average = r["female_score_average"]
+                            that.Chart.male_score_average = r["male_score_average"]
+                            that.Chart.unknown_score_average = r["unknown_score_average"]
+                            that.Chart.played_num = r["played_num"]
+                            that.Chart.title = r["title"]
+                            that.Chart.type_id = r["type_id"]
+                            that.Chart.scores = r["scores"]
+                            that.Chart.score_average = r["score_average"]
+                            that.Chart.played_num = r["played_num"]
+                            that.Chart.dialogVisible = true
+                        })
+                })
+            }
         }
     }
 </script>

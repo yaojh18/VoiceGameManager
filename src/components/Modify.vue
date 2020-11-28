@@ -131,9 +131,7 @@ export default({
           this.formData.append('video_path', file.raw);
       },
       setTypeId(val){
-          console.log(val)
           this.type_id = val
-          console.log(this.type_id)
       },
       submittt() {
           let loading = Loading.service({
@@ -141,7 +139,6 @@ export default({
               text: '上传中……',
               background: 'rgba(0, 0, 0, 0.5)'
           });
-          console.log(this.type_id)
           let that = this
           this.formData.append("title", this.title);
           this.formData.append("content",this.content);
