@@ -11,6 +11,7 @@ describe("Login.vue",()=>{
     const wrapper = mount(Login,{localVue,router})
     it('renders',()=>{
         expect(wrapper.vm.dialogVisible).toBe(true)
+        expect(wrapper.vm.$props.dialogVisible).toBe(true)
         wrapper.setData({
             dialogVisible: false
         })

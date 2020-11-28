@@ -25,8 +25,9 @@ describe("MessageBlock.vue",()=>{
         expect(button.exists()).toBe(true)
     })
     it('test functions',()=>{
-        wrapper.vm.modifySuccess();
+        expect(wrapper.vm.dialogVisible).toBe(true);
         wrapper.vm.closeBlock();
+        expect(wrapper.vm.dialogVisible).toBe(false);
         expect(wrapper.vm.Modify.dialogVisible).toBe(false);
         wrapper.vm.editBlock();
         expect(wrapper.vm.Modify.dialogVisible).toBe(true);
@@ -79,21 +80,112 @@ describe("MessageBlock.vue",()=>{
     it('test function handleopen others',()=>{
         wrapper.setData({
             "id":1,})
-        mockAxios.post.mockImplementationOnce(()=>Promise.resolve({data:{status:200}}))
+        mockAxios.post.mockImplementationOnce(()=>Promise.resolve({data:{status:200,
+            type_id:1,
+            title:"title",
+                content:'content',
+                audio_path:"audio_path",
+                video_path:"video_path"
+            }}))
         wrapper.vm.handleOpen();
-        mockAxios.post.mockImplementationOnce(()=>Promise.resolve({data:{status:201}}))
+        mockAxios.post.mockImplementationOnce(()=>Promise.resolve({data:{status:201,
+                type_id:1,
+                title:"title",
+                content:'content',
+                audio_path:"audio_path",
+                video_path:"video_path"}}))
         wrapper.vm.handleOpen();
-        mockAxios.post.mockImplementationOnce(()=>Promise.resolve({data:{status:404}}))
+        mockAxios.post.mockImplementationOnce(()=>Promise.resolve({data:{status:404,
+                type_id:1,
+                title:"title",
+                content:'content',
+                audio_path:"audio_path",
+                video_path:"video_path"}}))
         wrapper.vm.handleOpen();
     })
     it('contains detailBlock',()=>{
         wrapper.setData({
             Modify:{
                 "level_id":1,
-            }
+            },
+            'level_id':1,
         })
         mockAxios.get.mockImplementationOnce(()=>Promise.resolve({data:{status:200}}))
         wrapper.vm.detailBlock();
+        mockAxios.get.mockImplementationOnce(()=>Promise.resolve(
+            {data:
+                    {
+                        status:201,
+                        female_num: 1,
+                        female_scores: [1,2,3],
+                        unknown_num: 1,
+                        unknown_scores: [1,2,3],
+                        male_num: 1,
+                        male_scores:[1,2,3],
+                        female_score_average: 90,
+                        male_score_average: 90,
+                        unknown_score_average: 90,
+                        played_num: 5,
+                        title: "title",
+                        type_id: 8,
+                        scores: [1,2,3],
+                        score_average: 90,
+                    }}))
+        wrapper.vm.detailBlock();
+        expect(wrapper.vm.Chart.dialogVisible).toBe(false)
+        expect(wrapper.vm.Chart.dialogVisible).toBe(false)
+        expect(wrapper.vm.Chart.title).toBe("title")
+        expect(wrapper.vm.Chart.type_id).toBe(1)
+        mockAxios.get.mockImplementationOnce(()=>Promise.resolve(
+            {data:
+                    {
+                        status:404,
+                        female_num: 1,
+                        female_scores: [1,2,3],
+                        unknown_num: 1,
+                        unknown_scores: [1,2,3],
+                        male_num: 1,
+                        male_scores:[1,2,3],
+                        female_score_average: 90,
+                        male_score_average: 90,
+                        unknown_score_average: 90,
+                        played_num: 5,
+                        title: "title",
+                        type_id: 1,
+                        scores: [1,2,3],
+                        score_average: 90,
+                    },
+                status:404,
+                female_num: 1,
+                female_scores: [1,2,3],
+                unknown_num: 1,
+                unknown_scores: [1,2,3],
+                male_num: 1,
+                male_scores:[1,2,3],
+                female_score_average: 90,
+                male_score_average: 90,
+                unknown_score_average: 90,
+                played_num: 5,
+                title: "title",
+                type_id: 1,
+                scores: [1,2,3],
+                score_average: 90}))
+        wrapper.vm.detailBlock();
+        expect(wrapper.vm.Chart.dialogVisible).toBe(false)
+        expect(wrapper.vm.Chart.dialogVisible).toBe(false)
+        expect(wrapper.vm.Chart.title).toBe("title")
+        expect(wrapper.vm.Chart.type_id).toBe(1)
+        expect(wrapper.vm.Chart.scores).toStrictEqual(undefined)
+        expect(wrapper.vm.Chart.score_average).toBe(undefined)
+        expect(wrapper.vm.Chart.male_score_average).toBe(undefined)
+        expect(wrapper.vm.Chart.female_score_average).toBe(undefined)
+        expect(wrapper.vm.Chart.unknown_score_average).toBe(undefined)
+        expect(wrapper.vm.Chart.male_scores).toStrictEqual(undefined)
+        expect(wrapper.vm.Chart.male_num).toBe(undefined)
+        expect(wrapper.vm.Chart.female_scores).toStrictEqual(undefined)
+        expect(wrapper.vm.Chart.female_num).toBe(undefined)
+        expect(wrapper.vm.Chart.unknown_scores).toStrictEqual(undefined)
+        expect(wrapper.vm.Chart.unknown_num).toBe(undefined)
     })
     it('contains other kits',()=>{
         const wrapper = mount(MessageBlock);

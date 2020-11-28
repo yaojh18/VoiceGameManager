@@ -46,7 +46,6 @@
             v-bind:type_id="type_id"
             v-bind:audio_path="audio_path"
             v-bind:video_path="video_path"
-            @modifySucceed="modifySucess"
     />
     <Chart
          v-bind:dialog-visible="Chart.dialogVisible"
@@ -156,9 +155,6 @@ import {searchBackId2,DataSingleSearch} from "@/utils/communication.js"
             }
         },
         methods:{
-            modifySuccess(){
-                this.$emit('modifySucceed')
-            },
             closeBlock(){
                 this.dialogVisible = false;
             },
@@ -204,7 +200,6 @@ import {searchBackId2,DataSingleSearch} from "@/utils/communication.js"
                 this.Chart.type_id = r["type_id"]
                 this.Chart.scores=r["scores"]
                 this.Chart.score_average=r["score_average"]
-                this.Chart.played_num=r["played_num"]
                 this.Chart.dialogVisible=true
             })},
         }

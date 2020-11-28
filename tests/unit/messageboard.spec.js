@@ -60,7 +60,7 @@ describe("MessageBoard.vue",()=>{
     })
     it('has a radio',()=>{
         const radio = wrapper.findComponent(Radio)
-        expect(radio.exists()).toBe(true)
+        expect(radio.exists()).toBe(false)
     })
     it('has a dropdown',()=>{
         const dropdown = wrapper.findComponent(Dropdown)
@@ -98,24 +98,26 @@ describe("MessageBoard.vue",()=>{
         wrapper.vm.loginCalled();
         wrapper.vm.registerCalled();
     })
-    it('test function refreshList',()=>{
-        mockAxios.get.mockImplementationOnce(()=>Promise.resolve({data:{status:201,data:"data"}}))
-        wrapper.vm.refreshList();
-    })
     it('test function getListMsg',()=>{
         mockAxios.get.mockImplementationOnce(()=>Promise.resolve({
             data:{"results":[{"type":"1,2,3"},{"type":"2,3,4"}]}}))
         wrapper.vm.getListMsg();
         mockAxios.get.mockImplementationOnce(()=>Promise.resolve({}))
+        mockAxios.get.mockImplementationOnce(()=>Promise.resolve({}))
+        mockAxios.get.mockImplementationOnce(()=>Promise.resolve({}))
         wrapper.vm.getListMsg();
     })
     it('test function login',()=>{
+        mockAxios.post.mockImplementationOnce(()=>Promise.resolve({data:{status:200,data:"data"}}))
+        wrapper.vm.loginCalled("admin","123456");
         mockAxios.post.mockImplementationOnce(()=>Promise.resolve({data:{status:201,data:"data"}}))
         wrapper.vm.loginCalled("admin","123456");
         mockAxios.post.mockImplementationOnce(()=>Promise.resolve({data:{status:400,data:"data"}}))
         wrapper.vm.loginCalled("admin","123456");
     })
     it('test function register',()=>{
+        mockAxios.post.mockImplementationOnce(()=>Promise.resolve({data:{status:200,data:"data"}}))
+        wrapper.vm.registerCalled("admin","123456","123456");
         mockAxios.post.mockImplementationOnce(()=>Promise.resolve({data:{status:201,data:"data"}}))
         wrapper.vm.registerCalled("admin","123456","123456");
         mockAxios.post.mockImplementationOnce(()=>Promise.resolve({data:{status:400,data:"data"}}))
@@ -124,7 +126,6 @@ describe("MessageBoard.vue",()=>{
     it('test function logout',()=>{
         wrapper.vm.logoutFuncCalled();
         expect(wrapper.vm.usernameLogged).toBe("unknown");
-        // expect(wrapper.vm.dialogVisible).toBe(false);
     })
     it('test function modify',()=>{
         wrapper.vm.PwdModify();
@@ -152,7 +153,22 @@ describe("MessageBoard.vue",()=>{
             "radioTypeId": 2,
             "choiceTypeId": 3,
         })
-        mockAxios.post.mockImplementationOnce(()=>Promise.resolve({data:{status:400,results:[{"type_id":1},{"type_id":2},{"type_id":3}]}}))
+        mockAxios.post.mockImplementationOnce(()=>Promise.resolve({data:{status:400,results:[
+            {"type_id":1,
+                "level_id":1,
+            "title":"title",
+            "id":1,
+            "content":"content"},
+                    {"type_id":2,
+                        "level_id":1,
+                        "title":"title",
+                        "id":1,
+                        "content":"content"},
+                    {"type_id":3,
+                        "level_id":1,
+                        "title":"title",
+                        "id":1,
+                        "content":"content"}]}}))
         wrapper.vm.clickSearch();
     })
     it('test function pagination',()=>{
