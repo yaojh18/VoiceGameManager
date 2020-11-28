@@ -1,28 +1,8 @@
-.DS_Store
+# dependency and test
 node_modules
-.zip
-.rar
-/dist
+test/**
 
-
-# local env files
-.env.local
-.env.*.local
-
-# Log files
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-
-coverage
-
-
-# Editor directories and files
+# settings
 .idea
 .vscode
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+.nyc_output/**

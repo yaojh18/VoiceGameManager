@@ -5,11 +5,12 @@
       <MessageBlock v-bind:title="message.title"
                     v-bind:level_id="message.level_id"
                     v-bind:id="message.id"
-                    v-bind:timestamp="message.timestamp"
                     v-bind:content="message.content"
                     v-on:closeclicked="uploadMsgtoBoard('close')"
                     v-on:editclicked="uploadMsgtoBoard('edit')"
-                    v-on:detailclicked="uploadMsgtoBoard('detail')" />
+                    v-on:detailclicked="uploadMsgtoBoard('detail')"
+                    @modifySucceed="modifySucess"
+      />
     </ul>
   </div>
 </template>
@@ -19,27 +20,30 @@ import MessageBlock from "@/components/MessageBlock"
 export default {
   name: "MessageList",
   components: {
-    MessageBlock
+      MessageBlock
   },
   props: {
-    messageList: {
-      type: Array,
-      default: () => new Array(5).fill(
+      messageList: {
+          type: Array,
+          default: () => new Array(5).fill(
           {
-            "title":"unknown",
-            "level_id":0,
-            "id":0,
-            "type_id":0,
-            "content": "",
-            "timestamp":new Date().getTime(),
+              "title":"unknown",
+              "level_id":0,
+              "id":0,
+              "type_id":0,
+              "content": "",
+              "timestamp":new Date().getTime(),
           }
       )
-    }
+      }
   },
   methods:{
-    uploadMsgtoBoard(choice){
-      this.$emit('uploadMsgTB',{'content':this.content,'choice':choice,'title':this.title,'level_id':this.level_id,'id':this.id});
-    }
+      uploadMsgtoBoard(choice){
+          this.$emit('uploadMsgTB',{'content':this.content,'choice':choice,'title':this.title,'level_id':this.level_id,'id':this.id});
+      },
+      modifySuccess(){
+          this.$emit('modifySucceed')
+      },
   }
 }
 </script>

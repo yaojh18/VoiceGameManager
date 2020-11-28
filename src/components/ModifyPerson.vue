@@ -1,29 +1,26 @@
 <template>
-  <div id="message-board">
-    <el-dialog style="text-align: center" title="修改个人信息"
+    <div id="message-board">
+        <el-dialog style="text-align: center" title="修改个人信息"
                :visible.sync="dialogVisible"
                :show-close=false width="80%"
-               @close="$emit('cancelModifyPerson','')"
-               @change="editMessage()">
-      <el-form label-width="100px">
-        <el-form-item label="用户名">
-          <el-input placeholder="请输入用户名" v-model="username" >{{ username }}</el-input>
-        </el-form-item>
-        <el-form-item label="请输入电子邮箱地址">
-          <el-input placeholder="请输入电子邮箱" v-model="email">{{ email }}</el-input>
-        </el-form-item>
-        <el-form-item label="请输入姓名">
-          <el-input placeholder="请输入姓名" v-model="name" >{{ name }}</el-input>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button v-on:click="$emit('cancelModifyPerson',''),dialogVisible=false">取 消</el-button>
-        <el-button v-on:click="editUser();dialogVisible=false" type="primary" enabled>确 定</el-button>
-    </span>
-    </el-dialog>
-    <el-dialog style="text-align: center" :title="alertDialog.text" :visible.sync="alertDialog.dialogVisible" width="40%">
-    </el-dialog>
-  </div>
+               @close="$emit('cancelModifyPerson','')">
+            <el-form label-width="120px">
+                <el-form-item label="用户名">
+                <el-input placeholder="请输入用户名" v-model="username" readonly="true" style="width:80%"></el-input>
+            </el-form-item>
+            <el-form-item label="电子邮箱">
+                <el-input placeholder="请输入电子邮箱" v-model="email" style="width:80%"></el-input>
+            </el-form-item>
+            <el-form-item label="姓名">
+                <el-input placeholder="请输入姓名" v-model="name" style="width:80%"></el-input>
+            </el-form-item>
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+                <el-button v-on:click="editUser();dialogVisible=false" type="primary">确 定</el-button>
+                <el-button v-on:click="$emit('cancelModifyPerson','');dialogVisible=false">取 消</el-button>
+            </span>
+        </el-dialog>
+    </div>
 </template>
 
 <script>
@@ -31,108 +28,89 @@ import {editUserMsgWithoutPwd, getUserMsg} from "@/utils/communication";
 export default {
   name: "ModifyPerson",
   props: {
-    dialogVisible: {
-      type: Boolean,
-      default: () => false
-    },
-    username: {
-      type: String,
-      default: () => ""
-    },
-    email:{
-      type:String,
-      default: () => ""
-    },
-    name:{
-      type:String,
-      default: () => ""
-    }
+      dialogVisible: {
+          type: Boolean,
+          default: () => false
+      },
+      username: {
+          type: String,
+          default: () => ""
+      },
+      email:{
+          type:String,
+          default: () => ""
+      },
+      name:{
+          type:String,
+          default: () => ""
+      }
   },
   data(){
-    return {
-      ModifyPerson:{
-        dialogVisible:true,
-        form:{
-          username:this.username,
-          email:this.email,
-          name:this.name,
-        }
-      },
-      alertDialog:{
-        dialogVisible:false,
-        text:"输入信息有误",
+      return {
+          ModifyPerson:{
+              dialogVisible:true,
+              form:{
+                  username:this.username,
+                  email:this.email,
+                  name:this.name,
+              }
+          },
       }
-    }
   },
   methods: {
-    editMessage(){
-      getUserMsg().then((res)=>{
-        if(res.status==200 || res.status == 201){
-          this.$message("拉取信息成功");
-        }else{
-          this.$message("拉取信息失败");
-        }
-        return res.json();
-      }).then((r)=>{
-        this.name=r[0].name;
-        this.email=r[0].email;
-        this.username=r[0].username;
-      })
-    },
-    changeName(e) {
-      this.$forceUpdate(e);
-    },
-    changeemail(e) {
-      this.$forceUpdate(e);
-    },
-    changename(e) {
-      this.$forceUpdate(e);
-    },
-    changePersonModify:function(name,email,username){
-      console.log(name);
-      console.log(email);
-      console.log(username);
-      this.name=name;
-      this.email=email;
-      this.username=username;
-    },
-    editUser(){
-        if(!this.email)
-          this.email = "Unknown";
-        if(!this.name)
-          this.name = "Unknown";
-        if(!this.username)
-          this.alertDialog.dialogVisible = true;
-        editUserMsgWithoutPwd(this.username,this.email,this.name);
+      changeName(e) {
+          this.$forceUpdate(e);
+      },
+      changeemail(e) {
+          this.$forceUpdate(e);
+      },
+      changename(e) {
+          this.$forceUpdate(e);
+      },
+      changePersonModify:function(name,email,username){
+          this.name=name;
+          this.email=email;
+          this.username=username;
+      },
+      editUser(){
+          if(!this.username)
+              this.$message('输入信息有误')
+          let that = this
+          editUserMsgWithoutPwd(this.username,this.email,this.name).then(function (res) {
+              if (res.status === 200)
+                  that.$message('修改成功')
+              else
+                  that.$message('修改失败')
+          })
     }
   },
   watch: { // 用于实时检测username是否合法
-    dialogVisible: {
-      handler(newval, oldval) {
-        console.log(newval, oldval);
-        this.$nextTick(() => {
-          console.log("ready");
-          getUserMsg().then((res)=>{
-            console.log("200");
-            if(res.status==200 || res.status == 201){
-              this.$message("拉取信息成功");
-            }else{
-              this.$message("拉取信息失败");
-            }
-            return res.json();
-          }).then((r)=>{
-            this.name=r[0].name;
-            this.email=r[0].email;
-            this.username=r[0].username;
-          })
-        });
+      dialogVisible: {
+          handler(newval, oldval) {
+              let that = this
+          if (newval === true && oldval === false)
+              this.$nextTick(() => {
+                  getUserMsg().then((message)=>{
+                      message.json().then((res)=>{
+                          if (res instanceof Array){
+                              let idx = res.findIndex(function (item) {
+                                  return item.usernam = that.username
+                              })
+                              res = res[idx]
+                          }
+                          this.name=res.name;
+                          this.email=res.email;
+                          this.username=res.username;
+                      })
+                  })
+              })
+          }
       }
-    }
   },
 }
 </script>
 <style scoped>
 #message-board{
-  height: calc(100vh - 16px);
+    height: calc(100vh - 16px);
 }
 </style>

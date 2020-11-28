@@ -25,13 +25,7 @@ describe("Modify.vue",()=>{
         const dialog = wrapper.findComponent(Dialog)
         expect(dialog.exists()).toBe(true)
     })
-    it('functions test',()=>{
-        wrapper.vm.open();
-        wrapper.vm.retreat();
-    })
     it('test default',()=>{
-        expect(wrapper.vm.level_id).toBe(0);
-        expect(wrapper.vm.const_level_id).toBe(1);
         expect(wrapper.vm.id).toBe(0);
         expect(wrapper.vm.dialogVisible).toBe(true);
     })
@@ -39,8 +33,6 @@ describe("Modify.vue",()=>{
 describe("Modify.vue",()=> {
     const wrapper = getWrapper(Modify,{
         dialogVisible: true,
-        const_level_id:1,
-        level_id:1,
         title: "title",
         content: "content",
         id:1,
@@ -48,8 +40,6 @@ describe("Modify.vue",()=> {
     })
     it("test passing props",()=>{
         expect(wrapper.vm.dialogVisible).toBe(true);
-        expect(wrapper.vm.const_level_id).toBe(1);
-        expect(wrapper.vm.level_id).toBe(1);
         expect(wrapper.vm.title).toBe('title');
         expect(wrapper.vm.content).toBe('content');
         expect(wrapper.vm.id).toBe(1);
@@ -70,8 +60,12 @@ describe("Modify.vue",()=> {
             formData:1
         })
         const button = wrapper.findAll('button')
-        expect(button.length).toBe(4)
+        expect(button.length).toBe(5)
         button.at(0).trigger('click')
     })
-}
-)
+    it('functions test',()=>{
+        wrapper.vm.retreat();
+        // wrapper.vm.submittt();
+        wrapper.vm.setTypeId(0);
+    })
+})

@@ -24,9 +24,13 @@ describe("MessageBlock.vue",()=>{
         const button = wrapper.findComponent(Button)
         expect(button.exists()).toBe(true)
     })
-    it('test functions editBlock',()=>{
+    it('test functions',()=>{
+        wrapper.vm.modifySuccess();
+        wrapper.vm.closeBlock();
+        expect(wrapper.vm.Modify.dialogVisible).toBe(false);
         wrapper.vm.editBlock();
         expect(wrapper.vm.Modify.dialogVisible).toBe(true);
+        wrapper.vm.detailBlock();
     })
     it('test buttons clicked',()=>{
         const button = wrapper.findAll(Button);
@@ -41,9 +45,6 @@ describe("MessageBlock.vue",()=>{
         expect(wrapper.vm.type_id).toBe(0);
         expect(wrapper.vm.title).toBe('unknown title');
         expect(wrapper.vm.content).toBe('unknown content');
-    })
-    it('test functions detailBlock',()=>{
-        wrapper.vm.detailBlock();
     })
 })
 describe("MessageBlock.vue",()=>{
