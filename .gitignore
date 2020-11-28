@@ -1,6 +1,7 @@
 # dependency and test
 node_modules
 test/**
+coverage/**
 
 # settings
 .idea

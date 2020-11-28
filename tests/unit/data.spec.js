@@ -17,10 +17,6 @@ describe("Data.vue",()=>{
         const form = wrapper.findComponent(Form)
         expect(form.exists()).toBe(true)
     })
-    it('has an aside',()=>{
-        const aside = wrapper.findComponent(Aside)
-        expect(aside.exists()).toBe(true)
-    })
     it('has a Container',()=>{
         const container = wrapper.findComponent(Container)
         expect(container.exists()).toBe(true)
@@ -31,22 +27,9 @@ describe("Data.vue",()=>{
         const tableColumn = wrapper.findComponent(TableColumn)
         //expect(tableColumn.length).toBeGreaterThan(1)
     })
-    it('has a Card',()=>{
-        const card = wrapper.findComponent(Card)
-        expect(card.exists()).toBe(true)
-    })
-    it('has a Collapse',()=>{
-        const collapse = wrapper.findComponent(Collapse)
-        expect(collapse.exists()).toBe(true)
-    })
     it('has inputs',()=>{
         const inputs = wrapper.findComponent(Input)
         //expect(inputs.length).toBeGreaterThan(1)
-    })
-    it('has a Popover',()=>{
-        const popover = wrapper.findComponent(Popover)
-        expect(popover.exists()).toBe(true)
-        //expect(popover.length).toBeGreaterThan(1)
     })
     it('has a Button',()=>{
         const button = wrapper.findComponent(Button)
@@ -61,33 +44,16 @@ describe("Data.vue",()=>{
             expect(u.exists()).toBe(true);
         }
     })
-    it('test dataVideoSearch',()=>{
-        wrapper.setData({
-            VideoLimit: 1,
-            VideoTitle: "title",
-            VideoPage: 1,
-        });
-        wrapper.vm.dataVideoSearch();
-        mockAxios.get.mockImplementationOnce(()=>Promise.resolve({data:{status:201,data:"data"}}))
-    })
-    it('test dataAudioSearch',()=>{
-        wrapper.vm.dataAudioSearch();
+    it('test audioSearch',()=>{
+        wrapper.vm.audioSearch();
         console.log(wrapper.vm.playernum);
     })
-    it('test goback',()=>{
-        var buttons = wrapper.findAll(Button);
-        for(var i=0;i<buttons.length;++i){
-            buttons.at(i).trigger('click');
-        }
-        wrapper.vm.changehtml();
-    })
-    it('test functions',()=>{
-        wrapper.vm.dataAudioSearch();
-        wrapper.vm.dataVideoSearch();
-        wrapper.vm.dataUserSearch();
-    })
     it('test function data',()=>{
-        wrapper.vm.SearchAll();
+        wrapper.vm.userGenderChange(1);
+        expect(wrapper.vm.userGender).toBe(1);
+        wrapper.vm.userSortChange(0);
+        wrapper.vm.audioGenderChange(1);
+        wrapper.vm.audioSortChange(0);
     })
 })
 describe("Data.vue",()=> {
@@ -115,50 +81,48 @@ describe("Data.vue",()=> {
         videomNum:[1,2,3],
         mediaData:[1,2,3],
     })
-    it('test function userData',async ()=>{
-        await wrapper.setData({
-            playernum: [],
-            player: [],
-            username: 'name',
-            mgender:0,
-            fgender:0,
-            ugender:0,
-            videoCnt: [1,2,3],
-            isCollapse: false,
-            labelPosition: '',
-            activeName: '1',
-            usercnt: [1,2,3],
-            activetabName: 'first',
-            videoavScores: [1,2,3],
-            videomScores: [1,2,3],
-            videofScores: [1,2,3],
-            videouScores: [1,2,3],
-            videoNum: [1,2,3],
-            videofNum: [1,2,3],
-            videouNum: [1,2,3],
-            videomNum: [1,2,3],
-            mediaData: [1,2,3],
-        })
-       expect(wrapper.vm.playernum).toStrictEqual([]);
-       expect(wrapper.vm.player).toStrictEqual([]);
-       expect(wrapper.vm.username).toBe('name');
-           expect(wrapper.vm.mgender).toBe(0);
-            expect(wrapper.vm.fgender).toBe(0);
-            expect(wrapper.vm.ugender).toBe(0);
-            expect(wrapper.vm.videoCnt).toStrictEqual([1,2,3]);
-            expect(wrapper.vm.isCollapse).toBe(false);
-            expect(wrapper.vm.labelPosition).toBe('');
-            expect(wrapper.vm.activeName).toBe('1');
-            expect(wrapper.vm.usercnt).toStrictEqual([1,2,3]);
-            expect(wrapper.vm.activetabName).toBe('first');
-            expect(wrapper.vm.videoavScores).toStrictEqual([1,2,3]);
-            expect(wrapper.vm.videomScores).toStrictEqual([1,2,3]);
-            expect(wrapper.vm.videofScores).toStrictEqual([1,2,3]);
-            expect(wrapper.vm.videouScores).toStrictEqual([1,2,3]);
-            expect(wrapper.vm.videoNum).toStrictEqual([1,2,3]);
-            expect(wrapper.vm.videofNum).toStrictEqual([1,2,3]);
-            expect(wrapper.vm.videouNum).toStrictEqual([1,2,3]);
-            expect(wrapper.vm.videomNum).toStrictEqual([1,2,3]);
-            expect(wrapper.vm.mediaData).toStrictEqual([1,2,3])
-    })
+    // it('test function userData',async ()=>{
+    //     await wrapper.setData({
+    //         username: 'name',
+    //         mgender:0,
+    //         fgender:0,
+    //         ugender:0,
+    //         videoCnt: [1,2,3],
+    //         isCollapse: false,
+    //         labelPosition: '',
+    //         activeName: '1',
+    //         usercnt: [1,2,3],
+    //         activetabName: 'first',
+    //         videoavScores: [1,2,3],
+    //         videomScores: [1,2,3],
+    //         videofScores: [1,2,3],
+    //         videouScores: [1,2,3],
+    //         videoNum: [1,2,3],
+    //         videofNum: [1,2,3],
+    //         videouNum: [1,2,3],
+    //         videomNum: [1,2,3],
+    //         mediaData: [1,2,3],
+    //     })
+    //    expect(wrapper.vm.playernum).toStrictEqual([]);
+    //    expect(wrapper.vm.player).toStrictEqual([]);
+    //    expect(wrapper.vm.username).toBe('name');
+    //        expect(wrapper.vm.mgender).toBe(0);
+    //         expect(wrapper.vm.fgender).toBe(0);
+    //         expect(wrapper.vm.ugender).toBe(0);
+    //         expect(wrapper.vm.videoCnt).toStrictEqual([1,2,3]);
+    //         expect(wrapper.vm.isCollapse).toBe(false);
+    //         expect(wrapper.vm.labelPosition).toBe('');
+    //         expect(wrapper.vm.activeName).toBe('1');
+    //         expect(wrapper.vm.usercnt).toStrictEqual([1,2,3]);
+    //         expect(wrapper.vm.activetabName).toBe('first');
+    //         expect(wrapper.vm.videoavScores).toStrictEqual([1,2,3]);
+    //         expect(wrapper.vm.videomScores).toStrictEqual([1,2,3]);
+    //         expect(wrapper.vm.videofScores).toStrictEqual([1,2,3]);
+    //         expect(wrapper.vm.videouScores).toStrictEqual([1,2,3]);
+    //         expect(wrapper.vm.videoNum).toStrictEqual([1,2,3]);
+    //         expect(wrapper.vm.videofNum).toStrictEqual([1,2,3]);
+    //         expect(wrapper.vm.videouNum).toStrictEqual([1,2,3]);
+    //         expect(wrapper.vm.videomNum).toStrictEqual([1,2,3]);
+    //         expect(wrapper.vm.mediaData).toStrictEqual([1,2,3])
+    // })
 })

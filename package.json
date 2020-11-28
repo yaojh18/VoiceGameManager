@@ -95,11 +95,7 @@
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
-    "collectCoverageFrom": [
-      "**/*.(t|j)s"
-    ],
     "testResultsProcessor": "jest-sonar-reporter",
-    "coverageDirectory": "../coverage",
     "coveragePathIgnorePatterns": [
       "/node_modules/"
     ],

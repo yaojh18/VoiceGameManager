@@ -30,40 +30,32 @@ describe('Chart.vue', () => {
     })
 })
 const passedprop = {
-    'chartData': [1,2,3],
-    'female_Num': 1,
-    'female_Scores':[1,2,3,4,5,6,7,8,9,10],
-    'unknown_Num':1,
-    'unknown_Scores':[1,2,3,4,5,6,7,8,9,10],
-    'male_Num':1,
-    'male_Scores':[1,2,3,4,5,6,7,8,9,10],
-    'female_Score_Average': 85,
-    'male_Score_Average': 100,
-    'unknown_Score_Average': 0,
-    'played_Num': 0,
-    'title': 'title',
-    'type_id': 1,
+    'female_num': 1,
+    'female_scores':[1,2,3,4,5,6,7,8,9,10],
+    'unknown_num':1,
+    'unknown_scores':[1,2,3,4,5,6,7,8,9,10],
+    'male_num':1,
+    'male_scores':[1,2,3,4,5,6,7,8,9,10],
+    'female_score_average': 85,
+    'male_score_average': 100,
+    'unknown_score_average': 0,
+    'played_num': 0,
     'dialogVisible': true,
-    'Title': 'Title',
 };
 describe('Chart.vue',()=>{
     const wrapper = getWrapper(Chart,passedprop)
     it('passing props',()=>{
-            expect(wrapper.vm.chartData).toStrictEqual([1,2,3]),
-            expect(wrapper.vm.female_Num).toBe(1),
-            expect(wrapper.vm.female_Scores).toStrictEqual([1,2,3,4,5,6,7,8,9,10]),
-            expect(wrapper.vm.unknown_Num).toBe(1),
-            expect(wrapper.vm.unknown_Scores).toStrictEqual([1,2,3,4,5,6,7,8,9,10]),
-            expect(wrapper.vm.male_Num).toBe(1),
-            expect(wrapper.vm.male_Scores).toStrictEqual([1,2,3,4,5,6,7,8,9,10]),
-            expect(wrapper.vm.female_Score_Average).toBe(85),
-            expect(wrapper.vm.male_Score_Average).toBe(100),
-            expect(wrapper.vm.unknown_Score_Average).toBe(0),
-            expect(wrapper.vm.played_Num).toBe(0),
-            expect(wrapper.vm.title).toBe('title'),
-            expect(wrapper.vm.type_id).toBe(1),
-            expect(wrapper.vm.dialogVisible).toBe(true),
-            expect(wrapper.vm.Title).toBe('Title')
+            expect(wrapper.vm.female_num).toBe(1),
+            expect(wrapper.vm.female_scores).toStrictEqual([1,2,3,4,5,6,7,8,9,10]),
+            expect(wrapper.vm.unknown_num).toBe(1),
+            expect(wrapper.vm.unknown_scores).toStrictEqual([1,2,3,4,5,6,7,8,9,10]),
+            expect(wrapper.vm.male_num).toBe(1),
+            expect(wrapper.vm.male_scores).toStrictEqual([1,2,3,4,5,6,7,8,9,10]),
+            expect(wrapper.vm.female_score_average).toBe(85),
+            expect(wrapper.vm.male_score_average).toBe(100),
+            expect(wrapper.vm.unknown_score_average).toBe(0),
+            expect(wrapper.vm.played_num).toBe(0),
+            expect(wrapper.vm.dialogVisible).toBe(true)
     })
     it('el-dialog close',()=>{
         const r = wrapper.find(Button)

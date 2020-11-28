@@ -50,10 +50,6 @@ describe("MessageBoard.vue",()=>{
         const form = wrapper.findComponent(Form)
         expect(form.exists()).toBe(true)
     })
-    it('has a footer',()=>{
-        const footer = wrapper.findComponent(Footer)
-        expect(footer.exists()).toBe(true)
-    })
     it('has a dialog',()=>{
         const dialog = wrapper.findComponent(Dialog)
         expect(dialog.exists()).toBe(true)
