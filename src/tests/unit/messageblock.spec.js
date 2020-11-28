@@ -27,7 +27,7 @@ describe("MessageBlock.vue",()=>{
     it('test functions',()=>{
         wrapper.vm.modifySuccess();
         wrapper.vm.closeBlock();
-        expect(wrapper.vm.Modify.dialogVisible).toBe(true);
+        expect(wrapper.vm.Modify.dialogVisible).toBe(false);
         wrapper.vm.editBlock();
         expect(wrapper.vm.Modify.dialogVisible).toBe(true);
         wrapper.vm.detailBlock();
