@@ -275,7 +275,7 @@ export default {
            path+='size='+String(this.VideoLimit)+"&";
          }
          if(this.VideoTitle!=''){
-           path+='title='+String(this.VideoTitle)+"&";
+           path+='title='+String(this.VidoTitle)+"&";
          }
          if(this.VideoPage){
            path+='page='+String(this.VideoPage);
@@ -286,7 +286,6 @@ export default {
          }).then((r)=>{
            r=r["results"];
            for(const it of r){
-             console.log(it);
              this.videoavScores.push(it["score_average"]);
              this.videomScores.push(it["male_score_average"]);
              this.videofScores.push(it["female_score_average"]);

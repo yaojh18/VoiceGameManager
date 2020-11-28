@@ -66,12 +66,33 @@ describe("MessageBlock.vue",()=>{
        // expect(wrapper.findAll('messageblock-content').at(0).text()).toBe('content')
     })
     it('test function editblock others',()=>{
+        wrapper.setData({
+                "id":1,})
         mockAxios.post.mockImplementationOnce(()=>Promise.resolve({data:{status:200}}))
         wrapper.vm.editBlock();
         mockAxios.post.mockImplementationOnce(()=>Promise.resolve({data:{status:201}}))
         wrapper.vm.editBlock();
         mockAxios.post.mockImplementationOnce(()=>Promise.resolve({data:{status:404}}))
         wrapper.vm.editBlock();
+    })
+    it('test function handleopen others',()=>{
+        wrapper.setData({
+            "id":1,})
+        mockAxios.post.mockImplementationOnce(()=>Promise.resolve({data:{status:200}}))
+        wrapper.vm.handleOpen();
+        mockAxios.post.mockImplementationOnce(()=>Promise.resolve({data:{status:201}}))
+        wrapper.vm.handleOpen();
+        mockAxios.post.mockImplementationOnce(()=>Promise.resolve({data:{status:404}}))
+        wrapper.vm.handleOpen();
+    })
+    it('contains detailBlock',()=>{
+        wrapper.setData({
+            Modify:{
+                "level_id":1,
+            }
+        })
+        mockAxios.get.mockImplementationOnce(()=>Promise.resolve({data:{status:200}}))
+        wrapper.vm.detailBlock();
     })
     it('contains other kits',()=>{
         const wrapper = mount(MessageBlock);

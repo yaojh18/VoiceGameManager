@@ -1,3 +1,5 @@
+import mockAxios from "../__mocks__/axios";
+
 require("../__mocks__/console")
 import { getWrapper } from './utils'
 import {shallowMount,createLocalVue,mount} from '@vue/test-utils'
@@ -58,6 +60,19 @@ describe("Data.vue",()=>{
             var u = r.at(i).findAll(FormItem)
             expect(u.exists()).toBe(true);
         }
+    })
+    it('test dataVideoSearch',()=>{
+        wrapper.setData({
+            VideoLimit: 1,
+            VideoTitle: "title",
+            VideoPage: 1,
+        });
+        wrapper.vm.dataVideoSearch();
+        mockAxios.get.mockImplementationOnce(()=>Promise.resolve({data:{status:201,data:"data"}}))
+    })
+    it('test dataAudioSearch',()=>{
+        wrapper.vm.dataAudioSearch();
+        console.log(wrapper.vm.playernum);
     })
     it('test goback',()=>{
         var buttons = wrapper.findAll(Button);

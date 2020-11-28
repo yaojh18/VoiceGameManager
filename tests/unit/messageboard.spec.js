@@ -1,5 +1,6 @@
 import {shallowMount,createLocalVue,mount} from '@vue/test-utils'
-import ElementUI,{Form,Container,Main,Footer,Dialog,Button,TabPane} from 'element-ui'
+import ElementUI,{Form,Container,Main,Footer,Dialog,Button,TabPane,Radio,
+       Dropdown,DropdownMenu,DropdownItem} from 'element-ui'
 import VueRouter from 'vue-router'
 require("../__mocks__/console")
 import mockAxios from '../__mocks__/axios.js';
@@ -57,6 +58,22 @@ describe("MessageBoard.vue",()=>{
         const dialog = wrapper.findComponent(Dialog)
         expect(dialog.exists()).toBe(true)
     })
+    it('has a radio',()=>{
+        const radio = wrapper.findComponent(Radio)
+        expect(radio.exists()).toBe(true)
+    })
+    it('has a dropdown',()=>{
+        const dropdown = wrapper.findComponent(Dropdown)
+        expect(dropdown.exists()).toBe(true)
+    })
+    it('has a dropdownmenu',()=>{
+        const dropdown = wrapper.findComponent(DropdownMenu)
+        expect(dropdown.exists()).toBe(true)
+    })
+    it('has a dropdownitem',()=>{
+        const dropdown = wrapper.findComponent(DropdownItem)
+        expect(dropdown.exists()).toBe(true)
+    })
     it('has a button',()=>{
         const button = wrapper.findComponent(Button)
         expect(button.exists()).toBe(true)
@@ -86,6 +103,25 @@ describe("MessageBoard.vue",()=>{
         mockAxios.get.mockImplementationOnce(()=>Promise.resolve({data:{status:201,data:"data"}}))
         wrapper.vm.refreshList();
     })
+    it('test function getListMsg',()=>{
+        mockAxios.get.mockImplementationOnce(()=>Promise.resolve({
+            data:{"results":[{"type":"1,2,3"},{"type":"2,3,4"}]}}))
+        wrapper.vm.getListMsg();
+        mockAxios.get.mockImplementationOnce(()=>Promise.resolve({}))
+        wrapper.vm.getListMsg();
+    })
+    it('test function login',()=>{
+        mockAxios.post.mockImplementationOnce(()=>Promise.resolve({data:{status:201,data:"data"}}))
+        wrapper.vm.loginCalled("admin","123456");
+        mockAxios.post.mockImplementationOnce(()=>Promise.resolve({data:{status:400,data:"data"}}))
+        wrapper.vm.loginCalled("admin","123456");
+    })
+    it('test function register',()=>{
+        mockAxios.post.mockImplementationOnce(()=>Promise.resolve({data:{status:201,data:"data"}}))
+        wrapper.vm.registerCalled("admin","123456","123456");
+        mockAxios.post.mockImplementationOnce(()=>Promise.resolve({data:{status:400,data:"data"}}))
+        wrapper.vm.registerCalled("admin","123456","123456");
+    })
     it('test function logout',()=>{
         wrapper.vm.logoutFuncCalled();
         expect(wrapper.vm.usernameLogged).toBe("unknown");
@@ -96,6 +132,29 @@ describe("MessageBoard.vue",()=>{
         expect(wrapper.vm.ModifyPwd.dialogVisible).toBe(true);
         wrapper.vm.PersonModify();
         expect(wrapper.vm.ModifyPerson.dialogVisible).toBe(true);
+    })
+    it('test function clickSearch',()=>{
+        wrapper.setData({
+            "radioTypeId": 2,
+            "choiceTypeId": 3,
+            "searchTmp": "this",
+            "searchTmpId": 1,
+            "searchTmpLevelId": 1,
+        })
+        mockAxios.post.mockImplementationOnce(()=>Promise.resolve({data:{status:201,data:"data"}}))
+        wrapper.vm.clickSearch();
+        wrapper.setData({
+            "radioTypeId": 2,
+            "choiceTypeId": 3,
+        })
+        mockAxios.post.mockImplementationOnce(()=>Promise.resolve({data:{status:200,data:"data"}}))
+        wrapper.vm.clickSearch();
+        wrapper.setData({
+            "radioTypeId": 2,
+            "choiceTypeId": 3,
+        })
+        mockAxios.post.mockImplementationOnce(()=>Promise.resolve({data:{status:400,results:[{"type_id":1},{"type_id":2},{"type_id":3}]}}))
+        wrapper.vm.clickSearch();
     })
     it('test function pagination',()=>{
         wrapper.setData({

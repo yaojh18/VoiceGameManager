@@ -16,7 +16,7 @@ export const registerBack = (usernameRegister, password, password2) => fetch(API
 export const getList = (type_id) => fetch(API.GETLIST.path + String("?type_id=")+String(type_id), {
     method: API.GETLIST.method,
     headers: { "Authorization":"JWT "+localStorage.getItem('token')},
-}).then((res)=>res.json());
+});
 
 export const searchBack = (keyword) => fetch(API.SEARCH.path+String(keyword),{
     method: API.SEARCH.method,
