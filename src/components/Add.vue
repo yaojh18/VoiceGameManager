@@ -17,7 +17,12 @@
             <el-input placeholder="请输入标题" v-model="title" style="width:80%"></el-input>
         </el-form-item>
         <el-form-item label="文案">
-            <el-input placeholder="请输入文案" v-model="content" style="width:80%"></el-input>
+            <el-input type="textarea"
+                      placeholder="请输入文案"
+                      v-model="content"
+                      style="width:80%"
+                      :autosize="{ minRows: 2, maxRows: 6 }"
+            ></el-input>
         </el-form-item>
         <el-form-item id="audiobox" label="音频">
             <el-upload action=""

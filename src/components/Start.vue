@@ -65,7 +65,7 @@ export default {
       registerBack(usernameRegister, password, password2).then((res) => {
         console.log(res.status);
         console.log(typeof(res));
-        if (res.status === 201 || res.status == 200) {
+        if (res.status === 201 || res.status === 200) {
           this.$message("注册成功");
           this.$router.push({path:'home'});
         } else {
@@ -84,7 +84,7 @@ export default {
     loginCalled: function(usernameLogin, password) {
       document.cookie = `user=${usernameLogin}`;
       login(usernameLogin, password).then((res)=> {
-            if (res.status == 200 || res.status == 201) {
+            if (res.status === 200 || res.status === 201) {
               this.$message({
                 message:'已登录',
                 duration:2000,

@@ -8,24 +8,33 @@
                 <el-button style="margin:1px;padding:4px;background-color: #f3f3ff;" @click="editBlock();$emit('editclicked','');"><i class="el-icon-edit"></i></el-button>
                 <el-button style="margin:1px;padding:4px;background-color: #f3f3ff;" @click="detailBlock();$emit('detailclicked','');"><i class="el-icon-zoom-in"></i></el-button>
             </template>
-            <p style="height:60px;font-size:15px" ><strong >"</strong> {{ content }} <strong>"</strong></p>
-            <audio controls="controls"
-                   class="audio"
-                   loop="loop"
-                   ref="audio"
-                   :src="audio_path"
-                   style="border-radius:10px;margin:3px;">
-            </audio>
-            <br>
-            <video controls="controls"
-                  class="video"
-                  width="50%"
-                  loop="loop"
-                  ref="video"
-                  :src="video_path"
-                  style="border-radius:10px;margin:3px"
-            >
-            </video>
+            <el-col :xs="24" :sm="20" :md="18" :lg="14" :xl="12" style="text-align:center">
+                <video controls="controls"
+                       class="video"
+                       loop="loop"
+                       ref="video"
+                       :src="video_path"
+                       style="border-radius:10px;width:90%;margin-top:30px;"
+                >
+                </video>
+                <br>
+                <audio controls="controls"
+                       class="audio"
+                       loop="loop"
+                       ref="audio"
+                       :src="audio_path"
+                       style="border-radius:10px;margin-top:10px">
+                </audio>
+                <el-divider content-position="left">文案</el-divider>
+                <el-input
+                        type="textarea"
+                        placeholder="请输入文案"
+                        v-model="content"
+                        :autosize="{ minRows: 2, maxRows: 6 }"
+                        readonly
+                        style="width:95%;font-size:16px;margin-bottom:30px"
+                ></el-input>
+            </el-col>
         </el-submenu>
     </el-menu>
     <Modify v-bind:dialog-visible="Modify.dialogVisible"
