@@ -117,6 +117,9 @@ describe("MessageBoard.vue",()=>{
         wrapper.vm.changeRegister();
         expect(wrapper.vm.Register.dialogVisible).toBe(true);
     })
+    it('test function clickSearch',()=>{
+        wrapper.vm.clickSearch();
+    })
     it('test tab',async ()=>{
         const options = wrapper.findAll(TabPane)
         expect(options.exists()).toBe(true)
