@@ -1,42 +1,48 @@
 <template>
 <div id="message-board" style="overflow:scroll;overflow-y:hidden">
     <el-container style="height:100%; border: 0 solid #eee">
-        <el-header style="text-align:right;background-color:#87CEFA">
-            <el-button style="margin-right: 15px" v-on:click="this.$router.push({path:'/data'})">
-                <router-link style="text-decoration:None" to='/data' >数据统计</router-link>
-            </el-button>
-            <el-dropdown style="text-align:right; margin-right:3px" class="avatar-container" trigger="click" >
-                <div class="avatar-wrapper">
-                    <el-button type="primary" v-model="usernameLogged"
-                         v-on:updateName="console.log('updateMsg');this.usernameLogged=localStorage.getItem('token');">
-                        <i class="el-icon-s-custom"/>
-                            {{usernameLogged}}
-                        <i class="el-icon-caret-bottom" />
-                    </el-button>
-                    <el-dropdown-menu slot="dropdown" class="user-dropdown">
-                        <el-dropdown-item :disabled="usernameLogged==='unknown'"
-                                          :enabled="usernameLogged!=='unknown'">
-                            <span style="display:block;" @click="PersonModify" ><i class="el-icon-edit"/>个人信息修改</span>
-                        </el-dropdown-item>
-                        <el-dropdown-item divided :disabled="usernameLogged==='unknown'"
-                                          :enabled="usernameLogged!=='unknown'">
-                            <span style="display:block;" @click="PwdModify" ><i class="el-icon-s-data"/>个人密码修改</span>
-                        </el-dropdown-item>
-                        <el-dropdown-item divided :disabled="usernameLogged!=='unknown'"
-                                                :enabled="usernameLogged==='unknown'">
-                            <span style="display:block;" v-on:click="changeLogin()" ><i class="el-icon-login">登录</i></span>
-                        </el-dropdown-item>
-                        <el-dropdown-item divided :disabled="usernameLogged!=='unknown'"
-                                                :enabled="usernameLogged==='unknown'">
-                            <span style="display:block;" v-on:click="changeRegister()"><i class="el-icon-add">注册</i></span>
-                        </el-dropdown-item>
-                        <el-dropdown-item divided :disabled="usernameLogged==='unknown'"
-                                                :enabled="usernameLogged!=='unknown'">
-                            <span style="display:block;" v-on:click="Logout.dialogVisible=true"><i class="el-icon-add">登出</i></span>
-                        </el-dropdown-item>
-                    </el-dropdown-menu>
-                </div>
-            </el-dropdown>
+        <el-header style="padding: 0">
+            <el-menu mode="horizontal"
+                     background-color="#87cefa"
+                     text-color="#fff">
+                <el-menu-item style="float: right">
+                    <el-dropdown style="" class="avatar-container" trigger="click" >
+                        <div class="avatar-wrapper">
+                            <el-button type="primary" v-model="usernameLogged"
+                                       v-on:updateName="this.usernameLogged=localStorage.getItem('token');">
+                                <i class="el-icon-s-custom"/>
+                                {{usernameLogged}}
+                                <i class="el-icon-caret-bottom" />
+                            </el-button>
+                            <el-dropdown-menu slot="dropdown" class="user-dropdown">
+                                <el-dropdown-item :disabled="usernameLogged==='unknown'"
+                                                  :enabled="usernameLogged!=='unknown'">
+                                    <span style="display:block;" @click="PersonModify" ><i class="el-icon-edit"/>个人信息修改</span>
+                                </el-dropdown-item>
+                                <el-dropdown-item divided :disabled="usernameLogged==='unknown'"
+                                                  :enabled="usernameLogged!=='unknown'">
+                                    <span style="display:block;" @click="PwdModify" ><i class="el-icon-s-data"/>个人密码修改</span>
+                                </el-dropdown-item>
+                                <el-dropdown-item divided :disabled="usernameLogged!=='unknown'"
+                                                  :enabled="usernameLogged==='unknown'">
+                                    <span style="display:block;" v-on:click="changeLogin()" ><i class="el-icon-login">登录</i></span>
+                                </el-dropdown-item>
+                                <el-dropdown-item divided :disabled="usernameLogged!=='unknown'"
+                                                  :enabled="usernameLogged==='unknown'">
+                                    <span style="display:block;" v-on:click="changeRegister()"><i class="el-icon-add">注册</i></span>
+                                </el-dropdown-item>
+                                <el-dropdown-item divided :disabled="usernameLogged==='unknown'"
+                                                  :enabled="usernameLogged!=='unknown'">
+                                    <span style="display:block;" v-on:click="Logout.dialogVisible=true"><i class="el-icon-add">登出</i></span>
+                                </el-dropdown-item>
+                            </el-dropdown-menu>
+                        </div>
+                    </el-dropdown>
+                </el-menu-item>
+                <el-menu-item index="1" v-on:click="$router.push({ path: '/data' })" style="float: right">
+                    数据统计
+                </el-menu-item>
+            </el-menu>
         </el-header>
         <el-main >
             <el-form :inline="true" style="text-align:left;">
@@ -64,7 +70,7 @@
                         <el-option label="女性角色关卡" value=2></el-option>
                         <el-option label="其他关卡" value=0></el-option>
                     </el-select>
-                    <el-button style="vertical-align:middle;margin-right:15px;color:white;background-color:#87CEFA" v-on:click="clickSearch()">
+                    <el-button style="color:white;background-color:#87CEFA" v-on:click="clickSearch()">
                         <i class="el-icon-zoom-in">搜索</i>
                     </el-button>
                 </el-form-item>
@@ -124,10 +130,11 @@
                 </el-scrollbar>
             </div>
             </div>
+            <el-divider content-position="left"></el-divider>
+            <p style="margin:5px;vertical-align:center;font-size:12px">
+                <br>@DIJKSTRA
+            </p>
         </el-main>
-        <el-footer style="margin:5px;vertical-align:center;background-color:#87CEFA;height:37px;font-size:12px">
-            <br>@DIJKSTRA
-        </el-footer>
     </el-container>
     <ModifyPerson v-bind:dialog-visible="ModifyPerson.dialogVisible"
                   v-on:cancelModifyPerson="ModifyPerson.dialogVisible=false"
@@ -292,14 +299,10 @@ export default {
                         duration: 1000,
                     });
                     res.json().then(function (data) {
-                        console.log(data)
                         localStorage.setItem('token',data.token);
-                        console.log(localStorage)
                         that.usernameLogged = usernameLogin;
-                        console.log('usernamelogin')
                         localStorage.setItem('name',usernameLogin);
                         that.getListMsg();
-                        console.log(localStorage)
                     });
                 } else {
                     this.$message({
@@ -370,7 +373,6 @@ export default {
                 this.$message("输入错误");
             }else {
                 r = r.slice(0,-2);
-                console.log(r)
                 searchBack(r).then((response)=>{
                     if(response.status === 200 || response.status === 201){
                         this.$message("查询成功");

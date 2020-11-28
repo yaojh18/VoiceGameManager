@@ -62,8 +62,6 @@ export default {
     registerCalled: function(usernameRegister, password, password2)  {
       document.cookie = `user=${usernameRegister}`;
       registerBack(usernameRegister, password, password2).then((res) => {
-        console.log(res.status);
-        console.log(typeof(res));
         if (res.status === 201 || res.status === 200) {
           this.$message("注册成功");
           this.$router.push({path:'home'});
@@ -74,9 +72,6 @@ export default {
       }).then((r)=>{
         localStorage.setItem('token',r.token);
       });
-      let Token = localStorage.getItem('token');
-      console.log(Token);
-      console.log(usernameRegister);
       this.usernameLogged = usernameRegister;
       localStorage.setItem('name',usernameRegister);
     },
@@ -99,11 +94,8 @@ export default {
             return res.json();
           }
       ).then((r)=>{
-        console.log(r.token);
         localStorage.setItem('token',r.token);
       });
-      let Token = localStorage.getItem('token');
-      console.log(Token);
       this.usernameLogged = usernameLogin;
       localStorage.setItem('name',usernameLogin);
       this.Login.dialogVisible = false;

@@ -53,10 +53,8 @@
             default: () => ""
           }
     },
-  // 请在下方设计自己的数据结构以及事件函数
     data(){
     return {
-            //dialogVisible:true,
             form:{
                 username:this.username,
                 password:this.password,
