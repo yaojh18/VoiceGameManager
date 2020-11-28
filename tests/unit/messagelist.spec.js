@@ -2,17 +2,18 @@ import {shallowMount,createLocalVue,mount} from '@vue/test-utils'
 import ElementUI,{Form,Container} from 'element-ui'
 import VueRouter from 'vue-router'
 require("../__mocks__/console")
-import Data from "@/components/Data";
 import MessageList from "@/components/MessageList";
 import MessageBlock from "@/components/MessageBlock";
-describe("Data.vue",()=>{
+
+describe("MessageList.vue",()=>{
     const localVue = createLocalVue()
     localVue.use(VueRouter)
     const router = new VueRouter()
     localVue.use(ElementUI)
-    const wrapper = mount(Data,{localVue,router})
-    it('render successfully',()=>{
-        console.log("render successfully")
+    const wrapper = mount(MessageList, { localVue, router })
+    it('test function', ()=>{
+        wrapper.vm.uploadMsgtoBoard('close');
+        wrapper.vm.modifySuccess();
     })
     it('contains messageblock',()=>{
         const wrapper = mount(MessageList);

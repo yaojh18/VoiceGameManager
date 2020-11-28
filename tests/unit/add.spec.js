@@ -7,7 +7,6 @@ import VueRouter from 'vue-router'
 import Add from "@/components/Add"
 
 
-
 describe("Add.vue",()=>{
     const localVue = createLocalVue()
     localVue.use(VueRouter)
@@ -31,7 +30,7 @@ describe("Add.vue",()=>{
             expect(wrapper.vm.dialogVisible).toBe(true)
             mockAxios.post.mockImplementationOnce(()=>Promise.resolve({data:{status:201}}))
             const button = wrapper.findAll('button')
-            expect(button.length).toBe(2);
+            expect(button.length).toBe(4);
             for(var r=0;r<button.length;r++){
                 button.at(r).trigger('click');
             }
@@ -40,7 +39,7 @@ describe("Add.vue",()=>{
     it('test functions',async ()=>{
         mockAxios.post.mockImplementationOnce(()=>Promise.resolve({data:{status:400}}))
         const button = wrapper.findAll('button')
-        expect(button.length).toBe(2);
+        expect(button.length).toBe(4);
         for(var r=0;r<button.length;r++){
             button.at(r).trigger('click');
         }
@@ -55,13 +54,11 @@ describe("Add.vue",()=>{
     })
     it('renders',()=>{
         expect(wrapper.vm.dialogVisible).toBe(false);
-        expect(wrapper.vm.level).toBe(0)
-        expect(wrapper.vm.type_id).toBe(1)
+        expect(wrapper.vm.type_id).toBe('请选择')
         expect(wrapper.vm.title).toBe('')
     })
     it('test passing props',async()=>{
-           await wrapper.setData({ level: 'level' ,type_id:"type_id",title:'title',content:'content'})
-           expect(wrapper.vm.level).toBe('level')
+           await wrapper.setData({type_id:"type_id",title:'title',content:'content'})
            expect(wrapper.vm.type_id).toBe('type_id')
            expect(wrapper.vm.title).toBe('title')
            expect(wrapper.vm.content).toBe('content')
