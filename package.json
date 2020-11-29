@@ -102,7 +102,7 @@
     "testEnvironment": "node"
   },
   "jestSonar": {
-    "reportPath": "<rootDir>/test/unit/coverage",
+    "reportPath": "<rootDir>/coverage",
     "reportFile": "test-reporter.xml",
     "indent": 4
   }
