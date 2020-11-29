@@ -1,6 +1,7 @@
 import mockAxios from "../__mocks__/axios";
-
+require('../__mocks__/.mockfront.js');
 require("../__mocks__/console")
+import fetchMock from '../__mocks__/.mockfront.js'
 import { getWrapper } from './utils'
 import {shallowMount,createLocalVue,mount} from '@vue/test-utils'
 import ElementUI, {Form, Container, Table, Card, Collapse, Popover, Button, Menu,Aside,FormItem,TableColumn,Input} from 'element-ui'
@@ -44,36 +45,28 @@ describe("Data.vue",()=>{
             expect(u.exists()).toBe(true);
         }
     })
+    it('test function audioSearch',()=>{
+        wrapper.setData({
+            audioGender: 1,
+            audioLevelId: 1,
+            audioSort: 0
+        });
+        fetchMock.doMock();
+        wrapper.vm.audioSearch();
+    })
+    it('test function userSearch',()=>{
+        wrapper.setData({
+            userGender: 1,
+            userSort: 1
+        });
+        fetchMock.doMock();
+        wrapper.vm.userSearch();
+    })
     it('test function data',()=>{
         wrapper.vm.userGenderChange(1);
         expect(wrapper.vm.userGender).toBe(1);
         wrapper.vm.userSortChange(0);
         wrapper.vm.audioGenderChange(1);
         wrapper.vm.audioSortChange(0);
-    })
-})
-
-describe("Data.vue",()=> {
-    const wrapper = getWrapper(Data,{
-        userGender: 3,
-        userSort: 0,
-        audioGender: 3,
-        audioLevelId: '',
-        audioSort: 0,
-    })
-    it('test function userSearch',async ()=>{
-        await wrapper.setData({
-            userGender: 1,
-            userSort: 1,
-        })
-        wrapper.vm.userSearch();
-    })
-    it('test audioSearch',()=>{
-        wrapper.setData({
-            audioGender: 1,
-            audioSort: 0,
-            audioLevelId: 1,
-        })
-        wrapper.vm.audioSearch();
     })
 })

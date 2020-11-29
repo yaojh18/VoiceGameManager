@@ -154,9 +154,6 @@ import {searchBackId2,DataSingleSearch} from "@/utils/communication.js"
             }
         },
         methods:{
-            modifySuccess(){
-                this.$emit('modifySucceed')
-            },
             closeBlock(){
                 this.dialogVisible = false;
             },
@@ -200,7 +197,6 @@ import {searchBackId2,DataSingleSearch} from "@/utils/communication.js"
                             that.Chart.type_id = r["type_id"]
                             that.Chart.scores = r["scores"]
                             that.Chart.score_average = r["score_average"]
-                            that.Chart.played_num = r["played_num"]
                             that.Chart.dialogVisible = true
                         })
                 })

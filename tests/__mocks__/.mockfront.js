@@ -7,7 +7,8 @@ import {
     EDIT, SEARCH,LOGIN,
     REGISTER,GETLIST,MODIFYY,SINGLEANALYSIS,
     MEDIAANALYSIS,USERANALYSIS,AUDIOANALYSIS,
-} from "@/utils/API.js";
+} from "@/utils/API.js"
+import API from "@/utils/API.js"
 import {enableFetchMocks} from 'jest-fetch-mock'
 
 enableFetchMocks()
@@ -20,23 +21,23 @@ const devices = [{id: 1, description: "p"}, {id: 2, description: "q"}];
 
 fetchMock.mockIf(/^.*$/, (req) => {
     switch (req.url) {
-        case LOGIN:
+        case API.LOGIN.path:
             const {username, password} = JSON.parse(String(req.body));
             return Promise.resolve({
                 status: (username === "admin" && password === "123456") ? 200 : 400,
                 body: JSON.stringify({access_token: "access_token"}),
                 headers: {"Content-Type": "application/json"},
             });
-        case REGISTER:
-            const {username,password,password2} = JSON.parse(String(req.body));
+        case API.REGISTER.path:
+            const {username1,password1,password2} = JSON.parse(String(req.body));
             return Promise.resolve({
-                status: (username === "admin" && password === "123456") ? 200 : 400,
-                body: JSON.stringfy({access_token: "access_token"}),
-                headers: {"Content-Type":"application/json"}
+                status: 201,
+                body: JSON.stringify({access_token: "access_token"}),
+                headers: {"Content-Type": "application/json"}
             })
-        case ADD:
+        case API.ADD.path:
             if (req.method === "POST" && JSON.parse(String(req.body)).name.length) {
-                const {name, notes, gender, images, useDevices} = JSON.parse(String(req.body));
+                const {title, content, audio_path, video_path} = JSON.parse(String(req.body));
                 const id = users.length ? users[users.length - 1].id + 1 : 0;
                 users.push({id, name, notes, gender, images, useDevices});
             }
@@ -46,52 +47,175 @@ fetchMock.mockIf(/^.*$/, (req) => {
                     : {error_code: JSON.parse(String(req.body)).name === "" ? -1 : 0, msg: ""}),
                 headers: {"Content-Type": "application/json"},
             });
-        case REGISTER:
+        case API.GETLIST.path + String("?type_id=1"):
             return Promise.resolve({
-                body: JSON.stringify(devices),
-                headers: {"Content-Type": "application/json"},
+                status: 200,
+                body: [
+                    {
+                        'title': 'test',
+                        'id': 1,
+                        'level_id': 0,
+                        'content': 'test content'
+                    }
+                ],
+                headers: {"Content-Type": "application/json"}
             });
-        case POST_FILE_URL:
+        case API.GETLIST.path + String("?type_id=2"):
             return Promise.resolve({
-                body: JSON.stringify([{path: "", url: ""}]),
-                headers: {"Content-Type": "application/json"},
+                status: 200,
+                body: [
+                    {
+                        'title': 'test',
+                        'id': 1,
+                        'level_id': 0,
+                        'content': 'test content'
+                    }
+                ],
+                headers: {"Content-Type": "application/json"}
             });
-    }
-    if (req.url.startsWith(USER_PHOTO_URL)) {
+        case API.GETLIST.path + String("?type_id=0"):
         return Promise.resolve({
-            body: JSON.stringify(["dummy"]),
-            headers: {"Content-Type": "application/json"},
+            status: 200,
+            body: [
+                {
+                    'title': 'test',
+                    'id': 1,
+                    'level_id': 0,
+                    'content': 'test content'
+                }
+            ],
+            headers: {"Content-Type": "application/json"}
         });
-    } else if (req.url.startsWith(GET_DOOR_USERS_URL)) {
-        const id = Number(req.url.substring(req.url.lastIndexOf('/') + 1));
-        const target = users.find((it) => it.id === id);
-        if (!target) return Promise.reject();
-        if (req.method === "PUT") {
-            const {name, notes} = JSON.parse(String(req.body));
-            target.name = name;
-            target.notes = notes;
-        } else if (req.method === "DELETE") {
-            users.splice(users.indexOf(target), 1);
-        }
-        return Promise.resolve({
-            body: JSON.stringify(req.method === "GET" ? target : {error_code: 0, msg: ""}),
-            headers: {"Content-Type": "application/json"},
-        })
-    } else if (req.url.startsWith(GET_HISTORY_URL)) {
-        return Promise.resolve({
-            body: JSON.stringify([{
-                id: 1,
-                user_id: 1,
-                device_id: 1,
-                user_name: "foo",
-                time: "time",
-                deviceDescription: "description",
-            }]),
-            headers: {"Content-Type": "application/json"},
-        })
-    } else if (req.url.startsWith(BIND_DOOR_ADMIN_URL)) {
-        return Promise.resolve({headers: {"Content-Type": "application/json"}});
-    } else if (req.url.startsWith(UNBIND_DOOR_ADMIN_URL)) {
-        return Promise.resolve({headers: {"Content-Type": "application/json"}});
+        case API.SEARCH.path:
+            return Promise.resolve({
+                status: 200,
+                body: {
+                    'results': [
+                    {
+                        'title': 'test',
+                        'id': 1,
+                        'level_id': 0,
+                        'content': 'test content'
+                    }
+                    ]
+                },
+                headers: {"Content-Type": "application/json"}
+            });
+        case API.SEARCH.path + "/1":
+            return Promise.resolve({
+                status: 200,
+                body: {
+                    title: 'test',
+                    id: 1,
+                    level_id: 0,
+                    type_id: 1,
+                    content: 'test content',
+                    audio_path: '/audio.wav',
+                    video_path: '/video.mp4',
+                },
+                headers: {"Content-Type": "application/json"}
+            });
+        case API.SINGLEANALYSIS.path + '/1/chart':
+            return Promise.resolve({
+                status: 200,
+                body: {
+                    'scores': [1,2,3,4],
+                    'score_average': 2,
+                    'female_num': 1,
+                    'female_scores': [3],
+                    'unknown_num': 1,
+                    'unknown_scores': [6],
+                    'male_num': 2,
+                    'male_scores': [2,4],
+                    'female_score_average': 3,
+                    'male_score_average': 3,
+                    'unknown_score_average': 6,
+                    'played_num': 4,
+                    'title': 'test',
+                    'type_id': 1,
+                },
+                headers: {"Content-Type": "application/json"}
+            });
+        case API.USERANALYSIS.PATH + '/?gender=1&&sort=level':
+            return Promise.resolve({
+                status: 200,
+                body: {
+                    'results': [
+                    {
+                        'user': 'user_test',
+                        'gender': 1,
+                        'level': 3,
+                    }]
+                },
+                headers: {"Content-Type": "application/json"}
+            });
+        case API.AUDIOANALYSIS.PATH + '/?gender=1&&level=0&&sort=time':
+            return Promise.resolve({
+                status: 200,
+                body: {
+                    'results': [
+                    {
+                        'user': 'user_test',
+                        'level': 3,
+                        'score': 70,
+                        'audio': '/audio.wav',
+                        'timestamp': '2020-11-12T3213123'
+                    }]
+                },
+                headers: {"Content-Type": "application/json"}
+            });
     }
-});
+
+    if(req.url.startsWith(API.SEARCH.path)) {
+        return Promise.resolve({
+            status: 200,
+            body: {
+                'results': [
+                {
+                    'title': 'test',
+                    'id': 1,
+                    'level_id': 0,
+                    'content': 'test content'
+                }]
+            },
+            headers: {"Content-Type": "application/json"}
+        });
+    } else if (req.url.startsWith(API.GETLIST.path)) {
+        return Promise.resolve({
+            status: 200,
+            body: {
+                'results': [
+                {
+                    'title': 'test',
+                    'id': 1,
+                    'level_id': 0,
+                    'content': 'test content'
+                }]
+            },
+            headers: {"Content-Type": "application/json"}
+        });
+    }
+        // if(req.url.startsWith(SINGLEANALYSIS.path)) {
+        //     const {appendage} = JSON.parse(String(req.body));
+        //     return Promise.resolve({
+        //         status: 200,
+        //         body: JSON.stringify([{
+        //             "female_num": 1,
+        //             "female_scores": [1, 2, 3],
+        //             "unknown_num": 1,
+        //             "unknown_scores": [1, 2, 3],
+        //             "male_num": 1,
+        //             "male_scores": [1, 2, 3],
+        //             "female_score_average": 90,
+        //             "male_score_average": 90,
+        //             "unknown_score_average": 90,
+        //             "played_num": 90,
+        //             "title": "title",
+        //             "type_id": 1,
+        //             "scores": [1, 2, 3],
+        //             "score_average": 90,
+        //         }]),
+        //         headers: {"Content-Type": "application/json"},
+        //     }); }
+        });
+export default fetchMock;
