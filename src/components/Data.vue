@@ -260,9 +260,9 @@ export default {
             else
                 r = r.slice(0,-2)
             console.log(r)
-            DataAudioSearch(r).then((res) => {
-                if (res.status === 200)
-                    res.json().then(function (res) {
+            DataAudioSearch(r).then((resp) => {
+                if (resp.status === 200)
+                    resp.json().then(function (res) {
                         res = res['results']
                         that.audioList = []
                         for (let i = 0; i < res.length; i += 1)
