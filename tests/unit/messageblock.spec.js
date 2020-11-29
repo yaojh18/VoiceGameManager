@@ -2,6 +2,7 @@ import { getWrapper } from './utils'
 import mockAxios from '../__mocks__/axios.js';
 import {shallowMount,createLocalVue,mount} from '@vue/test-utils'
 require('../__mocks__/.mockfront.js');
+import fetchMock from '../__mocks__/.mockfront.js'
 import ElementUI,{Menu,Button} from 'element-ui'
 import VueRouter from 'vue-router'
 import Chart from '@/components/Chart'
@@ -32,6 +33,8 @@ describe("MessageBlock.vue",()=>{
         expect(wrapper.vm.Modify.dialogVisible).toBe(false);
         wrapper.vm.editBlock();
         expect(wrapper.vm.Modify.dialogVisible).toBe(true);
+        wrapper.setData({"id":1});
+        fetchMock.doMock();
         wrapper.vm.detailBlock();
     })
     it('test buttons clicked',()=>{
@@ -67,13 +70,12 @@ describe("MessageBlock.vue",()=>{
         expect(wrapper.findAll('messageblock-content').length).toBe(0)
     })
     it('test function editblock others',()=>{
-        wrapper.setData({
-                "id":1,})
+        wrapper.setData({"id":1});
         wrapper.vm.editBlock();
     })
     it('test function handleopen others',()=>{
-        wrapper.setData({
-            "id":1,})
+        wrapper.setData({"id":1});
+        fetchMock.doMock();
         wrapper.vm.handleOpen();
         expect(wrapper.vm.type_id).toBe(1);
         expect(wrapper.vm.title).toBe("title");
