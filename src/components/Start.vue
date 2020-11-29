@@ -60,7 +60,6 @@ export default {
       this.Register.dialogVisible = true;
     },
     registerCalled: function(usernameRegister, password, password2)  {
-      document.cookie = `user=${usernameRegister}`;
       registerBack(usernameRegister, password, password2).then((res) => {
         if (res.status === 201 || res.status === 200) {
           this.$message("注册成功");
@@ -76,7 +75,6 @@ export default {
       localStorage.setItem('name',usernameRegister);
     },
     loginCalled: function(usernameLogin, password) {
-      document.cookie = `user=${usernameLogin}`;
       login(usernameLogin, password).then((res)=> {
             if (res.status === 200 || res.status === 201) {
               this.$message({

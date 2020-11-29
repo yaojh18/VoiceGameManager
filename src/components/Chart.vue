@@ -160,14 +160,6 @@ name: "Chart",
         });
     }
     },
-    computed:{
-        echarts() {
-            return 'echarts' + Math.random()*100000
-        },
-        dialog(){
-            return this.dialogVisible;
-        }
-    },
     watch: {
         dialogVisible: {
             handler(newval, oldval) {

@@ -553,8 +553,6 @@ export default {
     background-color: #e3e3e3;
 }
 .el-header {
-    /* background-color: #B3C0D1;
-    color: #333; */
     line-height: 60px;
 }
 .el-footer {
