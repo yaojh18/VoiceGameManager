@@ -65,7 +65,6 @@ describe("Modify.vue",()=> {
     })
     it('functions test',()=>{
         wrapper.vm.retreat();
-        // wrapper.vm.submittt();
         wrapper.vm.setTypeId(0);
     })
 })
