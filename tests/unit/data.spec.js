@@ -1,5 +1,5 @@
 import mockAxios from "../__mocks__/axios";
-
+require('../__mocks__/.mockfront.js');
 require("../__mocks__/console")
 import { getWrapper } from './utils'
 import {shallowMount,createLocalVue,mount} from '@vue/test-utils'

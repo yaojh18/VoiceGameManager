@@ -3,6 +3,7 @@ import ElementUI,{Form,Container,Main,Footer,Dialog,Button,TabPane,Radio,
        Dropdown,DropdownMenu,DropdownItem} from 'element-ui'
 import VueRouter from 'vue-router'
 require("../__mocks__/console")
+require('../__mocks__/.mockfront.js');
 import mockAxios from '../__mocks__/axios.js';
 import MessageBoard from "@/components/MessageBoard";
 import MessageBlock from "@/components/MessageBlock";
