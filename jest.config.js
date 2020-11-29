@@ -8,5 +8,5 @@ module.exports = {
     '!**/node_modules/**'
   ],
   snapshotSerializers: ['<rootDir>/node_modules/jest-serializer-vue'],
-  coverageDirectory: '<rootDir>/test/unit/coverage',
+  coverageDirectory: '<rootDir>/coverage',
 }
